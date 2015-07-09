@@ -1,0 +1,215 @@
+# Command:
+#   > ./chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path
+# Use:
+#   > ./chroot $CHROOT_DIR /bin/bsh
+#   > any_action (now in chroot environment)
+# Optional use chroot ssh profile (optional):
+#   IBM i server (myibmi):
+#     > mkdir -p $CHROOT_DIR/home/MYPROF
+#     > CHGUSRPRF USRPRF(MYPROF) LOCALE(*NONE) HOMEDIR($CHROOT_DIR/./home/MYPROF)
+#       '/./home/MYPROF' is required auto ssh login chroot IBM i
+#   laptop:
+#     > ssh myprof@myibmi
+# Other useful settings chroot (optional):"
+#     > $PS1='dev$ '
+#     > LANG=C
+#     > LANG=819
+#
+
+#
+# read file (my_other.lst)
+# 
+:file
+
+#
+# make dirs list
+# (mkdir -p $CHROOT_DIR/path)
+# 
+:mkdir
+/QOpenSys/usr/sbin
+/QOpenSys/usr/bin
+/QOpenSys/usr/lib
+/QOpenSys/usr/include
+/QOpenSys/usr/bin/X11
+/QOpenSys/usr/lib/X11
+/QOpenSys/opt
+/dev
+/dev/pts
+/tmp
+/home
+/usr
+
+#
+# make dev nodes
+# (mknod $CHROOT_DIR/dev/tty c 32945 0)
+#
+:mknod
+/dev/tty c 32945 0
+/dev/null c 32769 1
+/dev/zero c 32769 2
+/dev/urandom c 32954 0
+/dev/pts/0 c 32947 0
+/dev/pts/1 c 32947 1
+/dev/pts/2 c 32947 2
+/dev/pts/3 c 32947 3
+/dev/pts/4 c 32947 4
+/dev/pts/5 c 32947 5
+/dev/pts/6 c 32947 6
+/dev/pts/7 c 32947 7
+/dev/pts/8 c 32947 8
+/dev/pts/9 c 32947 9
+
+#
+# copy single files
+# (/path/name path/.)
+#
+:cp
+/QOpenSys/usr/sbin/restore
+/QOpenSys/usr/sbin/restbyname
+/QOpenSys/usr/sbin/execerror
+/QOpenSys/usr/bin/csh
+/QOpenSys/usr/bin/sh
+/QOpenSys/usr/bin/bsh
+/QOpenSys/usr/bin/ksh
+/QOpenSys/usr/bin/cd
+/QOpenSys/usr/bin/dspmsg
+/QOpenSys/usr/bin/which
+/QOpenSys/usr/bin/pwd
+/QOpenSys/usr/bin/ls
+/QOpenSys/usr/bin/ln
+/QOpenSys/usr/bin/mkdir
+/QOpenSys/usr/bin/rmdir
+/QOpenSys/usr/bin/rm
+/QOpenSys/usr/bin/cp
+/QOpenSys/usr/bin/mv
+/QOpenSys/usr/bin/cat
+/QOpenSys/usr/bin/head
+/QOpenSys/usr/bin/tail
+/QOpenSys/usr/bin/chown
+/QOpenSys/usr/bin/chmod
+/QOpenSys/usr/bin/dbx
+/QOpenSys/usr/bin/env
+/QOpenSys/usr/bin/grep
+/QOpenSys/usr/bin/kill
+/QOpenSys/usr/bin/ps
+/QOpenSys/usr/bin/sleep
+/QOpenSys/usr/bin/touch
+/QOpenSys/usr/bin/uname
+/QOpenSys/usr/bin/dd
+/QOpenSys/usr/bin/tr
+/QOpenSys/usr/bin/test
+/QOpenSys/usr/bin/read
+/QOpenSys/usr/bin/dirname
+/QOpenSys/usr/bin/basename
+/QOpenSys/usr/bin/ar
+/QOpenSys/usr/bin/awk
+/QOpenSys/usr/bin/locale
+/QOpenSys/usr/bin/X11/xauth
+/QOpenSys/usr/bin/X11/xhost
+/QOpenSys/usr/bin/system
+/QOpenSys/usr/bin/as
+/QOpenSys/usr/bin/ld
+/QOpenSys/usr/lib/crt0.o
+/QOpenSys/usr/lib/crt0_64.o
+/QOpenSys/usr/lib/crt0_r.o
+/QOpenSys/usr/lib/crti.o
+/QOpenSys/usr/lib/crti_64.o
+/QOpenSys/usr/lib/glink.o
+/QOpenSys/usr/lib/glink64.o
+/QOpenSys/usr/lib/bind
+/QOpenSys/usr/lib/libc.a
+/QOpenSys/usr/lib/libpthreads.a
+/QOpenSys/usr/lib/libthread.a
+/QOpenSys/usr/lib/libpthreads_compat.a
+/QOpenSys/usr/lib/libxlfpthrds_compat.a
+/QOpenSys/usr/lib/libiconv.a
+/QOpenSys/usr/lib/librtl.a
+/QOpenSys/usr/lib/libdl.a
+/QOpenSys/usr/lib/libbsd.a
+/QOpenSys/usr/lib/libcrypt.a
+/QOpenSys/usr/lib/libcrypto.a
+/QOpenSys/usr/lib/libC.a
+/QOpenSys/usr/lib/libz.a
+/QOpenSys/usr/lib/libgair4.a
+/QOpenSys/usr/lib/libgaimisc.a
+/QOpenSys/usr/lib/libXp.a
+/QOpenSys/usr/lib/libXpm.a
+/QOpenSys/usr/lib/libXext.a
+/QOpenSys/usr/lib/libi18n.a
+/QOpenSys/usr/lib/libIM.a
+/QOpenSys/usr/lib/libXi.a
+/QOpenSys/usr/lib/libICE.a
+/QOpenSys/usr/lib/libSM.a
+/QOpenSys/usr/lib/libXm.a
+/QOpenSys/usr/lib/libX11.a
+/QOpenSys/usr/lib/libXt.a
+/QOpenSys/usr/lib/libcurses.a
+/QOpenSys/usr/lib/X11/XKeysymDB
+/QOpenSys/usr/lib/X11/XErrorDB
+/QOpenSys/usr/bin/dump
+/QOpenSys/usr/bin/nm
+/QOpenSys/usr/bin/expr
+/QOpenSys/usr/bin/uniq
+/QOpenSys/usr/bin/sort
+/QOpenSys/usr/bin/echo
+/QOpenSys/usr/lib/libbind.a
+/QOpenSys/usr/lib/libdb400.a
+/QOpenSys/usr/lib/libnsl.a
+/QOpenSys/usr/lib/libtli.a
+
+#
+# copy dirs list
+# (
+#  mkdir -p $CHROOT_DIR/path
+#  cp -R  /path/* $CHROOT_DIR/path/.
+# )
+#
+:cp_dir
+/QOpenSys/usr/ccs
+
+#
+# links list (must occur after minimal copy above)
+# ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
+#
+:ln
+/QOpenSys/opt /opt
+/QOpenSys/usr/sbin /sbin
+/QOpenSys/usr/bin /bin
+/QOpenSys/usr/lib /lib
+/QOpenSys/usr/sbin /usr/sbin
+/QOpenSys/usr/bin /usr/bin
+/QOpenSys/usr/include /usr/include
+/QOpenSys/usr/sbin /QOpenSys/sbin
+/QOpenSys/usr/bin /QOpenSys/bin
+/QOpenSys/usr/lib /QOpenSys/lib
+/QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
+
+#
+# change ACL dir
+# (chmod -R 0755 $CHROOT_DIR/path/*)
+#
+:chmod_dir
+# 0755 /
+0666 /dev
+0666 /dev/pts
+
+#
+# change ACL file
+# (chmod -R 0755 $CHROOT_DIR/path/name)
+#
+:chmod
+
+#
+# change owner dir
+# (chown -R qsys $CHROOT_DIR/)
+#
+:chown_dir
+# qsys /
+
+#
+# change ACL file
+# (chown qsys $CHROOT_DIR/path/name)
+#
+:chown
+

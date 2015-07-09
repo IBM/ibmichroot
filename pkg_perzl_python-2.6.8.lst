@@ -1,0 +1,21 @@
+# Command:
+#   > ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+# Use:
+#   > export PATH=/opt/freeware/bin:$PATH
+#   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
+#   > any_util (below)
+# Notes:
+#   requires pkg_perzl_utils.lst
+
+#
+# rpm list
+#
+:rpm
+# python
+http://www.oss4aix.org/download/RPMS/python/python-2.6.8-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/python-devel-2.6.8-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/python-libs-2.6.8-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/python-tools-2.6.8-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/tkinter-2.6.8-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python-setuptools/python-setuptools-0.6.24-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python-crypto/python-crypto-2.6-1.aix5.2.ppc.rpm

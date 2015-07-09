@@ -1,0 +1,15 @@
+# Command:
+#   > ./chroot_setup.sh chroot_PowerRuby.lst /QOpenSys/root_path
+#
+
+#
+# copy dirs list
+# (
+#  mkdir -p $CHROOT_DIR/path
+#  cp -R  /path/* $CHROOT_DIR/path/.
+# )
+#
+:cp_dir
+/PowerRuby
+
+

@@ -1,0 +1,16 @@
+# Command:
+#   > ./pkg_setup.sh pkg_perzl_perl-5.8.8.lst
+# Use:
+#   > export PATH=/opt/freeware/bin:$PATH
+#   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
+#   > any_util (below)
+# Notes:
+#   requires pkg_perzl_utils.lst
+
+#
+# rpm list
+#
+:rpm
+# perl
+http://www.oss4aix.org/download/RPMS/perl/perl-5.8.8-2.aix5.1.ppc.rpm
+

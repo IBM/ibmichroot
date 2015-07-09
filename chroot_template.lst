@@ -1,0 +1,88 @@
+# Command:
+#   > ./chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path
+# Use:
+#   > ./chroot $CHROOT_DIR /bin/bsh
+#   > any_action (now in chroot environment)
+# Optional use chroot ssh profile (optional):
+#   IBM i server (myibmi):
+#     > mkdir -p $CHROOT_DIR/home/MYPROF
+#     > CHGUSRPRF USRPRF(MYPROF) LOCALE(*NONE) HOMEDIR($CHROOT_DIR/./home/MYPROF)
+#       '/./home/MYPROF' is required auto ssh login chroot IBM i
+#   laptop:
+#     > ssh myprof@myibmi
+# Other useful settings chroot (optional):"
+#     > $PS1='dev$ '
+#     > LANG=C
+#     > LANG=819
+#
+
+#
+# read file (my_other.lst)
+# 
+:file
+# my_other.lst
+
+#
+# make dirs list
+# (mkdir -p $CHROOT_DIR/path)
+# 
+:mkdir
+# /QOpenSys/usr/sbin
+
+#
+# make dev nodes
+# (mknod $CHROOT_DIR/dev/tty c 32945 0)
+#
+:mknod
+# /dev/tty c 32945 0
+
+#
+# copy single files
+# (/path/name path/.)
+#
+:cp
+# /QOpenSys/usr/sbin/restore
+
+#
+# copy dirs list
+# (
+#  mkdir -p $CHROOT_DIR/path
+#  cp -R  /path/* $CHROOT_DIR/path/.
+# )
+#
+:cp_dir
+# /QOpenSys/usr/ccs
+
+#
+# links list (must occur after minimal copy above)
+# ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
+#
+:ln
+# /QOpenSys/opt /opt
+
+#
+# change ACL dir
+# (chmod -R 0755 $CHROOT_DIR/path/*)
+#
+:chmod_dir
+# 0755 /opt
+
+#
+# change ACL file
+# (chmod -R 0755 $CHROOT_DIR/path/name)
+#
+:chmod
+
+#
+# change owner dir
+# (chown -R qsys $CHROOT_DIR/)
+#
+:chown_dir
+# qsys /
+
+#
+# change ACL file
+# (chown qsys $CHROOT_DIR/path/name)
+#
+:chown
+
