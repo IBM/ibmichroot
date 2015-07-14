@@ -16,7 +16,7 @@ chroot_setup.sh -- set up chroot (optional)
 - chroot_libs.lst            -- copy most of PASE /usr/lib (gcc development)
 - chroot_OPS_GCC.lst         -- copy IBM OPS GCC into my chroot (not available yet)
 - chroot_OPS_NODE.lst        -- copy IBM node into my chroot
-- chroot_OPS_PYTHON.lst      -- copy IBM python into my chroot (not available yet)
+- chroot_OPS_PYTHON.lst      -- copy IBM python into my chroot
 - chroot_OPS_SC1.lst         -- copy IBM openssl into my chroot
 - chroot_PowerRuby.lst       -- copy PowerRuby into my chroot (PASE)
 - chroot_ZendServer5.lst     -- copy Zend Server 5 into my chroot (PASE)
