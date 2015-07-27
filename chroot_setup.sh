@@ -2,16 +2,16 @@
 #
 # global
 #
-# set PATH and LIBPATH to avoid user random acts
-PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
-LIBPATH=/QOpenSys/usr/lib
-export PATH
-export LIBPATH
 system_OS400=$(uname | grep -c OS400)
 if (($system_OS400==0)); then
   CHROOT_DEBUG=1
 else
   CHROOT_DEBUG=0
+  # set PATH and LIBPATH to avoid user random acts
+  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
+  LIBPATH=/QOpenSys/usr/lib
+  export PATH
+  export LIBPATH
 fi
 CHROOT_DIR=""
 CHROOT_LIST=""
@@ -23,7 +23,7 @@ function chroot_mkdir {
     mkdir -p $CHROOT_DIR$1
   fi
 }
-# function occurs in chroot
+# function occurs INSIDE chroot
 # requires some utilities:
 #  /QOpenSys/usr/bin
 #  /QOpenSys/usr/lib
@@ -31,6 +31,24 @@ function chroot_ln {
   echo "chroot $CHROOT_DIR ln -sf $1 $2"
   if (($CHROOT_DEBUG==0)); then
     chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "ln -sf $1 $2"
+  fi
+}
+# function occurs OUTSIDE chroot
+function chroot_ln_rel {
+  mydir=$(dirname $1)
+  mybase=$(basename $1)
+  if (($CHROOT_DEBUG==0)); then
+    relname=$(ls -l $1 | awk '{print $(NF)}')
+  else
+    relname="../../testing/$1"
+  fi
+  echo "cd $CHROOT_DIR$mydir"
+  echo "ln -sf $relname $mybase"
+  if (($CHROOT_DEBUG==0)); then
+    here=$(pwd)
+    cd $CHROOT_DIR$mydir
+    ln -sf $relname $mybase
+    cd $here
   fi
 }
 function chroot_mknod {
@@ -51,6 +69,23 @@ function chroot_cp_dir {
   echo "cp -R $1/* $CHROOT_DIR$1/."
   if (($CHROOT_DEBUG==0)); then
     cp -R $1/* $CHROOT_DIR$1/.
+  fi
+}
+function chroot_tar_dir {
+  chroot_mkdir $1
+  mydir=$(dirname $1)
+  mybase=$(basename $1)
+  echo "cd $mydir"
+  echo "tar -chf $CHROOT_DIR$mydir/$mybase.tar $mybase"
+  echo "cd $CHROOT_DIR$mydir"
+  echo "tar -xf $mybase.tar"
+  if (($CHROOT_DEBUG==0)); then
+    here=$(pwd)
+    cd $mydir
+    tar -chf $CHROOT_DIR$mydir/$mybase.tar $mybase
+    cd $CHROOT_DIR$mydir
+    tar -xf $mybase.tar
+    cd $here
   fi
 }
 function chroot_chmod {
@@ -112,6 +147,9 @@ function chroot_setup {
           ":mkdir")
              chroot_mkdir $name
           ;;
+          ":ln_rel")
+             chroot_ln_rel $name
+          ;;
           ":ln")
              chroot_ln $name
           ;;
@@ -135,6 +173,9 @@ function chroot_setup {
           ;;
           ":chown")
              chroot_chown $name
+          ;;
+          ":tar_dir")
+             chroot_tar_dir $name
           ;;
         esac
       ;;

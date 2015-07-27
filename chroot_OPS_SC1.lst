@@ -11,4 +11,28 @@
 :cp_dir
 /QOpenSys/QIBM/ProdData/SC1
 
+#
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+/QOpenSys/usr/bin/c_rehash
+/QOpenSys/usr/bin/openssl
+/QOpenSys/usr/bin/scp
+/QOpenSys/usr/bin/sftp
+/QOpenSys/usr/bin/slogin
+/QOpenSys/usr/bin/ssh
+/QOpenSys/usr/bin/ssh-add
+/QOpenSys/usr/bin/ssh-agent
+/QOpenSys/usr/bin/ssh-keygen
+/QOpenSys/usr/bin/ssh-keyscan
+/QOpenSys/usr/lib/libcrypto.a
+/QOpenSys/usr/lib/libssl.a
+/QOpenSys/usr/lib/libz.so
+
 
