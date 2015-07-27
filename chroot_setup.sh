@@ -51,6 +51,20 @@ function chroot_ln_rel {
     cd $here
   fi
 }
+# function occurs OUTSIDE chroot
+function chroot_ln_fix_rel {
+  mydir=$(dirname $1)
+  mybase=$(basename $1)
+  relname=$2
+  echo "cd $CHROOT_DIR$mydir"
+  echo "ln -sf $relname $mybase"
+  if (($CHROOT_DEBUG==0)); then
+    here=$(pwd)
+    cd $CHROOT_DIR$mydir
+    ln -sf $relname $mybase
+    cd $here
+  fi
+}
 function chroot_mknod {
   echo "mknod $CHROOT_DIR$1 $2 $3 $4"
   if (($CHROOT_DEBUG==0)); then
@@ -146,6 +160,9 @@ function chroot_setup {
           ;;
           ":mkdir")
              chroot_mkdir $name
+          ;;
+          ":ln_fix_rel")
+             chroot_ln_fix_rel $name
           ;;
           ":ln_rel")
              chroot_ln_rel $name
