@@ -9,5 +9,30 @@
 # )
 #
 :cp_dir
-/QOpenSys/python
+/QOpenSys/QIBM/ProdData/OPS/Python3.4
+/QOpenSys/QIBM/ProdData/OPS/Python-pkgs
+
+#
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+/QOpenSys/usr/bin/2to3
+/QOpenSys/usr/bin/2to3-3.4
+/QOpenSys/usr/bin/easy_install-3.4
+/QOpenSys/usr/bin/easy_install3
+/QOpenSys/usr/bin/pip3
+/QOpenSys/usr/bin/pip3.4
+/QOpenSys/usr/bin/pydoc3
+/QOpenSys/usr/bin/pydoc3.4
+/QOpenSys/usr/bin/python3
+/QOpenSys/usr/bin/python3.4
+/QOpenSys/usr/bin/pyvenv
+/QOpenSys/usr/bin/pyvenv-3.4
+/QOpenSys/usr/lib/libpython3.4m.so
 
