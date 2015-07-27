@@ -2,6 +2,11 @@
 #
 # global
 #
+# set PATH and LIBPATH to avoid user random acts
+PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
+LIBPATH=/QOpenSys/usr/lib
+export PATH
+export LIBPATH
 system_OS400=$(uname | grep -c OS400)
 if (($system_OS400==0)); then
   CHROOT_DEBUG=1
@@ -10,16 +15,22 @@ else
 fi
 CHROOT_DIR=""
 CHROOT_LIST=""
+CHROOT_PID="$$"
+
 function chroot_mkdir {
   echo "mkdir -p $CHROOT_DIR$1"
   if (($CHROOT_DEBUG==0)); then
     mkdir -p $CHROOT_DIR$1
   fi
 }
+# function occurs in chroot
+# requires some utilities:
+#  /QOpenSys/usr/bin
+#  /QOpenSys/usr/lib
 function chroot_ln {
   echo "chroot $CHROOT_DIR ln -sf $1 $2"
   if (($CHROOT_DEBUG==0)); then
-    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "PATH=/QOpenSys/usr/bin; LIBPATH=/QOpenSys/usr/lib; export PATH LIBPATH; ln -sf $1 $2"
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "ln -sf $1 $2"
   fi
 }
 function chroot_mknod {

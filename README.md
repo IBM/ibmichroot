@@ -12,8 +12,8 @@ chroot_setup.sh -- set up chroot (optional)
 ##Chroot config files
 - chroot_minimal.lst         -- minimal PASE chroot env (/bin, /dev, /usr, ...)
 - chroot_bins.lst            -- copy most of PASE /usr/bin (gcc development)
-- chroot_includes.lst        -- copy most of PASE /usr/lib (gcc development)
 - chroot_libs.lst            -- copy most of PASE /usr/lib (gcc development)
+- chroot_includes.lst        -- copy most of PASE /usr/include (gcc development)
 - chroot_OPS_GCC.lst         -- copy IBM OPS GCC into my chroot (not available yet)
 - chroot_OPS_NODE.lst        -- copy IBM node into my chroot
 - chroot_OPS_PYTHON.lst      -- copy IBM python into my chroot
