@@ -1,0 +1,71 @@
+# Command:
+#   > ./pkg_setup.sh pkg_git-1.8.5.4.lst
+# Use:
+#   > export PATH=/opt/freeware/bin:$PATH
+#   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
+#   > any_util (below)
+# Contents:
+# Other files:
+
+#
+# read file
+#
+:file
+
+#
+# rpm list
+#
+:rpm
+http://www.oss4aix.org/download/RPMS/bash/bash-4.2-12.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/bzip2/bzip2-1.0.5-3.aix5.3.ppc.rpm
+http://www.oss4aix.org/download/RPMS/curl/curl-7.27.0-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/bash/bash-4.2-10.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gdbm/gdbm-1.10-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gettext/gettext-0.10.40-8.aix5.2.ppc.rpm
+http://www.oss4aix.org/download/RPMS/info/info-4.13a-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gcc/libgcc-4.7.2-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libiconv/libiconv-1.14-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libidn/libidn-1.25-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libssh2/libssh2-1.4.2-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/openssl/openssl-1.0.1c-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/perl/perl-5.8.8-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/zlib/zlib-1.2.3-4.aix5.2.ppc.rpm
+http://www.oss4aix.org/download/RPMS/openldap/openldap-2.4.23-0.3.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/db4/db4-4.7.25-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/expat/expat-2.1.0-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/fontconfig/fontconfig-2.10.2-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/freetype2/freetype2-2.5.0-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/freetype2/freetype2-2.5.2-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libpng/libpng-1.6.7-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gmp/gmp-5.1.3-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gcc/libgcc-4.8.2-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gcc/libstdc++-4.8.2-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/info/info-5.1-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/less/less-458-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libffi/libffi-3.0.13-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libidn/libidn-1.28-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/info/info-5.1-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libpng/libpng-1.6.9-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libssh2/libssh2-1.4.3-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gcc/libgcc-4.8.1-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/openssl/openssl-1.0.1e-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libXft/libXft-2.3.1-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/fontconfig/fontconfig-2.8.0-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/freetype2/freetype2-2.4.10-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libXrender/libXrender-0.9.7-2.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/libXrender/libXrender-0.9.8-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/openssl/openssl-1.0.1f-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/popt/popt-1.7-2.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/python-2.6.8-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gmp/gmp-5.0.5-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/python/python-libs-2.6.8-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/readline/readline-6.2-4.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/sqlite/sqlite-3.7.17-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/tcl/tcl-8.5.14-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/tk/tk-8.5.14-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/readline/readline-6.2-5.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/rsync/rsync-3.1.0-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/sqlite/sqlite-3.8.1-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/tcl/tcl-8.5.15-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/tk/tk-8.5.15-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/git/git-1.8.5.4-1.aix5.1.ppc.rpm
