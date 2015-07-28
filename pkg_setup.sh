@@ -19,7 +19,7 @@ function package_fix_libiconv {
         cnt=$(ar -t /opt/freeware/lib/libiconv.a | grep -c shr4)
         if (($cnt==0))
         then
-          ar -x /usr/lib/libiconv.a
+          ar -x /QOpenSys/usr/lib/libiconv.a
           ar -rv /opt/freeware/lib/libiconv.a shr4.o
           ar -rv /opt/freeware/lib/libiconv.a shr.o
         fi
