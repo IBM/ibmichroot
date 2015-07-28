@@ -158,13 +158,13 @@ function package_setup_rpm {
   echo "setup $RPM_RTE ..."
   restore -xvqf $RPM_RTE
   cd $cdhere
-  mkdir /opt
-  cp -R usr/opt/* /opt/.
+  mkdir /QOpenSys/opt
+  cp -R usr/opt/* /QOpenSys/opt/.
   rm -R usr
-  ln -s /opt /var/opt
-  ln -s /opt /opt
+  ln -s /QOpenSys/opt /QOpenSys/var/opt
+  ln -s /QOpenSys/opt /opt
   mkdir /var
-  ln -s /var/opt /var/opt
+  ln -s /QOpenSys/var/opt /var/opt
   ln -s /opt/freeware/bin/rpm /usr/bin/rpm
   cd /opt/freeware/lib
   ln -s libpopt.so.0.0.0 libpopt.so
@@ -173,8 +173,6 @@ function package_setup_rpm {
   cd $cdhere
   echo "setup $RPM_WGET ..."
   rpm --ignoreos --ignorearch --nodeps --replacepkgs -hUv $RPM_WGET
-  ln -sf /QOpenSys/opt/freeware/bin /usr/local/bin
-  ln -sf /QOpenSys/opt/freeware/lib /usr/local/lib
 }
 
 function package_require_rpm {
