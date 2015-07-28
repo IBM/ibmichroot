@@ -54,6 +54,28 @@
 # /QOpenSys/usr/ccs
 
 #
+# tar list
+# ( example: /QOpenSys/lib/nls/loc
+#    mkdir -p $CHROOT_DIR/QOpenSys/lib/nls/loc
+#    cd /QOpenSys/lib/nls
+#    tar -chf $CHROOT_DIR/QOpenSys/lib/nls/loc.tar loc
+#    cd $CHROOT_DIR/QOpenSys/lib/nls
+#    tar -xf loc.tar
+# )
+#
+:tar_dir
+
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+
+#
 # links list (must occur after minimal copy above)
 # ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
 #

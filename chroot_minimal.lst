@@ -87,7 +87,6 @@
 /QOpenSys/usr/bin/tail
 /QOpenSys/usr/bin/chown
 /QOpenSys/usr/bin/chmod
-/QOpenSys/usr/bin/dbx
 /QOpenSys/usr/bin/env
 /QOpenSys/usr/bin/grep
 /QOpenSys/usr/bin/kill
@@ -101,22 +100,9 @@
 /QOpenSys/usr/bin/read
 /QOpenSys/usr/bin/dirname
 /QOpenSys/usr/bin/basename
-/QOpenSys/usr/bin/ar
 /QOpenSys/usr/bin/awk
 /QOpenSys/usr/bin/locale
-/QOpenSys/usr/bin/X11/xauth
-/QOpenSys/usr/bin/X11/xhost
 /QOpenSys/usr/bin/system
-/QOpenSys/usr/bin/as
-/QOpenSys/usr/bin/ld
-/QOpenSys/usr/lib/crt0.o
-/QOpenSys/usr/lib/crt0_64.o
-/QOpenSys/usr/lib/crt0_r.o
-/QOpenSys/usr/lib/crti.o
-/QOpenSys/usr/lib/crti_64.o
-/QOpenSys/usr/lib/glink.o
-/QOpenSys/usr/lib/glink64.o
-/QOpenSys/usr/lib/bind
 /QOpenSys/usr/lib/libc.a
 /QOpenSys/usr/lib/libpthreads.a
 /QOpenSys/usr/lib/libthread.a
@@ -130,6 +116,8 @@
 /QOpenSys/usr/lib/libcrypto.a
 /QOpenSys/usr/lib/libC.a
 /QOpenSys/usr/lib/libz.a
+/QOpenSys/usr/bin/X11/xauth
+/QOpenSys/usr/bin/X11/xhost
 /QOpenSys/usr/lib/libgair4.a
 /QOpenSys/usr/lib/libgaimisc.a
 /QOpenSys/usr/lib/libXp.a
@@ -146,16 +134,32 @@
 /QOpenSys/usr/lib/libcurses.a
 /QOpenSys/usr/lib/X11/XKeysymDB
 /QOpenSys/usr/lib/X11/XErrorDB
+/QOpenSys/usr/bin/ar
 /QOpenSys/usr/bin/dump
 /QOpenSys/usr/bin/nm
 /QOpenSys/usr/bin/expr
 /QOpenSys/usr/bin/uniq
 /QOpenSys/usr/bin/sort
 /QOpenSys/usr/bin/echo
+/QOpenSys/usr/bin/as
+/QOpenSys/usr/bin/ld
+/QOpenSys/usr/lib/crt0.o
+/QOpenSys/usr/lib/crt0_64.o
+/QOpenSys/usr/lib/crt0_r.o
+/QOpenSys/usr/lib/crti.o
+/QOpenSys/usr/lib/crti_64.o
+/QOpenSys/usr/lib/glink.o
+/QOpenSys/usr/lib/glink64.o
+/QOpenSys/usr/lib/bind
 /QOpenSys/usr/lib/libbind.a
 /QOpenSys/usr/lib/libdb400.a
 /QOpenSys/usr/lib/libnsl.a
 /QOpenSys/usr/lib/libtli.a
+/QOpenSys/usr/lib/libdbx.a
+/QOpenSys/usr/bin/dbx
+/QOpenSys/usr/lib/libdecNumber.a
+/QOpenSys/usr/lib/libpthdebug.a
+/QOpenSys/usr/lib/libcdebug.a
 
 #
 # copy dirs list
@@ -168,6 +172,28 @@
 /QOpenSys/usr/ccs
 
 #
+# tar list
+# ( example: /QOpenSys/usr/lib/nls/loc
+#    mkdir -p $CHROOT_DIR/QOpenSys/usr/lib/nls/loc
+#    cd /QOpenSys/usr/lib/nls
+#    tar -chf $CHROOT_DIR/QOpenSys/usr/lib/nls/loc.tar loc
+#    cd $CHROOT_DIR/QOpenSys/usr/lib/nls
+#    tar -xf loc.tar
+# )
+#
+:tar_dir
+
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+
+#
 # links list (must occur after minimal copy above)
 # ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
 #
@@ -178,6 +204,7 @@
 /QOpenSys/usr/lib /lib
 /QOpenSys/usr/sbin /usr/sbin
 /QOpenSys/usr/bin /usr/bin
+/QOpenSys/usr/lib /usr/lib
 /QOpenSys/usr/include /usr/include
 /QOpenSys/usr/sbin /QOpenSys/sbin
 /QOpenSys/usr/bin /QOpenSys/bin
@@ -212,4 +239,5 @@
 # (chown qsys $CHROOT_DIR/path/name)
 #
 :chown
+
 
