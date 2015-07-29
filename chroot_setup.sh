@@ -269,7 +269,7 @@ case "$opr" in
     echo "  > LANG=819"
   ;;
   *)
-    echo "./$(basename $0) chroot_copy.lst /QOpenSys/root_path"
+    echo "./$(basename $0) chroot_copy.lst /QOpenSys/root_path var1=/myval var2=MYNAME ..."
   ;;
 esac
 
