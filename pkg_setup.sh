@@ -8,7 +8,8 @@ system_OS400=$(uname | grep -c OS400)
 # set PATH and LIBPATH to avoid user random acts
 if (($system_OS400==1))
 then
-  #setup paths to IBM Open source binaries and libraries Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
+  # setup paths to IBM Open source binaries and libraries 
+  # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
   PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
   LIBPATH=/QOpenSys/usr/lib
   export PATH
