@@ -4,7 +4,9 @@
 #
 # run system command
 # (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)")
+# -- tbd variables --
+# (CHGAUT OBJ('$mydir/home/$myuser') USER($myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL))
 #
 :system
-# CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-CHGAUT OBJ('$mydir/home/$myuser') USER($myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+
