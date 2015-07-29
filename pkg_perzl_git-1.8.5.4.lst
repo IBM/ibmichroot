@@ -11,12 +11,13 @@
 # read file
 #
 :file
+pkg_perzl_bash-4.3.lst
 
 #
 # rpm list
 #
 :rpm
-http://www.oss4aix.org/download/RPMS/bash/bash-4.2-12.aix5.1.ppc.rpm
+#http://www.oss4aix.org/download/RPMS/bash/bash-4.2-12.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/bzip2/bzip2-1.0.5-3.aix5.3.ppc.rpm
 http://www.oss4aix.org/download/RPMS/curl/curl-7.27.0-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/gdbm/gdbm-1.10-1.aix5.1.ppc.rpm

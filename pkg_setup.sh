@@ -3,12 +3,6 @@
 # global
 #
 
-# set PATH and LIBPATH to avoid user random acts
-PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
-LIBPATH=/QOpenSys/usr/lib
-export PATH
-export LIBPATH
-
 system_OS400=$(uname | grep -c OS400)
 
 # set PATH and LIBPATH to avoid user random acts
@@ -138,6 +132,7 @@ function package_read_action {
       *)
         case "$action" in
           ":file")
+            echo "Processing file: $name"
             package_read_action $opr $name
             action=":file"
           ;;
