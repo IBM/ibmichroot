@@ -16,6 +16,7 @@ fi
 CHROOT_DIR=""
 CHROOT_LIST=""
 CHROOT_PID="$$"
+CHROOT_VARG=""
 
 function chroot_mkdir {
   echo "mkdir -p $CHROOT_DIR$1"
@@ -138,6 +139,19 @@ function chroot_chown_dir {
 }
 function chroot_system {
   cmd=$(echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20}" | sed -e 's/[[:space:]]*$//')
+  key=""
+  val=""
+  for i in $(echo $CHROOT_VARG | tr "=" "\n")
+  do
+    if ([ $key ]); then
+      val=$i
+      cmd=$(echo $cmd | sed s"|$key|$val|g")
+      key=""
+      val=""
+    else
+      key=$i
+    fi
+  done
   echo "system -i \"$cmd\""
   if (($CHROOT_DEBUG==0)); then
     system -i "$cmd"
@@ -217,7 +231,10 @@ lst=0
 qsys=0
 for arg in "$@"
 {
-  if ([ $CHROOT_LIST ]); then
+  if ([ $CHROOT_LIST ] && [ $CHROOT_DIR ]); then
+    # split by equals sign
+    CHROOT_VARG="$CHROOT_VARG $arg"
+  elif ([ $CHROOT_LIST ]); then
     CHROOT_DIR=$arg
   else
     CHROOT_LIST=$arg

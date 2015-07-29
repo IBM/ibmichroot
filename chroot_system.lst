@@ -4,9 +4,10 @@
 #
 # run system command
 # (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)")
-# -- tbd variables --
-# (CHGAUT OBJ('$mydir/home/$myuser') USER($myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL))
+# -- variable substitution example (mydir and myuser) --
+# > ./chroot_setup.sh chroot_system.lst /QOpenSys/ranger mydir=/QOpenSys/ranger myuser=RANGER
 #
 :system
-CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+# CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 
