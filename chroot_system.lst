@@ -7,3 +7,4 @@
 #
 :system
 # CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+CHGAUT OBJ('$mydir/home/$myuser') USER($myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
