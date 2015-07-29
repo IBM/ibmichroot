@@ -2,6 +2,13 @@
 #
 # global
 #
+
+# set PATH and LIBPATH to avoid user random acts
+PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
+LIBPATH=/QOpenSys/usr/lib
+export PATH
+export LIBPATH
+
 system_OS400=$(uname | grep -c OS400)
 
 # set PATH and LIBPATH to avoid user random acts

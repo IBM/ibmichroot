@@ -136,6 +136,13 @@ function chroot_chown_dir {
     chown -R $1 $CHROOT_DIR$2$all
   fi
 }
+function chroot_system {
+  cmd=$(echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20}" | sed -e 's/[[:space:]]*$//')
+  echo "system -i \"$cmd\""
+  if (($CHROOT_DEBUG==0)); then
+    system -i "$cmd"
+  fi
+}
 function chroot_setup {
   # copy needed PASE binaries
   action=""
@@ -193,6 +200,9 @@ function chroot_setup {
           ;;
           ":tar_dir")
              chroot_tar_dir $name
+          ;;
+          ":system")
+             chroot_system $name
           ;;
         esac
       ;;
