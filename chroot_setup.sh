@@ -160,7 +160,7 @@ function chroot_system {
 function chroot_setup {
   # copy needed PASE binaries
   action=""
-  while read name; do
+  while read name <&3; do
     case "$name" in
       "")
         # echo "empty"
@@ -221,7 +221,7 @@ function chroot_setup {
         esac
       ;;
     esac
-  done <$1
+  done 3<$1
 }
 #
 # main
