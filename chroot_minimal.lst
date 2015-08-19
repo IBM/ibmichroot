@@ -170,6 +170,7 @@
 #
 :cp_dir
 /QOpenSys/usr/ccs
+/QOpenSys/QIBM/ProdData/SC1
 
 #
 # tar list
@@ -213,6 +214,14 @@
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
 
 #
+# run shell command
+# # ( chroot $CHROOT_DIR /bin/sh -c "$1" )
+#
+:sh
+# touch /home/myuser/myfile.txt
+
+
+#
 # change ACL dir
 # (chmod -R 0755 $CHROOT_DIR/path/*)
 #
@@ -223,7 +232,7 @@
 
 #
 # change ACL file
-# (chmod -R 0755 $CHROOT_DIR/path/name)
+# (chmod 0755 $CHROOT_DIR/path/name)
 #
 :chmod
 
@@ -240,7 +249,6 @@
 #
 :chown
 
-
 #
 # run system command
 # (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)")
@@ -250,5 +258,6 @@
 :system
 # CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 # CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+
 
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # global
 #
@@ -121,9 +121,10 @@ function chroot_chmod_dir {
   fi
 }
 function chroot_chown {
-  echo "chown $1 $CHROOT_DIR$2"
+  echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c 'chown $1 $2'"
   if (($CHROOT_DEBUG==0)); then
     chown $1 $CHROOT_DIR$2
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chown $1 $2"
   fi
 }
 function chroot_chown_dir {
@@ -132,32 +133,26 @@ function chroot_chown_dir {
   else
     all="/*"
   fi
-  echo "chown -R $1 $CHROOT_DIR$2$all"
+  echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c 'chown -R $1 $2$all'"
   if (($CHROOT_DEBUG==0)); then
-    chown -R $1 $CHROOT_DIR$2$all
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chown -R $1 $2$all"
   fi
 }
 function chroot_system {
   cmd=$(echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20}" | sed -e 's/[[:space:]]*$//')
-  key=""
-  val=""
-  for i in $(echo $CHROOT_VARG | tr "=" "\n")
-  do
-    if ([ $key ]); then
-      val=$i
-      cmd=$(echo $cmd | sed s"|$key|$val|g")
-      key=""
-      val=""
-    else
-      key=$i
-    fi
-  done
   echo "system -i \"$cmd\""
   if (($CHROOT_DEBUG==0)); then
     system -i "$cmd"
   fi
 }
-function chroot_setup {
+function chroot_sh {
+  cmd=$(echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20}" | sed -e 's/[[:space:]]*$//')
+  echo "chroot $CHROOT_DIR $cmd"
+  if (($CHROOT_DEBUG==0)); then
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "$cmd"
+  fi
+}
+function chroot_setup {  
   # copy needed PASE binaries
   action=""
   while read name <&3; do
@@ -173,7 +168,20 @@ function chroot_setup {
         action=$name
       ;;
       *)
-        # echo "stuff"
+        # replace command args with values
+        key=""
+        val=""
+        for i in $(echo $CHROOT_VARG | tr "=" "\n")
+        do
+          if ([ $key ]); then
+            val=$i
+            name=$(echo $name | sed s"|$key|$val|g")
+            key=""
+            val=""
+          else
+            key=$i
+          fi
+        done
         case "$action" in
           ":file")
              chroot_setup $name
@@ -218,8 +226,11 @@ function chroot_setup {
           ":system")
              chroot_system $name
           ;;
+          ":sh")
+             chroot_sh $name
+          ;;          
         esac
-      ;;
+      ;;      
     esac
   done 3<$1
 }

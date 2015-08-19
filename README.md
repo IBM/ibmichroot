@@ -7,21 +7,33 @@ You can find setup instructions on [YiPs](http://yips.idevcloud.com/wiki/index.p
 chroot_setup.sh -- set up chroot (optional)
 ```
 > .chroot_setup.sh -help
-> .chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path
+> .chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path [dynamic global variables]
 ```
 ##Chroot config files
 - chroot_minimal.lst         -- minimal PASE chroot env (/bin, /dev, /usr, ...)
 - chroot_bins.lst            -- copy most of PASE /usr/bin (gcc development)
+- chroot_includes.lst        -- copy most of PASE /usr/lib (gcc development)
 - chroot_libs.lst            -- copy most of PASE /usr/lib (gcc development)
-- chroot_includes.lst        -- copy most of PASE /usr/include (gcc development)
 - chroot_OPS_GCC.lst         -- copy IBM OPS GCC into my chroot (not available yet)
 - chroot_OPS_NODE.lst        -- copy IBM node into my chroot
-- chroot_OPS_PYTHON.lst      -- copy IBM python into my chroot
+- chroot_OPS_PYTHON.lst      -- copy IBM python into my chroot (not available yet)
 - chroot_OPS_SC1.lst         -- copy IBM openssl into my chroot
 - chroot_PowerRuby.lst       -- copy PowerRuby into my chroot (PASE)
 - chroot_ZendServer5.lst     -- copy Zend Server 5 into my chroot (PASE)
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
+
+##Dynamic Global Variables
+You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
+
+```
+chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path myuser=AARON
+```
+And then in your `.lst` file you could have this:
+```
+:system
+CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+```
 
 #Package Setup
 pkg_setup.sh -- download and install perzl.org rpms (chroot optional)
