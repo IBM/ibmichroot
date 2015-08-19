@@ -47,7 +47,6 @@ http://www.oss4aix.org/download/RPMS/libssh2/libssh2-1.4.3-2.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/openldap/openldap-2.4.23-0.3.aix5.1.ppc.rpm
 # utils
 http://www.oss4aix.org/download/RPMS/info/info-5.2-1.aix5.1.ppc.rpm
-#http://www.oss4aix.org/download/RPMS/bash/bash-4.3-13.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/sed/sed-4.2.2-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/grep/grep-2.20-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/nedit/nedit-5.5-1.aix5.1.ppc.rpm
