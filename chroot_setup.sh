@@ -90,16 +90,22 @@ function chroot_tar_dir {
   chroot_mkdir $1
   mydir=$(dirname $1)
   mybase=$(basename $1)
-  echo "cd $mydir"
-  echo "tar -chf $CHROOT_DIR$mydir/$mybase.tar $mybase"
-  echo "cd $CHROOT_DIR$mydir"
-  echo "tar -xf $mybase.tar"
-  if (($CHROOT_DEBUG==0)); then
-    here=$(pwd)
-    cd $mydir
-    tar -chf $CHROOT_DIR$mydir/$mybase.tar $mybase
+  here=$(pwd)
+  if [ -f $here/$mybase.tar ]; then
+    echo "Using existing $here/$mybase.tar"
+  else
+    echo "cd $mydir"
+    echo "tar -chf $here/$mybase.tar $mybase"
+    echo "cd $CHROOT_DIR$mydir"
+    echo "tar -xf $here/$mybase.tar"
+  fi
+  if (($CHROOT_DEBUG==0)); then    
+    if ! [ -f $here/$mybase.tar ]; then
+      cd $mydir
+      tar -chf $here/$mybase.tar $mybase
+    fi
     cd $CHROOT_DIR$mydir
-    tar -xf $mybase.tar
+    tar -xf $here/$mybase.tar
     cd $here
   fi
 }

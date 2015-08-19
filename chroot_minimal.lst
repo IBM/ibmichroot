@@ -181,8 +181,9 @@
 #    cd $CHROOT_DIR/QOpenSys/usr/lib/nls
 #    tar -xf loc.tar
 # )
-#
+# NOTE: Uses existing tar in current directory if it exists. To get a refreshed tar simply delete the existing tar.
 :tar_dir
+#/QOpenSys/usr/lib/nls/loc
 
 # relative links list
 # (
