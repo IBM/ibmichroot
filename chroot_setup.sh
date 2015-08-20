@@ -151,10 +151,9 @@ function chroot_system {
   fi
 }
 function chroot_sh {
-  cmd=$(echo "$1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20}" | sed -e 's/[[:space:]]*$//')
-  echo "chroot $CHROOT_DIR $cmd"
+  echo "$@"
   if (($CHROOT_DEBUG==0)); then
-    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "$cmd"
+    eval $@
   fi
 }
 function chroot_setup {  
