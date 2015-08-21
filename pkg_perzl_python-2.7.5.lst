@@ -17,3 +17,10 @@ http://www.oss4aix.org/download/RPMS/python/python-devel-2.7.5-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/python/python-libs-2.7.5-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/python/python-tools-2.7.5-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/python/tkinter-2.7.5-1.aix5.1.ppc.rpm
+# ez_setup
+http://www.oss4aix.org/download/RPMS/wget/wget-1.16-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/curl/curl-7.27.0-1.aix5.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/curl/libffi/libffi-3.1-1.aix5.1.ppc.rpm
+
+
+

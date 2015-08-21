@@ -215,6 +215,7 @@
 /QOpenSys/usr/lib /QOpenSys/lib
 /QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libs.a
 
 #
 # run shell command
