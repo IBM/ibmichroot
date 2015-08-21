@@ -103,6 +103,8 @@
 /QOpenSys/usr/bin/awk
 /QOpenSys/usr/bin/locale
 /QOpenSys/usr/bin/system
+/QOpenSys/usr/bin/tar
+/QOpenSys/usr/bin/find
 /QOpenSys/usr/lib/libc.a
 /QOpenSys/usr/lib/libpthreads.a
 /QOpenSys/usr/lib/libthread.a
