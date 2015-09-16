@@ -162,6 +162,9 @@
 /QOpenSys/usr/lib/libdecNumber.a
 /QOpenSys/usr/lib/libpthdebug.a
 /QOpenSys/usr/lib/libcdebug.a
+/QOpenSys/usr/bin/sed
+/QOpenSys/usr/bin/date
+/QOpenSys/usr/lib/libm.a
 
 #
 # copy dirs list
@@ -216,6 +219,8 @@
 /QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libs.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc128.a
+/QOpenSys/usr/lib/libC.a /QOpenSys/usr/lib/libC128.a
 
 #
 # run shell command

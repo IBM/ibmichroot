@@ -1,5 +1,5 @@
 # Command:
-#   > ./chroot_setup.sh chroot_includes.lst /QOpenSys/root_path
+#   > ./chroot_setup.sh chroot_xlc.lst /QOpenSys/root_path
 
 #
 # tar list
@@ -12,5 +12,7 @@
 # )
 #
 :tar_dir
-/QOpenSys/usr/include
+/QOpenSys/xlcpp/opt/IBM/xlc
+/QOpenSys/xlcpp/opt/IBM/xlC
+
 
