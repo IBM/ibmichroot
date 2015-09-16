@@ -146,6 +146,7 @@
 /QOpenSys/usr/lib/libnsl.a
 /QOpenSys/usr/lib/libtli.a
 /QOpenSys/usr/lib/libm.a
+/QOpenSys/usr/bin/ar
 
 #
 # copy dirs list
