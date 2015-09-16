@@ -21,18 +21,18 @@
 # )
 #
 :ln_rel
-/QOpenSys/usr/bin/c_rehash
-/QOpenSys/usr/bin/openssl
-/QOpenSys/usr/bin/scp
-/QOpenSys/usr/bin/sftp
-/QOpenSys/usr/bin/slogin
-/QOpenSys/usr/bin/ssh
-/QOpenSys/usr/bin/ssh-add
-/QOpenSys/usr/bin/ssh-agent
-/QOpenSys/usr/bin/ssh-keygen
-/QOpenSys/usr/bin/ssh-keyscan
-/QOpenSys/usr/lib/libcrypto.a
-/QOpenSys/usr/lib/libssl.a
-/QOpenSys/usr/lib/libz.so
+/QOpenSys/usr/bin/c_rehash ../../QIBM/ProdData/SC1/OpenSSL/bin/c_rehash
+/QOpenSys/usr/bin/openssl ../../QIBM/ProdData/SC1/OpenSSL/bin/openssl
+/QOpenSys/usr/bin/scp ../../QIBM/ProdData/SC1/OpenSSH/bin/scp
+/QOpenSys/usr/bin/sftp ../../QIBM/ProdData/SC1/OpenSSH/bin/sftp
+/QOpenSys/usr/bin/ssh ../../QIBM/ProdData/SC1/OpenSSH/bin/ssh
+/QOpenSys/usr/bin/ssh-add ../../QIBM/ProdData/SC1/OpenSSH/bin/ssh-add
+/QOpenSys/usr/bin/ssh-agent ../../QIBM/ProdData/SC1/OpenSSH/bin/ssh-agent
+/QOpenSys/usr/bin/ssh-keygen ../../QIBM/ProdData/SC1/OpenSSH/bin/ssh-keygen
+/QOpenSys/usr/bin/ssh-keyscan ../../QIBM/ProdData/SC1/OpenSSH/bin/ssh-keyscan
+/QOpenSys/usr/lib/libcrypto.a ../../QIBM/ProdData/SC1/OpenSSL/lib/libcrypto.a
+/QOpenSys/usr/lib/libssl.a ../../QIBM/ProdData/SC1/OpenSSL/lib/libssl.a
+/QOpenSys/usr/lib/libz.a ../../QIBM/ProdData/SC1/zlib/lib/libz.a
+/QOpenSys/usr/lib/libz.so ../../QIBM/ProdData/SC1/zlib/lib/libz.so
 
 

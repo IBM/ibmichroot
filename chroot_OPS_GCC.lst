@@ -3,12 +3,15 @@
 #
 
 #
-# copy dirs list
-# (
-#  mkdir -p $CHROOT_DIR/path
-#  cp -R  /path/* $CHROOT_DIR/path/.
+# tar list
+# ( example: /QOpenSys/usr/lib/nls/loc
+#    mkdir -p $CHROOT_DIR/QOpenSys/usr/lib/nls/loc
+#    cd /QOpenSys/usr/lib/nls
+#    tar -chf $CHROOT_DIR/QOpenSys/usr/lib/nls/loc.tar loc
+#    cd $CHROOT_DIR/QOpenSys/usr/lib/nls
+#    tar -xf loc.tar
 # )
 #
-:cp_dir
+:tar_dir
 /QOpenSys/QIBM/ProdData/OPS/GCC
 
