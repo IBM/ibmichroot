@@ -156,7 +156,6 @@
 #
 :cp_dir
 /QOpenSys/usr/ccs
-/QOpenSys/QIBM/ProdData/SC1
 
 #
 # tar list
