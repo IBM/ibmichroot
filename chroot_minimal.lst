@@ -33,7 +33,6 @@
 /QOpenSys/usr/include
 /QOpenSys/usr/bin/X11
 /QOpenSys/usr/lib/X11
-/QOpenSys/opt
 /dev
 /dev/pts
 /tmp
@@ -186,7 +185,6 @@
 # ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
 #
 :ln
-/QOpenSys/opt /opt
 /QOpenSys/usr/sbin /sbin
 /QOpenSys/usr/bin /bin
 /QOpenSys/usr/lib /lib
