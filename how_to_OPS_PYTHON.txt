@@ -1,0 +1,88 @@
+https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-3.4.2.txt)
+===============================
+installation
+===============================
+CRTUSRPRF USRPRF(LEFTY) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(LEFTY) LOCALE(*NONE) HOMEDIR('/QOpenSys/lefty/./home/lefty')
+
+-- outside chroot --
+$ mkdir -p /QOpenSys/lefty/home/lefty
+$ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+-- ftp from Yips until PTF available --
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/lefty
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/lefty
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/lefty
+$ ./chroot_setup.sh chroot_OPS_PYTHON.lst /QOpenSys/lefty
+-- additional setup if another profile (careful must use chroot) --
+$ chroot /QOpenSys/lefty /bin/bsh
+$ cd /
+$ chown -R lefty .
+$ exit
+-- back outside chroot --
+
+-- inside chroot --
+$ ssh -X lefty@ut30p30
+lefty@ut30p30's password: 
+-- if you see, use ksh --
+$ export PATH=/opt/freeware/bin:/usr/bin
+PATH=/opt/freeware/bin:/usr/bin: is not an identifier
+-- if you see, use ksh --
+$ ksh
+$ python3
+Python 3.4.2 (default, Jun 12 2015, 19:07:14) [C] on aix6
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("Hello World")
+Hello World
+>>> ^D
+$ 
+
+===============================
+Start over (rm -R destroy all)?
+===============================
+-- outside chroot --
+$ cd /QOpenSys
+$ rm -R lefty
+
+===============================
+Run simple web server
+===============================
+-- inside chroot --
+$ ssh -X lefty@ut30p30
+lefty@ut30p30's password: 
+$ ksh 
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+bash-4.3$ python3 -m simple_web_server_python 8080
+Serving at port 8080
+==============================
+$ cat simple_web_server_python.py
+==============================
+import sys
+if sys.version_info >= (3,0):
+  # python3 -m http.server 8080
+  # -- or using a program --
+  # python3 -m simple_web_server_python 8080
+  import http.server
+  import socketserver
+else:
+  # python -m SimpleHTTPServer
+  # -- or using a program --
+  # python -m simple_web_server_python 8080
+  import SimpleHTTPServer
+  import SocketServer
+    
+if sys.argv[1:]:
+    port = int(sys.argv[1])
+else:
+    port = 8000
+   
+if sys.version_info >= (3,0):
+  Handler = http.server.SimpleHTTPRequestHandler
+  httpd = socketserver.TCPServer(("", port), Handler)
+else:
+  Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+  httpd = SocketServer.TCPServer(("", port), Handler)
+    
+print("Serving at port", port)
+httpd.serve_forever()
+
