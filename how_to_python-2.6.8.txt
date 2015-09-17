@@ -58,4 +58,36 @@ Start over (rm -R destroy all)?
 $ cd /QOpenSys
 $ rm -R ranger
 
+===============================
+Run simple web server
+===============================
+-- inside chroot --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
+$ ksh 
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+bash-4.3$ python -m simple_web_server_python 8080
+Serving at port 8080
+==============================
+$ cat simple_web_server_python.py
+==============================
+# python -m SimpleHTTPServer
+# -- or using a program --
+# python -m simple_web_server_python 8080
+import sys
+import SimpleHTTPServer
+import SocketServer
+    
+if sys.argv[1:]:
+    port = int(sys.argv[1])
+else:
+    port = 8000
+   
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+httpd = SocketServer.TCPServer(("", port), Handler)
+    
+print "Serving at port", port
+httpd.serve_forever()
 
