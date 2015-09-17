@@ -207,6 +207,13 @@ function package_setup_rpm {
   cd $cdhere
   echo "setup $RPM_WGET ..."
   rpm --ignoreos --ignorearch --nodeps --replacepkgs -hUv $RPM_WGET
+  if [ -f /opt/freeware/bin/wget400 ]
+  then
+    wget400 --version
+  else
+    cp /opt/freeware/bin/wget /opt/freeware/bin/wget400
+    wget400 --version
+  fi
 }
 
 function package_require_rpm {

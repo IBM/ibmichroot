@@ -6,7 +6,7 @@ CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
 
 -- outside chroot --
 $ mkdir -p /QOpenSys/ranger/home/ranger
-$ mkdir /QOpenSys/QIBM/ProdData/OPS/GCC
+$ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 -- ftp from Yips until PTF available --
 $ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
@@ -22,8 +22,10 @@ $ exit
 -- inside chroot --
 $ ssh -X ranger@ut30p30
 ranger@ut30p30's password: 
+-- if you see, use ksh --
 $ export PATH=/opt/freeware/bin:/usr/bin
 PATH=/opt/freeware/bin:/usr/bin: is not an identifier
+-- if you see, use ksh --
 $ ksh 
 $ export PATH=/opt/freeware/bin:/usr/bin
 $ export LIBPATH=/opt/freeware/lib:/usr/lib
