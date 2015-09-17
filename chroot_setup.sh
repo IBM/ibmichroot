@@ -2,17 +2,30 @@
 #
 # global
 #
-system_OS400=$(uname | grep -c OS400)
-if (($system_OS400==0)); then
-  CHROOT_DEBUG=1
-else
+
+if [ -d /QOpenSys/usr/bin ]
+then
   CHROOT_DEBUG=0
-  # set PATH and LIBPATH to avoid user random acts
-  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
-  LIBPATH=/QOpenSys/usr/lib
+  system_OS400=1
+  # setup paths to IBM Open source binaries and libraries 
+  # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
+  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:/opt/freeware/bin
+  LIBPATH=/QOpenSys/usr/lib:/opt/freeware/lib
   export PATH
   export LIBPATH
+  echo "**********************"
+  echo "Live IBM i session (changes made)."
+  echo "**********************"
+  echo "PATH=$PATH"
+  echo "LIBPATH=$LIBPATH"
+else
+  CHROOT_DEBUG=1
+  system_OS400=0
+  echo "**********************"
+  echo "Not IBM i, no action is taken (debug flow purpose only)."
+  echo "**********************"
 fi
+
 CHROOT_DIR=""
 CHROOT_LIST=""
 CHROOT_PID="$$"

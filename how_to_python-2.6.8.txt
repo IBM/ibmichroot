@@ -1,0 +1,56 @@
+===============================
+installation
+===============================
+CRTUSRPRF USRPRF(RANGER) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
+
+-- outside chroot --
+$ mkdir -p /QOpenSys/ranger/home/ranger
+$ mkdir /QOpenSys/QIBM/ProdData/OPS/GCC
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+-- ftp from Yips until PTF available --
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/ranger
+-- inside chroot -- additional setup if another profile (careful must use chroot) --
+$ chroot /QOpenSys/ranger /bin/bsh
+$ cd /
+$ chown -R ranger .
+$ exit
+-- back outside chroot --
+
+-- inside chroot --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
+$ export PATH=/opt/freeware/bin:/usr/bin
+PATH=/opt/freeware/bin:/usr/bin: is not an identifier
+$ ksh 
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ bash
+bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+bash-4.3$ python
+Python 2.6.8 (unknown, Aug  3 2013, 00:55:15) [C] on aix5
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("Hello World")
+Hello World
+>>> ^D
+bash-4.3$
+
+===============================
+IBM i no internet, use linux
+===============================
+-- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+
+===============================
+Start over (rm -R destroy all)?
+===============================
+-- outside chroot --
+$ cd /QOpenSys
+$ rm -R ranger
+
+
