@@ -1,3 +1,4 @@
+https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-2.7.5.txt)
 ===============================
 installation
 ===============================
