@@ -31,13 +31,9 @@ function package_fix_libiconv {
       if (($system_OS400==1))
       then
         echo "fixing /opt/freeware/lib/libiconv.a ..."
-        cnt=$(ar -t /opt/freeware/lib/libiconv.a | grep -c shr4)
-        if (($cnt==0))
-        then
-          ar -x /QOpenSys/usr/lib/libiconv.a
-          ar -rv /opt/freeware/lib/libiconv.a shr4.o
-          ar -rv /opt/freeware/lib/libiconv.a shr.o
-        fi
+        ar -x /QOpenSys/usr/lib/libiconv.a
+        ar -rv /opt/freeware/lib/libiconv.a shr4.o
+        ar -rv /opt/freeware/lib/libiconv.a shr.o
       fi
     ;;
   esac
