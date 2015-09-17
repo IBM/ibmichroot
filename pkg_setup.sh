@@ -10,8 +10,8 @@ if (($system_OS400==1))
 then
   # setup paths to IBM Open source binaries and libraries 
   # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
-  PATH=/opt/freeware/bin:/QOpenSys/usr/bin:/QOpenSys/usr/sbin
-  LIBPATH=/opt/freeware/lib:/QOpenSys/usr/lib
+  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:/opt/freeware/bin
+  LIBPATH=/QOpenSys/usr/lib:/opt/freeware/lib
   export PATH
   export LIBPATH
   echo "PATH=$PATH"
