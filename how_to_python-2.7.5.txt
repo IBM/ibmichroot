@@ -31,14 +31,14 @@ $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 $ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
 $ bash
 bash-4.3$ ./pkg_setup.sh pkg_perzl_utils.lst
-bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.7.5.lst
 bash-4.3$ python
-Python 2.6.8 (unknown, Aug  3 2013, 00:55:15) [C] on aix5
+Python 2.7.5 (default, Aug  2 2013, 23:27:48) [C] on aix5
 Type "help", "copyright", "credits" or "license" for more information.
 >>> print("Hello World")
 Hello World
->>> ^D
-bash-4.3$
+>>> 
+bash-4.3$ 
 
 ===============================
 IBM i no internet, use linux
@@ -46,7 +46,7 @@ IBM i no internet, use linux
 -- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
 $ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
 $ ./pkg_setup.sh pkg_perzl_utils.lst
-$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+$ ./pkg_setup.sh pkg_perzl_python-2.7.5.lst
 
 ===============================
 Start over (rm -R destroy all)?
