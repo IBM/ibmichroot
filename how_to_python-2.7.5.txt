@@ -44,6 +44,12 @@ Hello World
 bash-4.3$ 
 
 ===============================
+setup itoolkit egg
+===============================
+wget https://bootstrap.pypa.io/ez_setup.py --no-check-certificate
+
+
+===============================
 IBM i no internet, use linux
 ===============================
 -- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
