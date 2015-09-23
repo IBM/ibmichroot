@@ -46,8 +46,11 @@ bash-4.3$
 ===============================
 setup itoolkit egg
 ===============================
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
 $ wget https://bootstrap.pypa.io/ez_setup.py --no-check-certificate
 $ python ez_setup.py
+$ cd /QOpenSys/QIBM/ProdData/OPS/Python-pkgs/itoolkit
 $ easy_install itoolkit-1.1-py2.7.egg
 $ cp /QOpenSys/opt/freeware/lib/python2.7/site-packages/itoolkit-1.1-py2.7.egg/itoolkit/sample .
 $ cd sample

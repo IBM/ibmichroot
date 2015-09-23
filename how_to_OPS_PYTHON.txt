@@ -38,6 +38,16 @@ Hello World
 $ 
 
 ===============================
+setup itoolkit egg
+===============================
+$ cd /QOpenSys/QIBM/ProdData/OPS/Python-pkgs/itoolkit
+$ easy_install itoolkit-1.1-py3.4.egg
+$ cp /QOpenSys/QIBM/ProdData/OPS/Python3.4/lib/python3.4/site-packages/itoolkit-1.1-py3.4.egg/itoolkit/sample .
+$ cd sample
+$ python ipgm_zzcall.py
+
+
+===============================
 Start over (rm -R destroy all)?
 ===============================
 -- outside chroot --
