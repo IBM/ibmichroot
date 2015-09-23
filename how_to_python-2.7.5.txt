@@ -46,8 +46,12 @@ bash-4.3$
 ===============================
 setup itoolkit egg
 ===============================
-wget https://bootstrap.pypa.io/ez_setup.py --no-check-certificate
-
+$ wget https://bootstrap.pypa.io/ez_setup.py --no-check-certificate
+$ python ez_setup.py
+$ easy_install itoolkit-1.1-py2.7.egg
+$ cp /QOpenSys/opt/freeware/lib/python2.7/site-packages/itoolkit-1.1-py2.7.egg/itoolkit/sample .
+$ cd sample
+$ python ipgm_zzcall.py
 
 ===============================
 IBM i no internet, use linux
