@@ -56,11 +56,22 @@ $ cd sample
 $ python ipgm_zzcall.py
 Note: 
 By design chroot loses access to /QSYS.lIB, aka, QSH style commands do not work.
-Using default iLibCall transport, while *PGMs, *SRVPGMS, DB2 work fine, 
-various CMDs, CMD5250 (dsplibl), may not work. For these testes, 
+Using default iLibCall transport, while *PGMs, *SRVPGMS, DB2, work fine, 
+various CMDs, CMD5250 (dsplibl), may not work. For these tests, 
 switch to iDB2Call or iRestCall transport, to work beyond chroot 
 (regain access to /QSYS.LIB).
 
+#XML Toolkit http settings (iRestCall)
+ScriptAlias /cgi-bin/ /QSYS.LIB/QXMLSERV.LIB/
+<Directory /QSYS.LIB/QXMLSERV.LIB/>
+AllowOverride None
+ order allow,deny
+ allow from all
+ SetHandler cgi-script
+ Options +ExecCGI
+</Directory>
+#End XML Toolkit http settings
+#QXMLSERV (IBM), XMLSERVICE (download), ZENDSVR6 (php), POWERRUBY, etc.
 
 ===============================
 IBM i no internet, use linux
