@@ -61,7 +61,6 @@ Run simple web server
 $ ssh -X lefty@ut30p30
 lefty@ut30p30's password: 
 $ ksh 
-$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 bash-4.3$ python3 -m simple_web_server_python 8080
 Serving at port 8080
 ==============================

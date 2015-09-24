@@ -80,7 +80,6 @@ ranger@ut30p30's password:
 $ ksh 
 $ export PATH=/opt/freeware/bin:/usr/bin
 $ export LIBPATH=/opt/freeware/lib:/usr/lib
-$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 bash-4.3$ python -m simple_web_server_python 8080
 Serving at port 8080
 ==============================
