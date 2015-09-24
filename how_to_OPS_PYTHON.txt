@@ -45,6 +45,12 @@ $ easy_install3 itoolkit-1.1-py3.4.egg
 $ cp /QOpenSys/QIBM/ProdData/OPS/Python3.4/lib/python3.4/site-packages/itoolkit-1.1-py3.4.egg/itoolkit/sample .
 $ cd sample
 $ python ipgm_zzcall.py
+Note: 
+By design chroot loses access to /QSYS.lIB, aka, QSH style commands do not work.
+Using default iLibCall transport, while *PGMs, *SRVPGMS, DB2 work fine, 
+various CMDs, CMD5250 (dsplibl), may not work. For these testes, 
+switch to iDB2Call or iRestCall transport, to work beyond chroot 
+(regain access to /QSYS.LIB).
 
 
 ===============================
