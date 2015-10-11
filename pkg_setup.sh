@@ -3,17 +3,25 @@
 # global
 #
 
-system_OS400=$(uname | grep -c OS400)
-
-# set PATH and LIBPATH to avoid user random acts
-if (($system_OS400==1))
+if [ -d /QOpenSys/usr/bin ]
 then
+  system_OS400=1
   # setup paths to IBM Open source binaries and libraries 
   # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
-  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin
-  LIBPATH=/QOpenSys/usr/lib
+  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:/opt/freeware/bin
+  LIBPATH=/QOpenSys/usr/lib:/opt/freeware/lib
   export PATH
   export LIBPATH
+  echo "**********************"
+  echo "Live IBM i session (changes made)."
+  echo "**********************"
+  echo "PATH=$PATH"
+  echo "LIBPATH=$LIBPATH"
+else
+  system_OS400=0
+  echo "**********************"
+  echo "Not IBM i, downloads only, other no action taken."
+  echo "**********************"
 fi
 
 RPM_RTE="rpm.rte"
@@ -29,13 +37,11 @@ function package_fix_libiconv {
       if (($system_OS400==1))
       then
         echo "fixing /opt/freeware/lib/libiconv.a ..."
-        cnt=$(ar -t /opt/freeware/lib/libiconv.a | grep -c shr4)
-        if (($cnt==0))
-        then
-          ar -x /QOpenSys/usr/lib/libiconv.a
-          ar -rv /opt/freeware/lib/libiconv.a shr4.o
-          ar -rv /opt/freeware/lib/libiconv.a shr.o
-        fi
+        ar -x /QOpenSys/usr/lib/libiconv.a
+        ar -rv /opt/freeware/lib/libiconv.a shr4.o
+        ar -rv /opt/freeware/lib/libiconv.a shr.o
+      else
+        echo "not IBM i, ignoring /opt/freeware/lib/libiconv.a ..."
       fi
     ;;
   esac
@@ -50,7 +56,21 @@ function package_download {
   then
     echo "message: $base - previously downloaded"
   else
-    wget $name
+    # need wget400, because newer versions not work
+    # LIBPATH=/QOpenSys/usr/lib:/opt/freeware/lib
+    if (($system_OS400==1))
+    then
+      if [ -f /opt/freeware/bin/wget400 ]
+      then
+        wget400 $name
+      else
+        cp /opt/freeware/bin/wget /opt/freeware/bin/wget400
+        wget400 $name
+      fi
+    # download linux fine with any old wget
+    else
+      wget $name
+    fi
   fi
 }
 #
@@ -187,6 +207,13 @@ function package_setup_rpm {
   cd $cdhere
   echo "setup $RPM_WGET ..."
   rpm --ignoreos --ignorearch --nodeps --replacepkgs -hUv $RPM_WGET
+  if [ -f /opt/freeware/bin/wget400 ]
+  then
+    wget400 --version
+  else
+    cp /opt/freeware/bin/wget /opt/freeware/bin/wget400
+    wget400 --version
+  fi
 }
 
 function package_require_rpm {

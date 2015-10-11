@@ -1,0 +1,122 @@
+https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-2.6.8.txt)
+===============================
+installation
+===============================
+CRTUSRPRF USRPRF(RANGER) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
+
+-- outside chroot --
+$ mkdir -p /QOpenSys/ranger/home/ranger
+$ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+-- ftp from Yips until PTF available --
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/ranger
+-- additional setup if another profile (careful must use chroot) --
+$ chroot /QOpenSys/ranger /bin/bsh
+$ cd /
+$ chown -R ranger .
+$ exit
+-- back outside chroot --
+
+-- inside chroot --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
+-- if you see, use ksh --
+$ export PATH=/opt/freeware/bin:/usr/bin
+PATH=/opt/freeware/bin:/usr/bin: is not an identifier
+-- if you see, use ksh --
+$ ksh 
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ bash
+bash-4.3$ ./pkg_setup.sh pkg_perzl_utils.lst
+bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+bash-4.3$ python
+Python 2.6.8 (unknown, Aug  3 2013, 00:55:15) [C] on aix5
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("Hello World")
+Hello World
+>>> ^D
+bash-4.3$
+
+
+===============================
+setup itoolkit egg
+===============================
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+$ cd /QOpenSys/QIBM/ProdData/OPS/Python-pkgs/itoolkit
+$ easy_install itoolkit-1.1-py2.6.egg
+$ cp /QOpenSys/opt/freeware/lib/python2.6/site-packages/itoolkit-1.1-py2.6.egg/itoolkit/sample .
+$ cd sample
+$ python ipgm_zzcall.py
+Note: 
+By design chroot loses access to /QSYS.lIB, aka, QSH style commands do not work.
+Using default iLibCall transport, while *PGMs, *SRVPGMS, DB2, work fine, 
+various CMDs, CMD5250 (dsplibl), may not work. For these tests, 
+switch to iDB2Call or iRestCall transport, to work beyond chroot 
+(regain access to /QSYS.LIB).
+
+#XML Toolkit http settings (iRestCall)
+ScriptAlias /cgi-bin/ /QSYS.LIB/QXMLSERV.LIB/
+<Directory /QSYS.LIB/QXMLSERV.LIB/>
+AllowOverride None
+ order allow,deny
+ allow from all
+ SetHandler cgi-script
+ Options +ExecCGI
+</Directory>
+#End XML Toolkit http settings
+#QXMLSERV (IBM), XMLSERVICE (download), ZENDSVR6 (php), POWERRUBY, etc.
+
+===============================
+IBM i no internet, use linux
+===============================
+-- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ ./pkg_setup.sh pkg_perzl_utils.lst
+$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
+
+===============================
+Start over (rm -R destroy all)?
+===============================
+-- outside chroot --
+$ cd /QOpenSys
+$ rm -R ranger
+
+===============================
+Run simple web server
+===============================
+-- inside chroot --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
+$ ksh 
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+bash-4.3$ python -m simple_web_server_python 8080
+Serving at port 8080
+==============================
+$ cat simple_web_server_python.py
+==============================
+# python -m SimpleHTTPServer
+# -- or using a program --
+# python -m simple_web_server_python 8080
+import sys
+import SimpleHTTPServer
+import SocketServer
+    
+if sys.argv[1:]:
+    port = int(sys.argv[1])
+else:
+    port = 8000
+   
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+httpd = SocketServer.TCPServer(("", port), Handler)
+    
+print "Serving at port", port
+httpd.serve_forever()
+

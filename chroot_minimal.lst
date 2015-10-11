@@ -15,6 +15,7 @@
 #     > LANG=C
 #     > LANG=819
 #
+#
 
 #
 # read file (my_other.lst)
@@ -32,7 +33,6 @@
 /QOpenSys/usr/include
 /QOpenSys/usr/bin/X11
 /QOpenSys/usr/lib/X11
-/QOpenSys/opt
 /dev
 /dev/pts
 /tmp
@@ -103,6 +103,8 @@
 /QOpenSys/usr/bin/awk
 /QOpenSys/usr/bin/locale
 /QOpenSys/usr/bin/system
+/QOpenSys/usr/bin/tar
+/QOpenSys/usr/bin/find
 /QOpenSys/usr/lib/libc.a
 /QOpenSys/usr/lib/libpthreads.a
 /QOpenSys/usr/lib/libthread.a
@@ -134,32 +136,17 @@
 /QOpenSys/usr/lib/libcurses.a
 /QOpenSys/usr/lib/X11/XKeysymDB
 /QOpenSys/usr/lib/X11/XErrorDB
-/QOpenSys/usr/bin/ar
-/QOpenSys/usr/bin/dump
-/QOpenSys/usr/bin/nm
 /QOpenSys/usr/bin/expr
 /QOpenSys/usr/bin/uniq
 /QOpenSys/usr/bin/sort
 /QOpenSys/usr/bin/echo
-/QOpenSys/usr/bin/as
-/QOpenSys/usr/bin/ld
-/QOpenSys/usr/lib/crt0.o
-/QOpenSys/usr/lib/crt0_64.o
-/QOpenSys/usr/lib/crt0_r.o
-/QOpenSys/usr/lib/crti.o
-/QOpenSys/usr/lib/crti_64.o
-/QOpenSys/usr/lib/glink.o
-/QOpenSys/usr/lib/glink64.o
-/QOpenSys/usr/lib/bind
-/QOpenSys/usr/lib/libbind.a
+/QOpenSys/usr/bin/sed
+/QOpenSys/usr/bin/date
 /QOpenSys/usr/lib/libdb400.a
 /QOpenSys/usr/lib/libnsl.a
 /QOpenSys/usr/lib/libtli.a
-/QOpenSys/usr/lib/libdbx.a
-/QOpenSys/usr/bin/dbx
-/QOpenSys/usr/lib/libdecNumber.a
-/QOpenSys/usr/lib/libpthdebug.a
-/QOpenSys/usr/lib/libcdebug.a
+/QOpenSys/usr/lib/libm.a
+/QOpenSys/usr/bin/ar
 
 #
 # copy dirs list
@@ -170,7 +157,6 @@
 #
 :cp_dir
 /QOpenSys/usr/ccs
-/QOpenSys/QIBM/ProdData/SC1
 
 #
 # tar list
@@ -200,7 +186,6 @@
 # ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
 #
 :ln
-/QOpenSys/opt /opt
 /QOpenSys/usr/sbin /sbin
 /QOpenSys/usr/bin /bin
 /QOpenSys/usr/lib /lib
@@ -213,6 +198,9 @@
 /QOpenSys/usr/lib /QOpenSys/lib
 /QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libs.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc128.a
+/QOpenSys/usr/lib/libC.a /QOpenSys/usr/lib/libC128.a
 
 #
 # run shell command

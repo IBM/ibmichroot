@@ -1,0 +1,60 @@
+https://bitbucket.org/litmis/ibmichroot/src (see pkg_perzl_gcc-4.6.2.lst)
+===============================
+installation
+===============================
+CRTUSRPRF USRPRF(WILDBILL) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(WILDBILL) LOCALE(*NONE) HOMEDIR('/QOpenSys/wildbill/./home/wildbill')
+
+-- outside chroot --
+$ mkdir -p /QOpenSys/wildbill/home/wildbill
+$ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+-- ftp from Yips until PTF available --
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/wildbill
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/wildbill
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/wildbill
+-- additional for compiling PASE projects ---
+$ ./chroot_setup.sh chroot_bins.lst /QOpenSys/wildbill
+$ ./chroot_setup.sh chroot_libs.lst /QOpenSys/wildbill
+$ ./chroot_setup.sh chroot_includes.lst /QOpenSys/wildbill
+-- additional setup if another profile (careful must use chroot) --
+$ chroot /QOpenSys/wildbill /bin/bsh
+$ cd /
+$ chown -R wildbill .
+$ exit
+-- back outside chroot --
+
+-- inside chroot --
+$ ssh -X wildbill@ut30p30
+wildbill@ut30p30's password: 
+-- if you see, use ksh --
+$ export PATH=/opt/freeware/bin:/usr/bin
+PATH=/opt/freeware/bin:/usr/bin: is not an identifier
+-- if you see, use ksh --
+$ ksh 
+$ export PATH=/opt/freeware/bin:/usr/bin
+$ export LIBPATH=/opt/freeware/lib:/usr/lib
+$ cd /QOpenSys/QIBM/ProdData/OPS/GCC
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ bash
+bash-4.3$ ./pkg_setup.sh pkg_perzl_gcc-4.6.2.lst
+-- check --
+bash-4.3$ gcc --version
+gcc (GCC) 4.6.2
+Copyright (C) 2011 Free Software Foundation, Inc.
+
+
+===============================
+IBM i no internet, use linux
+===============================
+-- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
+$ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
+$ ./pkg_setup.sh pkg_perzl_gcc-4.6.2.lst
+
+===============================
+Start over (rm -R destroy all)?
+===============================
+-- outside chroot --
+$ cd /QOpenSys
+$ rm -R wildbill
+

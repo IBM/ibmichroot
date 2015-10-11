@@ -16,17 +16,4 @@
 /QOpenSys/QIBM/ProdData/Node
 
 
-#
-# fix relative links list
-# (
-#   cd $CHROOT_DIR/QOpenSys/usr/bin/
-#   ln node ../../QIBM/ProdData/Node/bin/node
-# )
-#
-:ln_fix_rel
-/QOpenSys/usr/bin/node ../../QIBM/ProdData/Node/bin/node
-/QOpenSys/usr/bin/npm  ../../QIBM/ProdData/Node/bin/npm
-/QOpenSys/usr/lib/libgcc_s.a  ../../QIBM/ProdData/Node/lib/libgcc_s.a
-/QOpenSys/usr/lib/libstdc++.a  ../../QIBM/ProdData/Node/lib/libstdc++.a
-
 
