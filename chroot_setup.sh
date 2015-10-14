@@ -172,7 +172,7 @@ function chroot_sh {
 function chroot_setup {  
   # copy needed PASE binaries
   action=""
-  while read name <&3; do
+  while read -r name <&3; do
     case "$name" in
       "")
         # echo "empty"

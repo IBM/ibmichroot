@@ -33,11 +33,15 @@
 /QOpenSys/usr/include
 /QOpenSys/usr/bin/X11
 /QOpenSys/usr/lib/X11
-/dev
 /dev/pts
+/dev/xti
 /tmp
 /home
 /usr
+/QOpenSys/usr/icu4c/lib
+/QOpenSys/usr/lib/lex
+/QOpenSys/usr/ccs/bin
+/QOpenSys/usr/ccs/lib
 
 #
 # make dev nodes
@@ -58,95 +62,364 @@
 /dev/pts/7 c 32947 7
 /dev/pts/8 c 32947 8
 /dev/pts/9 c 32947 9
+# /dev/console c 32944 0
+# /dev/ptc c 32951 32946
+# /dev/ptyp0 c 32948 0
+# /dev/ptyp1 c 32948 1
+# /dev/ptyp2 c 32948 2
+# /dev/ptyp3 c 32948 3
+# /dev/ptyp4 c 32948 4
+# /dev/ptyp5 c 32948 5
+# /dev/ptyp6 c 32948 6
+# /dev/ptyp7 c 32948 7
+# /dev/ptyp8 c 32948 8
+# /dev/ptyp9 c 32948 9
+# /dev/ttyp0 c 32949 0
+# /dev/ttyp1 c 32949 1
+# /dev/ttyp2 c 32949 2
+# /dev/ttyp3 c 32949 3
+# /dev/ttyp4 c 32949 4
+# /dev/ttyp5 c 32949 5
+# /dev/ttyp6 c 32949 6
+# /dev/ttyp7 c 32949 7
+# /dev/ttyp8 c 32949 8
+# /dev/ttyp9 c 32949 9
+# /dev/ttyq0 c 32949 0
+# /dev/ttyq1 c 32949 1
+# /dev/ttyq2 c 32949 2
+# /dev/ttyq3 c 32949 3
+# /dev/ttyq4 c 32949 4
+# /dev/ttyq5 c 32949 5
+# /dev/ttyq6 c 32949 6
+# /dev/ttyq7 c 32949 7
+# /dev/ttyq8 c 32949 8
+# /dev/ttyq9 c 32949 9
+# /dev/xti/tcp c 32951 32952
+# /dev/xti/udp c 32951 32953
 
 #
 # copy single files
 # (/path/name path/.)
 #
 :cp
-/QOpenSys/usr/sbin/restore
-/QOpenSys/usr/sbin/restbyname
+/QOpenSys/usr/sbin/chroot
+/QOpenSys/usr/sbin/dbx_server
+/QOpenSys/usr/sbin/dump
 /QOpenSys/usr/sbin/execerror
-/QOpenSys/usr/bin/csh
-/QOpenSys/usr/bin/sh
-/QOpenSys/usr/bin/bsh
-/QOpenSys/usr/bin/ksh
-/QOpenSys/usr/bin/cd
-/QOpenSys/usr/bin/dspmsg
-/QOpenSys/usr/bin/which
-/QOpenSys/usr/bin/pwd
-/QOpenSys/usr/bin/ls
-/QOpenSys/usr/bin/ln
-/QOpenSys/usr/bin/mkdir
-/QOpenSys/usr/bin/rmdir
-/QOpenSys/usr/bin/rm
-/QOpenSys/usr/bin/cp
-/QOpenSys/usr/bin/mv
-/QOpenSys/usr/bin/cat
-/QOpenSys/usr/bin/head
-/QOpenSys/usr/bin/tail
-/QOpenSys/usr/bin/chown
-/QOpenSys/usr/bin/chmod
-/QOpenSys/usr/bin/env
-/QOpenSys/usr/bin/grep
-/QOpenSys/usr/bin/kill
-/QOpenSys/usr/bin/ps
-/QOpenSys/usr/bin/sleep
-/QOpenSys/usr/bin/touch
-/QOpenSys/usr/bin/uname
-/QOpenSys/usr/bin/dd
-/QOpenSys/usr/bin/tr
-/QOpenSys/usr/bin/test
-/QOpenSys/usr/bin/read
-/QOpenSys/usr/bin/dirname
-/QOpenSys/usr/bin/basename
+/QOpenSys/usr/sbin/mknod
+/QOpenSys/usr/sbin/restbyname
+/QOpenSys/usr/sbin/restore
+/QOpenSys/usr/sbin/slibclean
+/QOpenSys/usr/sbin/snapcore
+# /QOpenSys/usr/sbin/sshd
+/QOpenSys/usr/sbin/syslogd
+/QOpenSys/usr/sbin/trace
+# bin (new)
+/QOpenSys/usr/bin/Rfile
+# /QOpenSys/usr/bin/X
+/QOpenSys/usr/bin/admin
+# /QOpenSys/usr/bin/aixterm
+/QOpenSys/usr/bin/alias
+/QOpenSys/usr/bin/apply
+/QOpenSys/usr/bin/ar
+/QOpenSys/usr/bin/as
 /QOpenSys/usr/bin/awk
-/QOpenSys/usr/bin/locale
-/QOpenSys/usr/bin/system
-/QOpenSys/usr/bin/tar
+/QOpenSys/usr/bin/banner
+/QOpenSys/usr/bin/basename
+/QOpenSys/usr/bin/bc
+/QOpenSys/usr/bin/bdiff
+/QOpenSys/usr/bin/bfs
+# /QOpenSys/usr/bin/bind
+/QOpenSys/usr/bin/bsh
+/QOpenSys/usr/bin/cat
+/QOpenSys/usr/bin/cb
+/QOpenSys/usr/bin/chgrp
+/QOpenSys/usr/bin/chmod
+/QOpenSys/usr/bin/chown
+/QOpenSys/usr/bin/cksum
+/QOpenSys/usr/bin/clear
+/QOpenSys/usr/bin/cmp
+/QOpenSys/usr/bin/colrm
+/QOpenSys/usr/bin/comb
+/QOpenSys/usr/bin/comm
+/QOpenSys/usr/bin/compress
+/QOpenSys/usr/bin/cp
+/QOpenSys/usr/bin/cpio
+/QOpenSys/usr/bin/csh
+/QOpenSys/usr/bin/csplit
+/QOpenSys/usr/bin/cut
+/QOpenSys/usr/bin/date
+/QOpenSys/usr/bin/dbx
+/QOpenSys/usr/bin/dc
+/QOpenSys/usr/bin/dd
+/QOpenSys/usr/bin/delta
+/QOpenSys/usr/bin/df
+/QOpenSys/usr/bin/diff
+/QOpenSys/usr/bin/diff3
+# /QOpenSys/usr/bin/diff3prog
+# /QOpenSys/usr/bin/diffh
+/QOpenSys/usr/bin/dircmp
+/QOpenSys/usr/bin/dirname
+/QOpenSys/usr/bin/dspcat
+/QOpenSys/usr/bin/dspmsg
+/QOpenSys/usr/bin/du
+/QOpenSys/usr/bin/echo
+/QOpenSys/usr/bin/ed
+/QOpenSys/usr/bin/env
+/QOpenSys/usr/bin/ex
+/QOpenSys/usr/bin/expand
+/QOpenSys/usr/bin/expr
+# /QOpenSys/usr/bin/expreserve
+# /QOpenSys/usr/bin/exrecover
+/QOpenSys/usr/bin/false
+/QOpenSys/usr/bin/file
 /QOpenSys/usr/bin/find
-/QOpenSys/usr/lib/libc.a
-/QOpenSys/usr/lib/libpthreads.a
-/QOpenSys/usr/lib/libthread.a
-/QOpenSys/usr/lib/libpthreads_compat.a
-/QOpenSys/usr/lib/libxlfpthrds_compat.a
-/QOpenSys/usr/lib/libiconv.a
-/QOpenSys/usr/lib/librtl.a
-/QOpenSys/usr/lib/libdl.a
-/QOpenSys/usr/lib/libbsd.a
-/QOpenSys/usr/lib/libcrypt.a
-/QOpenSys/usr/lib/libcrypto.a
+/QOpenSys/usr/bin/fold
+/QOpenSys/usr/bin/gencat
+/QOpenSys/usr/bin/get
+/QOpenSys/usr/bin/getconf
+/QOpenSys/usr/bin/getopt
+/QOpenSys/usr/bin/grep
+/QOpenSys/usr/bin/head
+/QOpenSys/usr/bin/hostname
+/QOpenSys/usr/bin/iconv
+/QOpenSys/usr/bin/id
+/QOpenSys/usr/bin/indent
+/QOpenSys/usr/bin/install
+/QOpenSys/usr/bin/java
+/QOpenSys/usr/bin/join
+/QOpenSys/usr/bin/kill
+/QOpenSys/usr/bin/ksh
+/QOpenSys/usr/bin/ksh93
+/QOpenSys/usr/bin/ld
+/QOpenSys/usr/bin/ldedit
+/QOpenSys/usr/bin/lex
+/QOpenSys/usr/bin/line
+/QOpenSys/usr/bin/ln
+/QOpenSys/usr/bin/locale
+/QOpenSys/usr/bin/locale64
+/QOpenSys/usr/bin/logger
+/QOpenSys/usr/bin/logname
+/QOpenSys/usr/bin/look
+/QOpenSys/usr/bin/lorder
+/QOpenSys/usr/bin/ls
+/QOpenSys/usr/bin/m4
+/QOpenSys/usr/bin/make
+/QOpenSys/usr/bin/makekey
+/QOpenSys/usr/bin/mkcatdefs
+/QOpenSys/usr/bin/mkdir
+/QOpenSys/usr/bin/mkfifo
+# /QOpenSys/usr/bin/mkfontdir
+/QOpenSys/usr/bin/more
+/QOpenSys/usr/bin/mv
+# /QOpenSys/usr/bin/mwm
+/QOpenSys/usr/bin/newform
+/QOpenSys/usr/bin/nice
+/QOpenSys/usr/bin/nl
+/QOpenSys/usr/bin/nm
+/QOpenSys/usr/bin/nohup
+/QOpenSys/usr/bin/od
+/QOpenSys/usr/bin/pack
+/QOpenSys/usr/bin/pagesize
+/QOpenSys/usr/bin/paste
+/QOpenSys/usr/bin/patch
+/QOpenSys/usr/bin/pax
+/QOpenSys/usr/bin/pcat
+/QOpenSys/usr/bin/pg
+/QOpenSys/usr/bin/pr
+/QOpenSys/usr/bin/printf
+/QOpenSys/usr/bin/prs
+/QOpenSys/usr/bin/ps
+/QOpenSys/usr/bin/pwd
+/QOpenSys/usr/bin/qsh
+/QOpenSys/usr/bin/qsh_out
+/QOpenSys/usr/bin/ranlib
+/QOpenSys/usr/bin/regcmp
+# /QOpenSys/usr/bin/resize
+/QOpenSys/usr/bin/rev
+# /QOpenSys/usr/bin/rgb
+/QOpenSys/usr/bin/rm
+/QOpenSys/usr/bin/rmdel
+/QOpenSys/usr/bin/rtl_enable
+/QOpenSys/usr/bin/runcat
+/QOpenSys/usr/bin/sccs
+/QOpenSys/usr/bin/sccsdiff
+/QOpenSys/usr/bin/sdiff
+/QOpenSys/usr/bin/sed
+/QOpenSys/usr/bin/setmaps
+/QOpenSys/usr/bin/size
+/QOpenSys/usr/bin/sleep
+/QOpenSys/usr/bin/sort
+/QOpenSys/usr/bin/split
+# /QOpenSys/usr/bin/start32
+# /QOpenSys/usr/bin/start64
+/QOpenSys/usr/bin/strings
+/QOpenSys/usr/bin/strip
+/QOpenSys/usr/bin/stty
+/QOpenSys/usr/bin/sum
+/QOpenSys/usr/bin/system
+/QOpenSys/usr/bin/tab
+/QOpenSys/usr/bin/tabs
+/QOpenSys/usr/bin/tail
+/QOpenSys/usr/bin/tar
+/QOpenSys/usr/bin/tee
+/QOpenSys/usr/bin/termdef
+/QOpenSys/usr/bin/test
+/QOpenSys/usr/bin/tic
+/QOpenSys/usr/bin/time
+/QOpenSys/usr/bin/touch
+/QOpenSys/usr/bin/tput
+/QOpenSys/usr/bin/tr
+/QOpenSys/usr/bin/true
+/QOpenSys/usr/bin/tset
+/QOpenSys/usr/bin/tsort
+/QOpenSys/usr/bin/tty
+/QOpenSys/usr/bin/uname
+/QOpenSys/usr/bin/unexpand
+/QOpenSys/usr/bin/unget
+/QOpenSys/usr/bin/unifdef
+/QOpenSys/usr/bin/uniq
+/QOpenSys/usr/bin/unpack
+/QOpenSys/usr/bin/val
+/QOpenSys/usr/bin/vc
+/QOpenSys/usr/bin/wc
+/QOpenSys/usr/bin/what
+/QOpenSys/usr/bin/which
+/QOpenSys/usr/bin/xargs
+# /QOpenSys/usr/bin/xauth
+# /QOpenSys/usr/bin/xfs
+# /QOpenSys/usr/bin/xhost
+# /QOpenSys/usr/bin/xlsfonts
+# /QOpenSys/usr/bin/xmodmap
+# /QOpenSys/usr/bin/xset
+# /QOpenSys/usr/bin/xterm
+# /QOpenSys/usr/bin/xwd
+# /QOpenSys/usr/bin/xwininfo
+# /QOpenSys/usr/bin/xwud
+/QOpenSys/usr/bin/yacc
+/QOpenSys/usr/bin/yes
+# bin (new end)
+# libs (new)
+# /QOpenSys/usr/lib/aix.mk
+/QOpenSys/usr/lib/as400_libc.exp
+/QOpenSys/usr/lib/crt0.o
+/QOpenSys/usr/lib/crt0_64.o
+/QOpenSys/usr/lib/crti.o
+/QOpenSys/usr/lib/crti_64.o
+/QOpenSys/usr/lib/glink.o
+/QOpenSys/usr/lib/glink64.o
+/QOpenSys/usr/lib/lib.b
 /QOpenSys/usr/lib/libC.a
-/QOpenSys/usr/lib/libz.a
-/QOpenSys/usr/bin/X11/xauth
-/QOpenSys/usr/bin/X11/xhost
-/QOpenSys/usr/lib/libgair4.a
-/QOpenSys/usr/lib/libgaimisc.a
+/QOpenSys/usr/lib/libC128.a
+/QOpenSys/usr/lib/libICE.a
+/QOpenSys/usr/lib/libIM.a
+/QOpenSys/usr/lib/libMrm.a
+/QOpenSys/usr/lib/libPW.a
+/QOpenSys/usr/lib/libSM.a
+/QOpenSys/usr/lib/libUil.a
+/QOpenSys/usr/lib/libX11.a
+/QOpenSys/usr/lib/libXaw.a
+/QOpenSys/usr/lib/libXext.a
+/QOpenSys/usr/lib/libXi.a
+/QOpenSys/usr/lib/libXm.a
+/QOpenSys/usr/lib/libXmu.a
 /QOpenSys/usr/lib/libXp.a
 /QOpenSys/usr/lib/libXpm.a
-/QOpenSys/usr/lib/libXext.a
-/QOpenSys/usr/lib/libi18n.a
-/QOpenSys/usr/lib/libIM.a
-/QOpenSys/usr/lib/libXi.a
-/QOpenSys/usr/lib/libICE.a
-/QOpenSys/usr/lib/libSM.a
-/QOpenSys/usr/lib/libXm.a
-/QOpenSys/usr/lib/libX11.a
+/QOpenSys/usr/lib/libXrender.a
 /QOpenSys/usr/lib/libXt.a
-/QOpenSys/usr/lib/libcurses.a
+/QOpenSys/usr/lib/libXtst.a
+/QOpenSys/usr/lib/libbind.a
+/QOpenSys/usr/lib/libbsd.a
+/QOpenSys/usr/lib/libc.a
+/QOpenSys/usr/lib/libc128.a
+/QOpenSys/usr/lib/libcdebug.a
+/QOpenSys/usr/lib/libcrypt.a
+/QOpenSys/usr/lib/libcur.a
+/QOpenSys/usr/lib/libdb400.a
+/QOpenSys/usr/lib/libdb400.exp
+/QOpenSys/usr/lib/libdbm.a
+/QOpenSys/usr/lib/libdbx.a
+/QOpenSys/usr/lib/libdecNumber.a
+/QOpenSys/usr/lib/libdl.a
+/QOpenSys/usr/lib/libg.a
+/QOpenSys/usr/lib/libg.exp
+/QOpenSys/usr/lib/libgaimisc.a
+/QOpenSys/usr/lib/libgair4.a
+/QOpenSys/usr/lib/libi18n.a
+/QOpenSys/usr/lib/libiconv.a
+/QOpenSys/usr/lib/libl.a
+/QOpenSys/usr/lib/libld.a
+/QOpenSys/usr/lib/libm.a
+/QOpenSys/usr/lib/libnsl.a
+/QOpenSys/usr/lib/libpmapi.a
+/QOpenSys/usr/lib/libpthdebug.a
+/QOpenSys/usr/lib/libpthreads.a
+/QOpenSys/usr/lib/libpthreads_compat.a
+/QOpenSys/usr/lib/librtl.a
+/QOpenSys/usr/lib/libta400.a
+/QOpenSys/usr/lib/libthread.a
+/QOpenSys/usr/lib/libtli.a
+# /QOpenSys/usr/lib/libcurses.a
+/QOpenSys/usr/lib/libxcurses.a
+/QOpenSys/usr/lib/libxlf90_r.a
+/QOpenSys/usr/lib/libxlfpthrds_compat.a
+/QOpenSys/usr/lib/libxlomp_ser.a
+/QOpenSys/usr/lib/libxlsmp.a
+/QOpenSys/usr/lib/libxti.a
+/QOpenSys/usr/lib/liby.a
+# /QOpenSys/usr/lib/loadAbx
+# /QOpenSys/usr/lib/loadddx
+# /QOpenSys/usr/lib/ncform
+# /QOpenSys/usr/lib/posix.mk
+/QOpenSys/usr/lib/yaccpar
+# X11 needed
 /QOpenSys/usr/lib/X11/XKeysymDB
 /QOpenSys/usr/lib/X11/XErrorDB
-/QOpenSys/usr/bin/expr
-/QOpenSys/usr/bin/uniq
-/QOpenSys/usr/bin/sort
-/QOpenSys/usr/bin/echo
-/QOpenSys/usr/bin/sed
-/QOpenSys/usr/bin/date
-/QOpenSys/usr/lib/libdb400.a
-/QOpenSys/usr/lib/libnsl.a
-/QOpenSys/usr/lib/libtli.a
-/QOpenSys/usr/lib/libm.a
-/QOpenSys/usr/bin/ar
+# bin to lib
+/QOpenSys/usr/lib/bind
+/QOpenSys/usr/lib/expreserve
+/QOpenSys/usr/lib/exrecover
+/QOpenSys/usr/lib/start32
+/QOpenSys/usr/lib/start64
+#lex
+/QOpenSys/usr/lib/lex/ncform
+# icu4c
+/QOpenSys/usr/icu4c/lib/libicudata.a
+/QOpenSys/usr/icu4c/lib/libicui18n.a
+/QOpenSys/usr/icu4c/lib/libicuio.a
+/QOpenSys/usr/icu4c/lib/libicule.a
+/QOpenSys/usr/icu4c/lib/libiculx.a
+/QOpenSys/usr/icu4c/lib/libicutest.a
+/QOpenSys/usr/icu4c/lib/libicutu.a
+/QOpenSys/usr/icu4c/lib/libicuuc.a
+# bin to bin/X11
+/QOpenSys/usr/bin/X11/X
+/QOpenSys/usr/bin/X11/aixterm
+/QOpenSys/usr/bin/X11/mkfontdir
+/QOpenSys/usr/bin/X11/mwm
+/QOpenSys/usr/bin/X11/resize
+/QOpenSys/usr/bin/X11/rgb
+/QOpenSys/usr/bin/X11/xauth
+/QOpenSys/usr/bin/X11/xfs
+/QOpenSys/usr/bin/X11/xhost
+/QOpenSys/usr/bin/X11/xlsfonts
+/QOpenSys/usr/bin/X11/xmodmap
+/QOpenSys/usr/bin/X11/xset
+/QOpenSys/usr/bin/X11/xterm
+/QOpenSys/usr/bin/X11/xwd
+/QOpenSys/usr/bin/X11/xwininfo
+/QOpenSys/usr/bin/X11/xwud
+# usr/css/lib
+/QOpenSys/usr/ccs/lib/aix.mk
+/QOpenSys/usr/ccs/lib/posix.mk
+# sc1, may not be here
+/QOpenSys/usr/lib/libz.a
+/QOpenSys/usr/lib/libz.so
+/QOpenSys/usr/lib/libssl.a
+/QOpenSys/usr/lib/libcrypto.a
+# libs (new end)
+
+
 
 #
 # copy dirs list
@@ -196,11 +469,104 @@
 /QOpenSys/usr/sbin /QOpenSys/sbin
 /QOpenSys/usr/bin /QOpenSys/bin
 /QOpenSys/usr/lib /QOpenSys/lib
-/QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
+# alias
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/bg
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/cd
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/command
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fc
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fg
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/getopts
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/hash
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/jobs
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/read
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/type
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/ulimit
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/umask
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/unalias
+/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/wait
+/QOpenSys/usr/bin/ksh /QOpenSys/usr/bin/sh
+# sbin to bin
+/QOpenSys/usr/sbin/chroot /QOpenSys/usr/bin/chroot
+/QOpenSys/usr/sbin/dump /QOpenSys/usr/bin/dump
+/QOpenSys/usr/sbin/trace /QOpenSys/usr/bin/trace
+/QOpenSys/usr/sbin/trcoff /QOpenSys/usr/bin/trace
+/QOpenSys/usr/sbin/trcon /QOpenSys/usr/bin/trace
+/QOpenSys/usr/sbin/trcstop /QOpenSys/usr/bin/trace
+# individual libs
+/QOpenSys/usr/lib/libC128.a /QOpenSys/usr/lib/libC128_r.a
+/QOpenSys/usr/lib/libC.a /QOpenSys/usr/lib/libC_r.a
+/QOpenSys/usr/lib/libbsd.a /QOpenSys/usr/lib/libbsd_r.a
+/QOpenSys/usr/lib/libc128.a /QOpenSys/usr/lib/libc_r.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_t.a
+/QOpenSys/usr/lib/libxcurses.a /QOpenSys/usr/lib/libcurses.a
+/QOpenSys/usr/lib/libm.a /QOpenSys/usr/lib/libm_r.a
+/QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/lib/libpthread.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libs.a
-/QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc128.a
-/QOpenSys/usr/lib/libC.a /QOpenSys/usr/lib/libC128.a
+/QOpenSys/usr/lib/libtli.a /QOpenSys/usr/lib/libtli_r.a
+# icu4c
+/QOpenSys/usr/icu4c/lib/libicudata.a /QOpenSys/usr/lib/libicudata.a
+/QOpenSys/usr/icu4c/lib/libicui18n.a /QOpenSys/usr/lib/libicui18n.a
+/QOpenSys/usr/icu4c/lib/libicuio.a /QOpenSys/usr/lib/libicuio.a
+/QOpenSys/usr/icu4c/lib/libicule.a /QOpenSys/usr/lib/libicule.a
+/QOpenSys/usr/icu4c/lib/libiculx.a /QOpenSys/usr/lib/libiculx.a
+/QOpenSys/usr/icu4c/lib/libicutest.a /QOpenSys/usr/lib/libicutest.a
+/QOpenSys/usr/icu4c/lib/libicutu.a /QOpenSys/usr/lib/libicutu.a
+/QOpenSys/usr/icu4c/lib/libicuuc.a /QOpenSys/usr/lib/libicuuc.a
+# usr/css/bin
+/QOpenSys/usr/bin/ar /QOpenSys/usr/ccs/bin/ar
+/QOpenSys/usr/bin/as /QOpenSys/usr/ccs/bin/as
+/QOpenSys/usr/lib/bind /QOpenSys/usr/ccs/bin/bind
+/QOpenSys/usr/bin/cb /QOpenSys/usr/ccs/bin/cb
+/QOpenSys/usr/bin/dbx /QOpenSys/usr/ccs/bin/dbx
+/QOpenSys/usr/bin/indent /QOpenSys/usr/ccs/bin/indent
+/QOpenSys/usr/bin/ld /QOpenSys/usr/ccs/bin/ld
+/QOpenSys/usr/bin/ldedit /QOpenSys/usr/ccs/bin/ldedit
+/QOpenSys/usr/lib/lex /QOpenSys/usr/ccs/bin/lex
+/QOpenSys/usr/bin/lorder /QOpenSys/usr/ccs/bin/lorder
+/QOpenSys/usr/bin/m4 /QOpenSys/usr/ccs/bin/m4
+/QOpenSys/usr/bin/make /QOpenSys/usr/ccs/bin/make
+/QOpenSys/usr/bin/makekey /QOpenSys/usr/ccs/bin/makekey
+/QOpenSys/usr/bin/nm /QOpenSys/usr/ccs/bin/nm
+/QOpenSys/usr/bin/ranlib /QOpenSys/usr/ccs/bin/ranlib
+/QOpenSys/usr/bin/regcmp /QOpenSys/usr/ccs/bin/regcmp
+/QOpenSys/usr/bin/rtl_enable /QOpenSys/usr/ccs/bin/rtl_enable
+/QOpenSys/usr/bin/size /QOpenSys/usr/ccs/bin/size
+/QOpenSys/usr/bin/strings /QOpenSys/usr/ccs/bin/strings
+/QOpenSys/usr/bin/strip /QOpenSys/usr/ccs/bin/strip
+/QOpenSys/usr/bin/tsort /QOpenSys/usr/ccs/bin/tsort
+/QOpenSys/usr/bin/yacc /QOpenSys/usr/ccs/bin/yacc
+# usr/css/lib
+/QOpenSys/usr/ccs/lib/aix.mk /QOpenSys/usr/lib/aix.mk
+/QOpenSys/usr/lib/crt0.o /QOpenSys/usr/ccs/lib/crt0.o
+/QOpenSys/usr/lib/crt0_64.o /QOpenSys/usr/ccs/lib/crt0_64.o
+/QOpenSys/usr/lib/crt0_r.o /QOpenSys/usr/ccs/lib/crt0_r.o
+/QOpenSys/usr/lib/crti.o /QOpenSys/usr/ccs/lib/crti.o
+/QOpenSys/usr/lib/crti_64.o /QOpenSys/usr/ccs/lib/crti_64.o
+/QOpenSys/usr/lib/lex /QOpenSys/usr/ccs/lib/lex
+/QOpenSys/usr/lib/libIM.a /QOpenSys/usr/ccs/lib/libIM.a
+/QOpenSys/usr/lib/libc.a /QOpenSys/usr/ccs/lib/libc.a
+/QOpenSys/usr/lib/libc_r.a /QOpenSys/usr/ccs/lib/libc_r.a
+/QOpenSys/usr/lib/libxcurses.a /QOpenSys/usr/ccs/lib/libcurses.a
+/QOpenSys/usr/lib/libdbm.a /QOpenSys/usr/ccs/lib/libdbm.a
+/QOpenSys/usr/lib/libdbx.a /QOpenSys/usr/ccs/lib/libdbx.a
+/QOpenSys/usr/lib/libdl.a /QOpenSys/usr/ccs/lib/libdl.a
+/QOpenSys/usr/lib/libi18n.a /QOpenSys/usr/ccs/lib/libi18n.a
+/QOpenSys/usr/lib/libl.a /QOpenSys/usr/ccs/lib/libl.a
+/QOpenSys/usr/lib/libld.a /QOpenSys/usr/ccs/lib/libld.a
+/QOpenSys/usr/lib/libm.a /QOpenSys/usr/ccs/lib/libm.a
+/QOpenSys/usr/lib/libm_r.a /QOpenSys/usr/ccs/lib/libm_r.a
+/QOpenSys/usr/lib/libpthdebug.a /QOpenSys/usr/ccs/lib/libpthdebug.a
+/QOpenSys/usr/lib/libpthread.a /QOpenSys/usr/ccs/lib/libpthread.a
+/QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/ccs/lib/libpthreads.a
+/QOpenSys/usr/lib/libpthreads_compat.a /QOpenSys/usr/ccs/lib/libpthreads_compat.a
+/QOpenSys/usr/lib/librtl.a /QOpenSys/usr/ccs/lib/librtl.a
+/QOpenSys/usr/lib/libthread.a /QOpenSys/usr/ccs/lib/libthread.a
+/QOpenSys/usr/lib/libxcurses.a /QOpenSys/usr/ccs/lib/libxcurses.a
+/QOpenSys/usr/lib/liby.a /QOpenSys/usr/ccs/lib/liby.a
+/QOpenSys/usr/ccs/lib/posix.mk /QOpenSys/usr/lib/posix.mk
+/QOpenSys/usr/lib/yaccpar /QOpenSys/usr/ccs/lib/yaccpar
 
 #
 # run shell command
@@ -217,7 +583,8 @@
 :chmod_dir
 # 0755 /
 0666 /dev
-0666 /dev/pts
+0766 /dev/pts
+# 0766 /dev/xti
 
 #
 # change ACL file
@@ -247,6 +614,5 @@
 :system
 # CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 # CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-
 
 

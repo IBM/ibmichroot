@@ -13,5 +13,7 @@
 #
 :tar_dir
 /QOpenSys/usr/lib/nls/loc
+/QOpenSys/usr/lib/X11
+/QOpenSys/usr/icu4c
 
 
