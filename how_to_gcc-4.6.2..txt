@@ -5,7 +5,7 @@ installation
 CRTUSRPRF USRPRF(WILDBILL) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
 CHGUSRPRF USRPRF(WILDBILL) LOCALE(*NONE) HOMEDIR('/QOpenSys/wildbill/./home/wildbill')
 
--- outside chroot --
+-- outside chroot (admin) --
 $ mkdir -p /QOpenSys/wildbill/home/wildbill
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
@@ -14,17 +14,11 @@ $ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/wildbill
 $ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/wildbill
 $ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/wildbill
 -- additional for compiling PASE projects ---
-$ ./chroot_setup.sh chroot_bins.lst /QOpenSys/wildbill
-$ ./chroot_setup.sh chroot_libs.lst /QOpenSys/wildbill
 $ ./chroot_setup.sh chroot_includes.lst /QOpenSys/wildbill
--- additional setup if another profile (careful must use chroot) --
-$ chroot /QOpenSys/wildbill /bin/bsh
-$ cd /
-$ chown -R wildbill .
-$ exit
--- back outside chroot --
+-- additional setup if another profile --
+$ chroot_chown.sh wildbill
 
--- inside chroot --
+-- inside chroot (wildbill) --
 $ ssh -X wildbill@ut30p30
 wildbill@ut30p30's password: 
 -- if you see, use ksh --

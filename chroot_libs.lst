@@ -2,6 +2,10 @@
 #   > ./chroot_setup.sh chroot_libs.lst /QOpenSys/root_path
 
 #
+# Note: This file is obsolete, use chroot_minimal
+# 
+
+#
 # tar list
 # ( example: /QOpenSys/usr/lib/nls/loc
 #    mkdir -p $CHROOT_DIR/QOpenSys/usr/lib/nls/loc
@@ -12,6 +16,6 @@
 # )
 #
 :tar_dir
-/QOpenSys/usr/lib
+# /QOpenSys/usr/lib
 
 
