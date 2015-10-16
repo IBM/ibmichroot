@@ -466,6 +466,7 @@
 /QOpenSys/usr/bin /usr/bin
 /QOpenSys/usr/lib /usr/lib
 /QOpenSys/usr/include /usr/include
+/QOpenSys/usr/ccs /usr/ccs
 /QOpenSys/usr/sbin /QOpenSys/sbin
 /QOpenSys/usr/bin /QOpenSys/bin
 /QOpenSys/usr/lib /QOpenSys/lib
@@ -486,6 +487,7 @@
 /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/unalias
 /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/wait
 /QOpenSys/usr/bin/ksh /QOpenSys/usr/bin/sh
+/QOpenSys/usr/bin/rm /QOpenSys/usr/bin/rmdir
 # sbin to bin
 /QOpenSys/usr/sbin/chroot /QOpenSys/usr/bin/chroot
 /QOpenSys/usr/sbin/dump /QOpenSys/usr/bin/dump
