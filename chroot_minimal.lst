@@ -429,7 +429,7 @@
 # )
 #
 :cp_dir
-/QOpenSys/usr/ccs
+# /QOpenSys/usr/ccs
 
 #
 # tar list
