@@ -38,8 +38,12 @@ function package_fix_libiconv {
       then
         echo "fixing /opt/freeware/lib/libiconv.a ..."
         ar -x /QOpenSys/usr/lib/libiconv.a
-        ar -rv /opt/freeware/lib/libiconv.a shr4.o
-        ar -rv /opt/freeware/lib/libiconv.a shr.o
+        # Argh Matie, we be needin' to make a ugly baby to fool the IFS Kraken
+        cp /opt/freeware/lib/libiconv.a /opt/freeware/lib/libiconv-lady-in-waiting.a
+        ar -rv /opt/freeware/lib/libiconv-lady-in-waiting.a shr4.o
+        ar -rv /opt/freeware/lib/libiconv-lady-in-waiting.a shr.o
+        rm /opt/freeware/lib/libiconv.a
+        cp /opt/freeware/lib/libiconv-lady-in-waiting.a /opt/freeware/lib/libiconv.a
       else
         echo "not IBM i, ignoring /opt/freeware/lib/libiconv.a ..."
       fi
