@@ -180,7 +180,7 @@ function chroot_setup {
       *#*)
         # echo "comment"
       ;;
-      *:*)
+      :*)
         # echo "action"
         action=$name
       ;;
