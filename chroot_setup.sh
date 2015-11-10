@@ -185,20 +185,6 @@ function chroot_setup {
         action=$name
       ;;
       *)
-        # replace command args with values
-        key=""
-        val=""
-        for i in $(echo $CHROOT_VARG | tr "=" "\n")
-        do
-          if ([ $key ]); then
-            val=$i
-            name=$(echo $name | sed s"|$key|$val|g")
-            key=""
-            val=""
-          else
-            key=$i
-          fi
-        done
         case "$action" in
           ":file")
              chroot_setup $name
@@ -281,9 +267,26 @@ if (($qopen==0)); then
 fi
 # run operation
 # $PS1='ranger$ '
+key=""
+val=""
+sed_cmd=""
+for i in $(echo $CHROOT_VARG | tr "=" "\n")
+do
+  if ([ $key ]); then
+    val=$i
+    sed_cmd="$sed_cmd -e 's|$key|$val|g'"
+    key=""
+    val=""
+  else
+    key=$i
+  fi
+done
+CHROOT_LIST_TMP=$CHROOT_LIST.$(date "+%Y%m%d.%H%M%S").tmp
+eval "sed $sed_cmd $CHROOT_LIST > $CHROOT_LIST_TMP"
 case "$opr" in
   -g)
-    chroot_setup $CHROOT_LIST
+    chroot_setup $CHROOT_LIST_TMP
+    rm $CHROOT_LIST_TMP
     echo "============"
     echo "chroot command:"
     echo "  > chroot $CHROOT_DIR /bin/bsh"
