@@ -269,7 +269,7 @@ fi
 # $PS1='ranger$ '
 key=""
 val=""
-sed_cmd=""
+sed_cmd="-e 's/1/1/g'" # Need this for when no global variables passed.
 for i in $(echo $CHROOT_VARG | tr "=" "\n")
 do
   if ([ $key ]); then
