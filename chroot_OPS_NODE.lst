@@ -15,5 +15,16 @@
 :cp_dir
 /QOpenSys/QIBM/ProdData/Node
 
+#
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+/QOpenSys/QIBM/ProdData/Node/bin/npm ../lib/node_modules/npm/bin/npm-cli.js
 
 
