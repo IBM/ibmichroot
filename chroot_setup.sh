@@ -265,6 +265,7 @@ if (($qopen==0)); then
   echo "Error: 2nd paramter must start /QOpenSys ($CHROOT_DIR)"
   opr="error"
 fi
+mkdir -p $CHROOT_DIR
 # run operation
 # $PS1='ranger$ '
 key=""
