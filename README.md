@@ -1,15 +1,23 @@
 #IBM i Chroot
-This is a set of scripts and config files that facilitate create chroot environments on IBM i in the IFS.
-#Instructions
-You can find setup instructions on [YiPs](http://yips.idevcloud.com/wiki/index.php/PASE/OpenSourceBeta).
+The IBM i Chroot project is delivered with license program `5733OPS` option 3 (PTF  `SI58604`) and is comprised of two primary components:
+
+- **Package installation.**  Packages are obtained from perzl.org via the `pkg_setup.sh` script and are in `rpm` format.  These packages can be installed either inside or outside of a Chroot environment
+- **Chroot environment creation.** Chroot (Change Root) is a PASE command used to change the relative root of a IBM i shell job.  Read [this article](http://bit.ly/ibmsystemsmag-chroot) for more info on Chroot in PASE.
+
+The original setup instructions are on [YiPs](http://yips.idevcloud.com/wiki/index.php/PASE/OpenSourceBeta) and will eventually be migrated here.
 
 #Chroot Setup
-chroot_setup.sh -- set up chroot (optional)
+chroot_setup.sh -- set up chroot (optional, you could skip to **Package Setup** below)
 ```
-> .chroot_setup.sh -help
-> .chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path [dynamic global variables]
+$ chroot_setup.sh -help
+$ chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path [dynamic global variables]
+
 ```
 ##Chroot config files
+The `.lst` files that start with `chroot...` are meant for creating chroot environments based on specific needs.  For example, you can create a bare minimum chroot environment with `chroot_minimal.lst`.  Or you could create a Node.js environment with `chroot_OPS_NODE.lst`.  Or you could add multiple `chroot...lst` files together to create an environment with many features.
+
+**IBMSystemsMag.com article coming in Jan/Feb 2016 to further describe this**
+
 - chroot_minimal.lst         -- minimal PASE chroot env (/bin, /dev, /usr, ...)
 - chroot_bins.lst            -- copy most of PASE /usr/bin (gcc development)
 - chroot_includes.lst        -- copy most of PASE /usr/lib (gcc development)
@@ -27,7 +35,7 @@ chroot_setup.sh -- set up chroot (optional)
 You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
 
 ```
-chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path myuser=AARON
+$ chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path myuser=AARON
 ```
 And then in your `.lst` file you could have this:
 ```
@@ -36,12 +44,23 @@ CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 ```
 
 #Package Setup
-pkg_setup.sh -- download and install perzl.org rpms (chroot optional)
+The `pkg_setup.sh` script can be run inside or outside a chroot environment. Use `pkg_setup.sh -help` to learn more about the command and see example invocation.
+
 ```
-> ./pkg_setup.sh -help
-> ./pkg_setup.sh pkg_gcc-4.6.2.lst
+$ pkg_setup.sh -help
+./pkg_setup.sh [-w|-i|-a|-k] /path/pkg_*.lst
+   -a - wget and install rpm list (default)
+   -w - wget rpm list (no install)
+   -i - install rpm list (no wget)
+   -k - remove rpm list (destructive)
+   fix - fix perzl libiconv
+Example:
+  ./pkg_setup.sh pkg_gcc-4.6.2.lst
 ```
+
 ##Package config files
+A number of packages (`.lst` files) are already setup, though you can create your own (and even contribute them back to this repo via pull request!).
+
 - pkg_perzl_gcc-4.6.2.lst    -- gcc environment 4.6.2 widely used IBM i products (recommend)
 - pkg_perzl_gcc-4.8.3.lst    -- newer gcc environment 4.8.3, may not work existing products
 - pkg_perzl_perl-5.8.8.lst   -- better perl over 5799PTL toolkit
