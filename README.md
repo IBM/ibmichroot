@@ -69,6 +69,17 @@ A number of packages (`.lst` files) are already setup, though you can create you
 - pkg_perzl_utils.lst        -- zips, sed, tar, it's all in here
 - pkg_setup.sh
 
+##Package UnInstall
+**DANGER**  Be very careful when uninstalling things because one package might be a dependency of another.  For example, let's say you installed Git and GCC.  Then at a later date you determined GCC wasn't needed.  If you uninstalled all the GCC dependencies listed in `pkg_perzl_gcc-4.8.3.lst`, including bash, then you'd be deleting a Git dependency (bash).
+
+Armed with the above knowledge/warning, to uninstall a single package you can run the following command.
+
+```
+rpm --nodeps -e git
+```
+
+**Side note:** This is yet another reason to create chroot environments instead of installing packages globally, because if you hose something in a chroot environment you can simply recreate it.  If you hose something in base PASE, well, good luck, and you've been warned.
+
 #Other Files
 - README.txt                  -- this readme
 - rpm.rte                     -- rpm installer (set up during pkg_setup.sh)
