@@ -123,9 +123,9 @@ function chroot_tar_dir {
   fi
 }
 function chroot_chmod {
-  echo "chmod $1 $CHROOT_DIR$2"
+  echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c \"chmod $1 $2\""
   if (($CHROOT_DEBUG==0)); then
-    chmod $1 $CHROOT_DIR$2
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chmod $1 $2" 
   fi
 }
 function chroot_chmod_dir {
@@ -134,9 +134,9 @@ function chroot_chmod_dir {
   else
     all="/*"
   fi
-  echo "chmod -R $1 $CHROOT_DIR$2$all"
+  echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c \"chmod -R $1 $2$all\""
   if (($CHROOT_DEBUG==0)); then
-    chmod -R $1 $CHROOT_DIR$2$all
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chmod -R $1 $2$all"
   fi
 }
 function chroot_chown {
