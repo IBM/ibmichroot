@@ -1,5 +1,5 @@
 # Command:
-#   > ./pkg_setup.sh pkg_git-2.2.2-1.lst
+#   > ./pkg_setup.sh pkg_perzl_git-2.2.2-1.lst
 # Use:
 #   > export PATH=/opt/freeware/bin:$PATH
 #   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
