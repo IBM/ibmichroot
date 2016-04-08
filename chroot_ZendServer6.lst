@@ -1,6 +1,10 @@
 # Command:
 #   > ./chroot_setup.sh chroot_ZendServer6.lst /QOpenSys/root_path
 #
+# Note: 
+#  To stop iconv errors such as "QIconvCodec::convertFromUnicode: using Latin-1 for conversion, iconv_open failed,"
+#  you may copy in NLS files: ./chroot_setup.sh chroot_nls.lst /QOpenSys/root_path
+#
 
 #
 # tar list
