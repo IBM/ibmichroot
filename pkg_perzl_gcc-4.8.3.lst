@@ -39,6 +39,7 @@ http://www.oss4aix.org/download/RPMS/gcc/gcc-cpp-4.8.3-1.aix6.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/gcc/libgcc-4.8.3-1.aix6.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/gcc/libgomp-4.8.3-1.aix6.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/gcc/libstdc++-4.8.3-1.aix6.1.ppc.rpm
+http://www.oss4aix.org/download/RPMS/gcc/libstdc++-devel-4.8.3-1.aix6.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/mpfr/mpfr-3.1.2-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/gmp/gmp-6.0.0a-1.aix5.1.ppc.rpm
 http://www.oss4aix.org/download/RPMS/libmpc/libmpc-1.0.2-1.aix5.1.ppc.rpm
