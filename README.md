@@ -86,4 +86,4 @@ rpm --nodeps -e git
 - wget-1.9.1-1.aix5.1.ppc.rpm -- slim version wget for perzl wegt rpms 
 
 #License
-BSD
+MIT.  View [`LICENSE`](https://bitbucket.org/litmis/ibmichroot/src) file.
