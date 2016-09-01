@@ -71,8 +71,7 @@ View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustiv
 - pkg_perzl_gcc-4.6.2.lst    -- gcc environment 4.6.2 widely used IBM i products (recommend)
 - pkg_perzl_gcc-4.8.3.lst    -- newer gcc environment 4.8.3, may not work existing products
 - pkg_perzl_perl-5.8.8.lst   -- better perl over 5799PTL toolkit
-- pkg_perzl_python-2.6.8.lst -- most popular python for Linux (recommend)
-- pkg_perzl_python-2.7.5.lst -- last great python 2, too bad not widely used (hint)
+- pkg_perzl_python-2.7.5.lst -- Please note [IBM ships both Python 2.x and 3.x as part of 5733OPS](http://bit.ly/ibmi-python)
 - pkg_perzl_utils.lst        -- zips, sed, tar, it's all in here
 - pkg_setup.sh
 
