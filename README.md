@@ -16,7 +16,8 @@ $ chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path [dynamic global variabl
 ##Chroot config files
 The `.lst` files that start with `chroot...` are meant for creating chroot environments based on specific needs.  For example, you can create a bare minimum chroot environment with `chroot_minimal.lst`.  Or you could create a Node.js environment with `chroot_OPS_NODE.lst`.  Or you could add multiple `chroot...lst` files together to create an environment with many features.
 
-**IBMSystemsMag.com article coming in Jan/Feb 2016 to further describe this**
+View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustive list of `chroot_xxxx.lst` files.
+
 
 - chroot_minimal.lst         -- minimal PASE chroot env (/bin, /dev, /usr, ...)
 - chroot_bins.lst            -- copy most of PASE /usr/bin (gcc development)
@@ -30,6 +31,10 @@ The `.lst` files that start with `chroot...` are meant for creating chroot envir
 - chroot_ZendServer5.lst     -- copy Zend Server 5 into my chroot (PASE)
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
+
+**Articles about chroot: **
+[A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
+[A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
 
 ##Dynamic Global Variables
 You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
@@ -61,6 +66,8 @@ Example:
 ##Package config files
 A number of packages (`.lst` files) are already setup, though you can create your own (and even contribute them back to this repo via pull request!).
 
+View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustive list of `pkg_perzl_xxxx.lst` files.
+
 - pkg_perzl_gcc-4.6.2.lst    -- gcc environment 4.6.2 widely used IBM i products (recommend)
 - pkg_perzl_gcc-4.8.3.lst    -- newer gcc environment 4.8.3, may not work existing products
 - pkg_perzl_perl-5.8.8.lst   -- better perl over 5799PTL toolkit
@@ -81,7 +88,6 @@ rpm --nodeps -e git
 **Side note:** This is yet another reason to create chroot environments instead of installing packages globally, because if you hose something in a chroot environment you can simply recreate it.  If you hose something in base PASE, well, good luck, and you've been warned.
 
 #Other Files
-- README.txt                  -- this readme
 - rpm.rte                     -- rpm installer (set up during pkg_setup.sh)
 - wget-1.9.1-1.aix5.1.ppc.rpm -- slim version wget for perzl wegt rpms 
 
