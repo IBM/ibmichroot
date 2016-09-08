@@ -92,3 +92,8 @@ rpm --nodeps -e git
 
 #License
 MIT.  View [`LICENSE`](https://bitbucket.org/litmis/ibmichroot/src) file.
+
+#note to myself
+```
+scp -r * adc@ut28p63:/QOpenSys/yum/QOpenSys/QIBM/ProdData/OPS/GCC
+```
