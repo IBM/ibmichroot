@@ -35,5 +35,7 @@
 /QOpenSys/usr/bin/pyvenv ../../QIBM/ProdData/OPS/Python3.4/bin/pyvenv
 /QOpenSys/usr/bin/pyvenv-3.4 ../../QIBM/ProdData/OPS/Python3.4/bin/pyvenv-3.4
 /QOpenSys/usr/lib/libpython3.4m.so ../../QIBM/ProdData/OPS/Python3.4/lib/libpython3.4m.so
-
+/QOpenSys/usr/bin/python3-config ../../QIBM/ProdData/OPS/Python3.4/bin/python3-config
+/QOpenSys/usr/bin/python3.4-config ../../QIBM/ProdData/OPS/Python3.4/bin/python3.4-config
+/QOpenSys/usr/bin/python3.4m-config ../../QIBM/ProdData/OPS/Python3.4/bin/python3.4m-config
 

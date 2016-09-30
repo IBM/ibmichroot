@@ -1,0 +1,40 @@
+# Command:
+#   > ./chroot_setup.sh chroot_OPS_PYTHON.lst /QOpenSys/root_path
+
+#
+# copy dirs list
+# (
+#  mkdir -p $CHROOT_DIR/path
+#  cp -R  /path/* $CHROOT_DIR/path/.
+# )
+#
+:cp_dir
+/QOpenSys/QIBM/ProdData/OPS/Python2.7
+
+#
+# relative links list
+# (
+#   ls -l /QOpenSys/usr/bin/c_rehash
+#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
+#   cd $CHROOT_DIR/QOpenSys/usr/bin/
+#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
+# )
+#
+:ln_rel
+/QOpenSys/usr/bin/easy_install ../../QIBM/ProdData/OPS/Python2.7/bin/easy_install
+/QOpenSys/usr/bin/easy_install-2.7 ../../QIBM/ProdData/OPS/Python2.7/bin/easy_install-2.7
+/QOpenSys/usr/bin/pip ../../QIBM/ProdData/OPS/Python2.7/bin/pip
+/QOpenSys/usr/bin/pip2 ../../QIBM/ProdData/OPS/Python2.7/bin/pip2
+/QOpenSys/usr/bin/pip2.7 ../../QIBM/ProdData/OPS/Python2.7/bin/pip2.7
+/QOpenSys/usr/bin/pydoc ../../QIBM/ProdData/OPS/Python2.7/bin/pydoc 
+/QOpenSys/usr/bin/python ../../QIBM/ProdData/OPS/Python2.7/bin/python
+/QOpenSys/usr/bin/python2 ../../QIBM/ProdData/OPS/Python2.7/bin/python2
+/QOpenSys/usr/bin/python2.7 ../../QIBM/ProdData/OPS/Python2.7/bin/python2.7
+/QOpenSys/usr/lib/libpython2.7.so ../../QIBM/ProdData/OPS/Python2.7/lib/libpython2.7.so
+/QOpenSys/usr/bin/python-config ../../QIBM/ProdData/OPS/Python2.7/bin/python-config
+/QOpenSys/usr/bin/python2-config ../../QIBM/ProdData/OPS/Python2.7/bin/python2-config
+/QOpenSys/usr/bin/python2.7-config ../../QIBM/ProdData/OPS/Python2.7/bin/python2.7-config
+
+
+
+
