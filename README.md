@@ -32,7 +32,7 @@ View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustiv
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
 
-**new generate .lst files from PTF manifest ***
+**new generate .lst files from PTF manifest **
 ```
 $ ./gen_chroot_OPS_lst 
 
