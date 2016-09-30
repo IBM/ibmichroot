@@ -1,0 +1,98 @@
+#!/QOpenSys/usr/bin/python
+# build os400 spec files from perzl/toolkit rpms
+# usage: os400repackage dir
+import os
+from subprocess import Popen, PIPE
+import sys
+
+rootDir = '/QOpenSys/QIBM/ProdData/OPS/.'
+hereDir = './'
+
+myspecs = {}
+
+for dirName, subdirList, fileList in os.walk(rootDir):
+  print('\n---Directory ... ' + dirName +'---')
+  for anyfile in fileList:
+    akey = ""
+    print("Found ... " + anyfile)
+    if '.qptfinf.' in anyfile:
+      print("Reading ... " + anyfile)
+
+      # .qptfinf.QPYTHON.dat
+      # 01       2       3
+      part = anyfile.split('.')
+      myspec = ""
+      myspec_comment = ""
+      myspec_comment += "#\n"
+      myspec_dirs = "\n:cp_dir\n"
+      myspec_links = "\n:ln_rel\n"
+
+      pipe = Popen('iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/' + anyfile, shell=True, stdout=PIPE, close_fds=True)
+      lines = []
+      mydirs = []
+      mylinks = []
+      for line in pipe.stdout:
+        if '/' in line:
+          lines.append(line)
+
+      print("Processing ... " + anyfile)
+
+      # -----
+      # collecting dirs and links
+      for line in lines:
+        item = line.strip()
+        # print("item: " + item)
+        if '/QOpenSys/QIBM/ProdData/OPS/source' in item:
+          myspec_comment += "# ignore (source): " + item + "\n"
+        elif 'qptfinf' in item:
+          myspec_comment += "# ignore (qptfinf): " + item + "\n"
+        elif '/QOpenSys/QIBM/ProdData/OPS/' in item:
+          # /QOpenSys/QIBM/ProdData/OPS/xxx
+          # 01        2    3        4   5
+          part = item.split('/')
+          akey = part[5]
+          mydir = "/QOpenSys/QIBM/ProdData/OPS/" + akey
+          if not myspec:
+            if akey in myspecs:
+              myspecs[akey] += "# includes: /QOpenSys/QIBM/ProdData/OPS/" + anyfile + "\n"
+            else:
+              myspecs[akey] = "# includes: /QOpenSys/QIBM/ProdData/OPS/" + anyfile + "\n"
+            myspec = 'chroot_gen_OPS_' + akey + '.lst'
+            print("Output file for " + anyfile + " is " + myspec)
+          if not mydir in mydirs:
+            myspec_dirs += mydir + "\n"
+            mydirs.append(mydir)
+        else:
+          if os.path.isdir(item):
+            myspec_comment += "# ignore (dir): " + item + "\n"
+          elif os.path.isfile(item):
+            if os.path.islink(item):
+              mylinkact = os.readlink(item)
+              mylinks.append(item)
+              myspec_links += item + ' ' + mylinkact + "\n"
+            else:
+              myspec_comment += "# ignore (file): " + item + "\n"
+          else:
+            myspec_comment += "# ignore (unknown): " + item + "\n"
+
+      # -----
+      # print spec file
+      file_spec = hereDir + myspec
+      file_data = ""
+      for comment in myspecs.values(): 
+        file_data += comment 
+      file_data += myspec_comment 
+      file_data += myspec_dirs
+      if len(mylinks):
+        file_data += myspec_links
+      print("Writing ... " + file_spec)
+      with open(file_spec, "w") as text_file:
+        text_file.write(file_data)
+  # break (no sub-dirs)
+  break
+  
+          
+          
+          
+          
+          

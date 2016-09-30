@@ -32,6 +32,18 @@ View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustiv
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
 
+**new generate .lst files from PTF manifest ***
+```
+$ ./gen_chroot_OPS_lst 
+
+---Directory ... /QOpenSys/QIBM/ProdData/OPS/.---
+Found ... .qptfinf.QPYTHON.dat
+Reading ... .qptfinf.QPYTHON.dat
+Processing ... .qptfinf.QPYTHON.dat
+Output file for .qptfinf.QPYTHON.dat is chroot_gen_OPS_Python3.4.lst
+Writing ... ./chroot_gen_OPS_Python3.4.lst
+```
+
 **Articles about chroot: **
 [A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
 [A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
