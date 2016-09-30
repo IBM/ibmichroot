@@ -79,8 +79,9 @@ for dirName, subdirList, fileList in os.walk(rootDir):
       # print spec file
       file_spec = hereDir + myspec
       file_data = ""
-      for comment in myspecs.values(): 
-        file_data += comment 
+      if akey in myspecs:
+        for comment in myspecs[akey]: 
+          file_data += comment 
       file_data += myspec_comment 
       file_data += myspec_dirs
       if len(mylinks):
