@@ -48,6 +48,40 @@ Output file for .qptfinf.QPYTHON.dat is chroot_gen_OPS_Python3.4.lst
 Writing ... ./chroot_gen_OPS_Python3.4.lst
 ```
 
+A chroot_gen_OPS_xxx.lst chroot directory copy may overlap with multiple OPS 'products'.
+This is intentional, for example allowing OPS to ship products in the 'tools' directory.
+If you wish to see matching PTF manifest list, check the source of the gen_chroot_OPS_lst.
+```
+bash-4.3$ cat chroot_gen_OPS_tools.lst 
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QGCC.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPY2.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QCI.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QORION.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYTHON.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYDB.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYTLKT.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYFLIP.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYBTL.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYDB2.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPYTLKT2.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QLIBGCC482.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QGIT.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QICONV.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QUNZIP.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QZIP.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QNODE4.dat
+#
+# ignore (source): /QOpenSys/QIBM/ProdData/OPS/source/zip30.tar.gz
+# ignore (source): /QOpenSys/QIBM/ProdData/OPS/source
+# ignore (qptfinf): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QZIP.dat
+
+:cp_dir
+/QOpenSys/QIBM/ProdData/OPS/tools
+
+```
+
+
 **Articles about chroot: **
 [A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
 [A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)

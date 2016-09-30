@@ -85,6 +85,7 @@ for dirName, subdirList, fileList in os.walk(rootDir):
       file_data += myspec_dirs
       if len(mylinks):
         file_data += myspec_links
+      file_data += "\n\n\n\n"
       print("Writing ... " + file_spec)
       with open(file_spec, "w") as text_file:
         text_file.write(file_data)
