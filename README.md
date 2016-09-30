@@ -51,12 +51,22 @@ Writing ... ./chroot_gen_OPS_Python3.4.lst
 A chroot_gen_OPS_xxx.lst chroot directory copy may overlap with multiple OPS 'products'.
 This is intentional, for example allowing OPS to ship products in the 'tools' directory.
 If you wish to see matching PTF manifest list, check the source of the gen_chroot_OPS_lst.
-```
+``` 
 bash-4.3$ cat chroot_gen_OPS_tools.lst 
-# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QGCC.dat
-# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QPY2.dat
-:
-... so on ...
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QLIBGCC482.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QGIT.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QICONV.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QUNZIP.dat
+# includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QZIP.dat
+#
+# ignore (source): /QOpenSys/QIBM/ProdData/OPS/source/zip30.tar.gz
+# ignore (source): /QOpenSys/QIBM/ProdData/OPS/source
+# ignore (qptfinf): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QZIP.dat
+
+:cp_dir
+/QOpenSys/QIBM/ProdData/OPS/tools
+
 ```
 
 If you wish to see content of a PTF manifest in ascii terminal (ssh),
