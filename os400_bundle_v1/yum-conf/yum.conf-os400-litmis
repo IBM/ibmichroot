@@ -1,0 +1,14 @@
+[main]
+cachedir=/var/cache/yum
+keepcache=0
+debuglevel=10
+logfile=/var/log/yum.log
+exactarch=1
+obsoletes=1
+
+[os400_litmis]
+name=IBM i Litmis generic repository
+baseurl=https://spaces.litmis.com/rpm
+enabled=1
+gpgcheck=0
+
