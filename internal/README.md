@@ -45,7 +45,7 @@ $ setup_ibm_ssl.sh
 
 *** =========================================== ***
 
-*** yum_bundle_v1.tar ***
+*** yum_bundle_v1.tar (only tar) ***
 
 *** =========================================== ***
 
@@ -66,7 +66,7 @@ libgcc-4.8.5-1.aix7.2.ppc.rpm                 python-iniparse-0.4-1.aix6.1.noarc
 
 *** =========================================== ***
 
-*** createrepo_bundle_v1.tar ***
+*** createrepo_bundle_v1.tar (only tar) ***
 
 *** =========================================== ***
 
@@ -91,17 +91,24 @@ python-deltarpm-3.6-1.aix6.1.ppc.rpm               python-setuptools-0.9.8-2.aix
 
 *** =========================================== ***
 
+if you make changes to rpm_bundle_v1 update master yum/rpm_bundle_v1.tar.
+```
+$ cd internal
+$ tar -cf rpm_bundle_v1.tar rpm_bundle_v1
+$ mv rpm_bundle_v1.tar ../yum/.
+```
+
 rpm.rte is packaged directly from aix toolbox rpms.
 
 ```
 $ ls yum/rpm_bundle_v1                
-rpm.rte.4.9.1.3                           zz-os400-provides-1.0-1.os400.noarch.rpm
+rpm.rte.4.9.1.3  zz-os400-provides-1.0-1.os400.noarch.rpm  zz-os400-provides-1.0-1.os400.noarch.spec
 
 Note: 
-- zz-os400-provides-1.0-1.os400.noarch.rpm is virtual rpm lists/provides function from PASE.
-- zz-os400-provides-1.0-1.os400.noarch.rpm is NOT complete as of this time.
+- zz-os400-provides-1.0 is virtual rpm lists/provides function from PASE.
+- zz-os400-provides-1.0 is NOT complete as of this time.
 
-Until zz-os400-provides-1.0-1.os400.noarch.rpm completed AIX RPMs not installed by yum will report things like ...
+Until zz-os400-provides-1.0 completed AIX RPMs not installed by yum will report things like ...
 $ yum check
 bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
 :
@@ -109,6 +116,17 @@ bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
 see file:
 setup_rpm.sh
 ```
+
+To build rpm virtual PASE provides
+```
+$ cd internal/rpm_bundle_v1
+$ rpmbuild -ba --target=noarch zz-os400-provides-1.0-1.os400.noarch.spec
+$ ls ../RPMS/zz-os400-provides-1.0-1.os400.noarch.rpm
+$ cp /QOpenSys/opt/freeware/src/packages/RPMS/noarch/zz-os400-provides-1.0-1.os400.noarch.rpm .
+
+Follow tar -cf instructions top of this section.
+``` 
+
 
 AIX rpm/yum requires libodm.a, libcfg.a. 
 These files are not used for functional purpose, so stubs are provided.
@@ -148,7 +166,7 @@ if you make changes to os400_bundle_v1 update master yum/os400_bundle_v1.tar.
 ```
 $ cd internal
 $ tar -cf os400_bundle_v1.tar os400_bundle_v1
-$ cp os400_bundle_v1.tar ../yum/.
+$ mv os400_bundle_v1.tar ../yum/.
 ```
 
 Remove yum restriction of ONLY qsecofr usage (root uid=0), 
