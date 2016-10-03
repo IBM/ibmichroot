@@ -1,8 +1,8 @@
 # Builders ibmichroot (for Tony/Aaron).
 AIX binaries, rpm.rte, supporting yum rpms and createrepo rpms are copied 'directly' from AIX toolbox downloads (unaltered).
-AIX toolbox rpms are packaged in tar files for convince similar to AIX yum_bundle_v1.tar.
-We collected and tar'd packages needed for rpm(4), yum, and createrepo to provide a 'suite' experience at install.
-Minor os400 configuration patch added for script installation/configuration techniques required on any platform.
+AIX toolbox rpms are packaged in tar files similar to AIX yum_bundle_v1.tar. A bit more than yum_bundle_v1,
+we collected and tar'd packages needed for rpm(4), yum, and createrepo to provide a 'suite' hosting experience.
+Minor os400 configuration patches added for script installation/configuration techniques required on any platform.
 The steps have been documented below, so builders know exactly how tar files are built.
 
 
