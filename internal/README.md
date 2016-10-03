@@ -117,8 +117,7 @@ setup_yum.sh
 ```
 
 Special rpm conversion utilities are provided
-to help create os400 rpms. The utilities are installed 
-with setup_yum.sh. More utilities may be added
+to help create os400 rpms. More utilities may be added
 depending on various discussions, etc. 
 ```
 $ ls internal/os400_bundle_v1/yum-os400/
