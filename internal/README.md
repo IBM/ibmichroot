@@ -111,8 +111,12 @@ rpm.rte.4.9.1.3  zz-os400-provides-1.0-1.os400.noarch.rpm  zz-os400-provides-1.0
 Note: 
 - zz-os400-provides-1.0 is virtual rpm lists/provides function from PASE.
 - zz-os400-provides-1.0 is NOT complete as of this time.
+```
 
-Until zz-os400-provides-1.0 completed AIX RPMs not installed by yum will report things like ...
+Currently zz-os400-provides-1.0 does NOT provide a completed list of PASE capabilities.
+AIX RPMs installed may report missing PASE Operating System functions. 
+AIX RPMS may fail in yum install. We are working on completion. 
+```
 $ yum check
 bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
 :
