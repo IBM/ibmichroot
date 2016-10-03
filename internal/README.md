@@ -1,28 +1,56 @@
-# Builders ibmichroot (Tony/Aaron).
-
-*** These files are ibmichroot builders only. Do not copy to your IBM i machine ***
 
 
-This is the source for os400_bundle_v1. The actual bundle used in installation is os400_bundle_v1.tar.
+# Builders ibmichroot (for Tony/Aaron).
+
+*** These files are ibmichroot builders only. You do not need to copy to your IBM i machine. ***
+
+This is source instructions for xxx_bundle_v1.tar files. 
+The actual bundle used in installation are xxx_bundle_v1.tar.
 Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
+
 *** No action is required if no changes are made. Yum tar files have all correct data for install. ***
 
 
+*** =========================================== ***
+
+*** yum/setup_ibm_ssl.sh ***
 
 *** =========================================== ***
 
-*** os400_bundle_v1.tar ***
+AIX uses a sightly different strategy for libssl/libcrypto shared object naming over PASE.
+PASE OPS uses precise version matching in libssl.a(libssl.so.1.0.1)/libcrypto.a(libcrypto.so.1.0.1).
+Therefore OPS demands precision compiles with products needing libssl.
+AIX uses generic version matching in libssl.a(libssl.so)/libcrypto.a(libcrypto.so). 
+Therefore trust products to understand generic compiles against libssl.
+The name spaces will not overlap between AIX and OPS, therefore 
+we may use the generic signatures libssl.a(libssl.so)/libcrypto.a(libcrypto.so)
+for aix toolbox rpms installed on PASE.
+
+*** until openssl ptf ***
+IBM i libcrypto.so.1.0.1 and libssl.so.1.0.1 provide
+libssl.a(libssl.so) and libcrypto.a(libcrypto.so) to 
+match aix tool box shared library usage patterns.
+After future PTF update will be ignored by
+yum/setup_ibm_ssl.sh.
+```
+$ ls internal/os400_bundle_v1/lib-patch/
+libcfg.a  libcrypto.so.1.0.1  libodm.a  libssl.so.1.0.1
+
+see file:
+$ setup_ibm_ssl.sh 
+```
+
+
+
 
 *** =========================================== ***
 
-if you make changes to os400_bundle_v1 update master yum/os400_bundle_v1.tar.
-```
-$ cd internal
-$ tar -cf os400_bundle_v1.tar os400_bundle_v1
-$ cp os400_bundle_v1.tar ../yum/.
-```
+*** yum_bundle_v1.tar ***
 
-*** Information: Additional tar files are packaged directly from aix toolbox rpms. ***
+*** =========================================== ***
+
+
+All tar files are packaged directly from aix toolbox rpms.
 
 yum rpms:
 ```
@@ -34,6 +62,15 @@ gettext-0.10.40-8.aix5.2.ppc.rpm              python-2.7.10-1.aix6.1.ppc.rpm    
 glib2-2.14.6-2.aix5.2.ppc.rpm                 python-devel-2.7.10-1.aix6.1.ppc.rpm          sqlite-3.7.15.2-2.aix6.1.ppc.rpm
 libgcc-4.8.5-1.aix7.2.ppc.rpm                 python-iniparse-0.4-1.aix6.1.noarch.rpm       xz-5.2.2-1.aix6.1.ppc.rpm
 ```
+
+
+*** =========================================== ***
+
+*** createrepo_bundle_v1.tar ***
+
+*** =========================================== ***
+
+All tar files are packaged directly from aix toolbox rpms.
 
 createrepo rpms:
 ```
@@ -47,7 +84,15 @@ python-deltarpm-3.6-1.aix6.1.ppc.rpm               python-setuptools-0.9.8-2.aix
 
 ```
 
-rpm restore:
+
+*** =========================================== ***
+
+*** rpm_bundle_v1.tar ***
+
+*** =========================================== ***
+
+rpm.rte is packaged directly from aix toolbox rpms.
+
 ```
 $ ls yum/rpm_bundle_v1                
 rpm.rte.4.9.1.3                           zz-os400-provides-1.0-1.os400.noarch.rpm
@@ -63,20 +108,6 @@ bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
 
 see file:
 setup_rpm.sh
-```
-
-*** until openssl ptf ***
-IBM i libcrypto.so.1.0.1 and libssl.so.1.0.1 are provide
-libssl.a(libssl.so) and libcrypto.a(libcrypto.so) to 
-match aix tool box shared library usage patterns.
-After future PTF any update will be ignored by
-yum/setup_ibm_ssl.sh.
-```
-$ ls internal/os400_bundle_v1/lib-patch/
-libcfg.a  libcrypto.so.1.0.1  libodm.a  libssl.so.1.0.1
-
-see file:
-$ setup_ibm_ssl.sh 
 ```
 
 AIX rpm/yum requires libodm.a, libcfg.a. 
@@ -104,6 +135,20 @@ rpmrc-aix  rpmrc-os400
 
 see file:
 $ setup_rpmrc.sh
+```
+
+
+*** =========================================== ***
+
+*** os400_bundle_v1.tar ***
+
+*** =========================================== ***
+
+if you make changes to os400_bundle_v1 update master yum/os400_bundle_v1.tar.
+```
+$ cd internal
+$ tar -cf os400_bundle_v1.tar os400_bundle_v1
+$ cp os400_bundle_v1.tar ../yum/.
 ```
 
 Remove yum restriction of ONLY qsecofr usage (root uid=0), 
@@ -137,9 +182,4 @@ yum.conf-aixtoolbox  yum.conf-os400-apache_basic_auth  yum.conf-os400-litmis
 see file:
 setup_yum.sh
 ```
-
-
-
-
-
 
