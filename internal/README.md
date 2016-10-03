@@ -5,12 +5,15 @@
 # Builders ibmichroot (Tony/Aaron).
 This is the source for os400_bundle_v1. The actual bundle used in installation is os400_bundle_v1.tar.
 Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
+*** No action is required if no changes are made. Yum tar files have all correct data for install. ***
 
-*** Note builder no action is required if no changes are made. Yum tar files have all correct data for install. ***
+
 
 *** =========================================== ***
-*** Notes: if you must change the tar files ***
+*** Notes: if you must change os400_bundle_v1.tar file ***
 *** =========================================== ***
+
+
 
 
 *** if you make changes to os400_bundle_v1 update master yum os400_bundle_v1.tar ***
