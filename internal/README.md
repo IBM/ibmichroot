@@ -121,7 +121,6 @@ To build rpm virtual PASE provides
 ```
 $ cd internal/rpm_bundle_v1
 $ rpmbuild -ba --target=noarch zz-os400-provides-1.0-1.os400.noarch.spec
-$ ls ../RPMS/zz-os400-provides-1.0-1.os400.noarch.rpm
 $ cp /QOpenSys/opt/freeware/src/packages/RPMS/noarch/zz-os400-provides-1.0-1.os400.noarch.rpm .
 
 Follow tar -cf instructions top of this section.
