@@ -181,13 +181,22 @@ setup_rpm.sh
 
 rpm utility uses rpmrc configuration file.
 A special version is created during install
-to account for unusual IBM i uname -m archtecture.
+to account for unusual IBM i uname -m architecture.
 ```
+bash-4.3$ uname -m
+00100008584T
+
 $ ls internal/os400_bundle_v1/rpm-conf/
 rpmrc-aix  rpmrc-os400
 
 see file:
 $ setup_rpmrc.sh
+```
+
+Compare Linux uname -m.
+```
+$ uname -m
+x86_64
 ```
 
 
