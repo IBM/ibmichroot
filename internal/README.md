@@ -18,11 +18,14 @@ Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
 *** =========================================== ***
 
 AIX uses a sightly different strategy for libssl/libcrypto shared object naming over PASE.
+
 PASE OPS uses precise version matching in libssl.a(libssl.so.1.0.1)/libcrypto.a(libcrypto.so.1.0.1).
 Therefore OPS demands precision compiles with products needing libssl.
+
 AIX uses generic version matching in libssl.a(libssl.so)/libcrypto.a(libcrypto.so). 
 Therefore trust products to understand generic compiles against libssl.
-The name spaces will not overlap between AIX and OPS, therefore 
+
+These name spaces will not overlap between AIX and OPS, therefore 
 we may use the generic signatures libssl.a(libssl.so)/libcrypto.a(libcrypto.so)
 for aix toolbox rpms installed on PASE.
 
