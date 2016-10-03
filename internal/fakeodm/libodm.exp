@@ -1,0 +1,7 @@
+#!libodm.a(shr.o)
+
+odm_initialize
+odm_terminate
+
+
+

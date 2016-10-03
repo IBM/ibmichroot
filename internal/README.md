@@ -6,13 +6,21 @@
 This is the source for os400_bundle_v1. The actual bundle used in installation is os400_bundle_v1.tar.
 Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
 
+*** Note builder no action is required if no changes are made. Yum tar files have all correct data for install. ***
+
+*** =========================================== ***
+*** Notes: if you must change the tar files ***
+*** =========================================== ***
+
+
+*** if you make changes to os400_bundle_v1 update master yum os400_bundle_v1.tar ***
 ```
 $ cd internal
 $ tar -cf os400_bundle_v1.tar os400_bundle_v1
 $ cp os400_bundle_v1.tar ../yum/.
 ```
 
-Additional tar files are packaged directly from aix toolbox rpms.
+*** Additional tar files are packaged directly from aix toolbox rpms. ***
 
 rpm restore:
 ```
@@ -52,6 +60,71 @@ python-configobj-5.0.5-1.aix6.1.noarch.rpm         python-requests-2.4.3-1.aix6.
 python-deltarpm-3.6-1.aix6.1.ppc.rpm               python-setuptools-0.9.8-2.aix6.1.noarch.rpm
 
 ```
+
+*** library notes ***
+
+AIX rpm/yum requires libodm.a, libcfg.a. 
+These files are not used for functional purpose, so stubs are provided.
+```
+$ cd internal/fakeodm
+$ gmake
+$ cp libodm.a ../os400_bundle_v1/lib-patch/.
+
+$ cd internal/fakecfg
+$ gmake
+$ cp libcfg.a ../os400_bundle_v1/lib-patch/.
+```
+
+*** until openssl ptf ***
+IBM i libcrypto.so.1.0.1 and libssl.so.1.0.1 are provide
+libssl.a(libssl.so) and libcrypto.a(libcrypto.so) to 
+match aix tool box shared library usage patterns.
+After future PTF any update will be ignored by
+yum/setup_ibm_ssl.sh.
+```
+$ ls internal/os400_bundle_v1/lib-patch/
+libcfg.a  libcrypto.so.1.0.1  libodm.a  libssl.so.1.0.1
+
+see file:
+$ setup_ibm_ssl.sh 
+```
+
+Remove yum restriction of ONLY qsecofr usage (root uid=0), 
+patchs yumcommands.py and yumupd.py are required.
+```
+$ ls internal/os400_bundle_v1/yum-patch/
+yumcommands.py  yumupd.py
+```
+
+rpm utility uses rpmrc configuration file.
+A special version is created during install
+to account for unusual IBM i uname -m archtecture.
+```
+$ ls internal/os400_bundle_v1/rpm-conf/
+rpmrc-aix  rpmrc-os400
+
+see file:
+$ setup_rpmrc.sh
+```
+
+Special rpm conversion utilities are provided
+to help create os400 rpms. The utilities are installed 
+with setup_yum.sh. More utilities may be added
+depending on various discussions, etc. 
+```
+$ ls internal/os400_bundle_v1/yum-os400/
+os400repackage
+```
+
+A sample set of yum configuration files provided with tar file.
+Information is public in yum README.md.
+```
+$ ls internal/os400_bundle_v1/yum-conf/
+repodata.tar         yum.conf-os400-aix-mix            yum.conf-os400-ifs     yum.conf-os400-mix
+yum.conf-aixtoolbox  yum.conf-os400-apache_basic_auth  yum.conf-os400-litmis
+```
+
+
 
 
 
