@@ -3,6 +3,10 @@
 *** These files are ibmichroot builders only. Do not copy to your IBM i machine ***
 
 # Builders ibmichroot (Tony/Aaron).
+
+*** These files are ibmichroot builders only. Do not copy to your IBM i machine ***
+
+
 This is the source for os400_bundle_v1. The actual bundle used in installation is os400_bundle_v1.tar.
 Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
 *** No action is required if no changes are made. Yum tar files have all correct data for install. ***
@@ -10,40 +14,18 @@ Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
 
 
 *** =========================================== ***
-*** Notes: if you must change os400_bundle_v1.tar file ***
+
+*** os400_bundle_v1.tar ***
+
 *** =========================================== ***
-
-
-
-
-*** if you make changes to os400_bundle_v1 update master yum os400_bundle_v1.tar ***
+if you make changes to os400_bundle_v1 update master yum/os400_bundle_v1.tar.
 ```
 $ cd internal
 $ tar -cf os400_bundle_v1.tar os400_bundle_v1
 $ cp os400_bundle_v1.tar ../yum/.
 ```
 
-*** Additional tar files are packaged directly from aix toolbox rpms. ***
-
-rpm restore:
-```
-$ ls yum/rpm_bundle_v1                
-rpm.rte.4.9.1.3                           zz-os400-provides-1.0-1.os400.noarch.rpm
-
-Note: 
-- zz-os400-provides-1.0-1.os400.noarch.rpm is virtual rpm lists/provides function from PASE.
-- zz-os400-provides-1.0-1.os400.noarch.rpm is NOT complete as of this time.
-
-Until zz-os400-provides-1.0-1.os400.noarch.rpm completed AIX RPMs not installed by yum will report things like ...
-$ yum check
-bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
--- so on --
-
-
-see file:
-setup_rpm.sh
-```
-
+*** Information: Additional tar files are packaged directly from aix toolbox rpms. ***
 
 yum rpms:
 ```
@@ -68,7 +50,23 @@ python-deltarpm-3.6-1.aix6.1.ppc.rpm               python-setuptools-0.9.8-2.aix
 
 ```
 
-*** library notes ***
+rpm restore:
+```
+$ ls yum/rpm_bundle_v1                
+rpm.rte.4.9.1.3                           zz-os400-provides-1.0-1.os400.noarch.rpm
+
+Note: 
+- zz-os400-provides-1.0-1.os400.noarch.rpm is virtual rpm lists/provides function from PASE.
+- zz-os400-provides-1.0-1.os400.noarch.rpm is NOT complete as of this time.
+
+Until zz-os400-provides-1.0-1.os400.noarch.rpm completed AIX RPMs not installed by yum will report things like ...
+$ yum check
+bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
+:
+
+see file:
+setup_rpm.sh
+```
 
 *** until openssl ptf ***
 IBM i libcrypto.so.1.0.1 and libssl.so.1.0.1 are provide
