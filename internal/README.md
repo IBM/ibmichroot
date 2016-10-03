@@ -1,6 +1,9 @@
-
-
 # Builders ibmichroot (for Tony/Aaron).
+AIX rpm.rte, supporting yum rpms and createrepo rpms are copied 'directly'.
+AIX toolbox rpms are packaged in tar files for convince similar to AIX yum_bundle_v1.tar.
+We collected all packages needed rpm, yum createrepo to provide a 'suite' experience at install.
+Minor os400 configuration patch are added for script installation/configuration techniques required on any platform.
+
 
 *** These files are ibmichroot builders only. You do not need to copy to your IBM i machine. ***
 
