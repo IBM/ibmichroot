@@ -27,11 +27,29 @@ View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustiv
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
 
+##Articles
+**Articles about chroot: **
+[A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
+[A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
 
-**New: generate chroot_gen_OPS_xxx.lst files from PTF manifest **
+##Dynamic Global Variables
+You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
 
-We ran gen_chroot_OPS_lst tool and updated this project. However,
-you may run this utility on your own machine for new IBM PTFS anytime.
+```
+$ chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path myuser=AARON
+```
+And then in your `.lst` file you could have this:
+```
+:system
+CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
+```
+
+# Builders chroot_xxx.lst
+The chroot_OPS.lst files may become out of date with IBM i PTFS. 
+Therefore we created a new script 'gen_chroot_OPS_lst' 
+to generate chroot_gen_OPS_xxx.lst files from PTF manifest
+We ran gen_chroot_OPS_lst tool and updated this project. 
+You may run this utility on your own machine for new IBM PTFs anytime.
  
 ```
 $ ./gen_chroot_OPS_lst 
@@ -75,20 +93,5 @@ $ iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
 ... so on ...
 ```
 
-##Articles
-**Articles about chroot: **
-[A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
-[A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
 
-##Dynamic Global Variables
-You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
-
-```
-$ chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path myuser=AARON
-```
-And then in your `.lst` file you could have this:
-```
-:system
-CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-```
 
