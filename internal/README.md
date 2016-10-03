@@ -1,7 +1,3 @@
-#ibmichroot work files
-
-*** These files are ibmichroot builders only. Do not copy to your IBM i machine ***
-
 # Builders ibmichroot (Tony/Aaron).
 
 *** These files are ibmichroot builders only. Do not copy to your IBM i machine ***
