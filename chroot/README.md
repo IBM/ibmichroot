@@ -62,9 +62,10 @@ Output file for .qptfinf.QPYTHON.dat is chroot_gen_OPS_Python3.4.lst
 Writing ... ./chroot_gen_OPS_Python3.4.lst
 ```
 
-A chroot_gen_OPS_xxx.lst chroot directory copy may overlap with multiple OPS 'products'.
-This is intentional, for example allowing OPS to ship products in the 'tools' directory.
-If you wish to see matching PTF manifest list, check the source of the gen_chroot_OPS_lst.
+A chroot_gen_OPS_xxx.lst copy may overlap with multiple OPS 'products'.
+This is intentional. For example the 'tools' directory allows OPS to ship 
+multiple products in the 'tools' directory with similar runtime depends.
+Check the source of the gen_chroot_OPS_lst for includes list.
 ``` 
 bash-4.3$ cat chroot_gen_OPS_tools.lst 
 # includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QLIBGCC482.dat
