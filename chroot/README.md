@@ -67,7 +67,7 @@ This is intentional. For example the 'tools' directory allows OPS to ship
 multiple products in the 'tools' directory with similar runtime depends.
 Check the source of the gen_chroot_OPS_lst for includes list.
 ``` 
-bash-4.3$ cat chroot_gen_OPS_tools.lst 
+$ cat chroot_gen_OPS_tools.lst 
 # includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QLIBGCC482.dat
 # includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QGIT.dat
 # includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QICONV.dat
@@ -87,6 +87,14 @@ bash-4.3$ cat chroot_gen_OPS_tools.lst
 If you wish to see content of a PTF manifest in ascii terminal (ssh),
 PTF .qptfinf.xxx.dat must be converted from EBCDIC to ASCII. 
 ```
+$cd /QOpenSys/QIBM/ProdData/OPS/
+$ ls -a .*.dat
+.qptfinf.QBASH.dat       .qptfinf.QLIBGCC482.dat  .qptfinf.QPYDB.dat       .qptfinf.QPYTLKT2.dat
+.qptfinf.QCI.dat         .qptfinf.QNODE4.dat      .qptfinf.QPYDB2.dat      .qptfinf.QUNZIP.dat
+.qptfinf.QGCC.dat        .qptfinf.QORION.dat      .qptfinf.QPYFLIP.dat     .qptfinf.QZIP.dat
+.qptfinf.QGIT.dat        .qptfinf.QPY2.dat        .qptfinf.QPYTHON.dat
+.qptfinf.QICONV.dat      .qptfinf.QPYBTL.dat      .qptfinf.QPYTLKT.dat
+
 $ iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
 /QOpenSys/QIBM/ProdData/OPS/tools/bin/bash
 /QOpenSys/QIBM/ProdData/OPS/tools/bin/bashbug
