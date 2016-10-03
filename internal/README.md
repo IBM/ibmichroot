@@ -38,6 +38,10 @@ Until zz-os400-provides-1.0-1.os400.noarch.rpm completed AIX RPMs not installed 
 $ yum check
 bash-4.3-16.ppc has missing requires of libdl.a(shr.o)
 -- so on --
+
+
+see file:
+setup_rpm.sh
 ```
 
 
@@ -66,18 +70,6 @@ python-deltarpm-3.6-1.aix6.1.ppc.rpm               python-setuptools-0.9.8-2.aix
 
 *** library notes ***
 
-AIX rpm/yum requires libodm.a, libcfg.a. 
-These files are not used for functional purpose, so stubs are provided.
-```
-$ cd internal/fakeodm
-$ gmake
-$ cp libodm.a ../os400_bundle_v1/lib-patch/.
-
-$ cd internal/fakecfg
-$ gmake
-$ cp libcfg.a ../os400_bundle_v1/lib-patch/.
-```
-
 *** until openssl ptf ***
 IBM i libcrypto.so.1.0.1 and libssl.so.1.0.1 are provide
 libssl.a(libssl.so) and libcrypto.a(libcrypto.so) to 
@@ -92,11 +84,20 @@ see file:
 $ setup_ibm_ssl.sh 
 ```
 
-Remove yum restriction of ONLY qsecofr usage (root uid=0), 
-patchs yumcommands.py and yumupd.py are required.
+AIX rpm/yum requires libodm.a, libcfg.a. 
+These files are not used for functional purpose, so stubs are provided.
 ```
-$ ls internal/os400_bundle_v1/yum-patch/
-yumcommands.py  yumupd.py
+$ cd internal/fakeodm
+$ gmake
+$ cp libodm.a ../os400_bundle_v1/lib-patch/.
+
+$ cd internal/fakecfg
+$ gmake
+$ cp libcfg.a ../os400_bundle_v1/lib-patch/.
+
+
+see file:
+setup_rpm.sh
 ```
 
 rpm utility uses rpmrc configuration file.
@@ -110,6 +111,16 @@ see file:
 $ setup_rpmrc.sh
 ```
 
+Remove yum restriction of ONLY qsecofr usage (root uid=0), 
+patchs yumcommands.py and yumupd.py are required.
+```
+$ ls internal/os400_bundle_v1/yum-patch/
+yumcommands.py  yumupd.py
+
+see file:
+setup_yum.sh
+```
+
 Special rpm conversion utilities are provided
 to help create os400 rpms. The utilities are installed 
 with setup_yum.sh. More utilities may be added
@@ -117,6 +128,9 @@ depending on various discussions, etc.
 ```
 $ ls internal/os400_bundle_v1/yum-os400/
 os400repackage
+
+see file:
+setup_yum.sh
 ```
 
 A sample set of yum configuration files provided with tar file.
@@ -125,6 +139,9 @@ Information is public in yum README.md.
 $ ls internal/os400_bundle_v1/yum-conf/
 repodata.tar         yum.conf-os400-aix-mix            yum.conf-os400-ifs     yum.conf-os400-mix
 yum.conf-aixtoolbox  yum.conf-os400-apache_basic_auth  yum.conf-os400-litmis
+
+see file:
+setup_yum.sh
 ```
 
 
