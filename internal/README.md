@@ -14,6 +14,34 @@ Adds, changes, supplements to aix toolbox rpm, yum, createrepo are found here.
 
 *** No action is required if no changes are made. Yum tar files have all correct data for install. ***
 
+*** =========================================== ***
+
+*** status ***
+
+*** =========================================== ***
+
+Aaron, basic function appears to work. 
+However we have many scenarios to experiment.
+```
+install aix rpms toolbox  (don't know if full yum repo)
+install aix rpms perzl (don't know if full yum repo)
+download repackage aix rpms to os400 (one readme example)
+create new rpms based on binaries a system (debate about legal here)
+create delta rpms via specs
+standard compile, make build rpm from spec
+... so on ...
+```
+
+The target libraries for rpmbuilds (see readme samples).
+```
+bash-4.3$ ls -1 /QOpenSys/opt/freeware/src/packages
+BUILD - patchs, etc,
+RPMS -- resulting rpmbuild rpms (used for createrepo)
+SOURCES -- sources downloaded 
+SPECS - spec files for sources (above scenarios)
+SRPMS - source rpms (should license requires)
+```
+
 
 *** =========================================== ***
 
@@ -207,4 +235,5 @@ yum.conf-aixtoolbox  yum.conf-os400-apache_basic_auth  yum.conf-os400-litmis
 see file:
 setup_yum.sh
 ```
+
 
