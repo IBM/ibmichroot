@@ -6,6 +6,7 @@ from subprocess import Popen, PIPE
 import sys
 
 rootDir = '/QOpenSys/QIBM/ProdData/OPS/.'
+# rootDir = './'
 hereDir = './'
 
 myspecs = {}
@@ -40,6 +41,7 @@ for dirName, subdirList, fileList in os.walk(rootDir):
       # -----
       # collecting dirs and links
       for line in lines:
+        mydir = ''
         item = line.strip()
         # print("item: " + item)
         if '/QOpenSys/QIBM/ProdData/OPS/source' in item:
@@ -65,15 +67,13 @@ for dirName, subdirList, fileList in os.walk(rootDir):
         else:
           if os.path.isdir(item):
             myspec_comment += "# ignore (dir): " + item + "\n"
-          elif os.path.isfile(item):
-            if os.path.islink(item):
-              mylinkact = os.readlink(item)
-              mylinks.append(item)
-              myspec_links += item + ' ' + mylinkact + "\n"
-            else:
-              myspec_comment += "# ignore (file): " + item + "\n"
-          else:
-            myspec_comment += "# ignore (unknown): " + item + "\n"
+        if not os.path.isdir(item) and os.path.isfile(item):
+          if os.path.islink(item):
+            mylinkact = os.readlink(item)
+            mylinks.append(item)
+            myspec_links += item + ' ' + mylinkact + "\n"
+          elif not mydir:
+            myspec_comment += "# ignore (file): " + item + "\n"
 
       # -----
       # print spec file

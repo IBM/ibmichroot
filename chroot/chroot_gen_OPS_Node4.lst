@@ -1,9 +1,13 @@
 # includes: /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QNODE4.dat
 #
 # ignore (qptfinf): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QNODE4.dat
+# ignore (file): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QNODE4.dat
 
 :cp_dir
 /QOpenSys/QIBM/ProdData/OPS/Node4
+
+:ln_rel
+/QOpenSys/QIBM/ProdData/OPS/Node4/bin/npm ../lib/node_modules/npm/bin/npm-cli.js
 
 
 

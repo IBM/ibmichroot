@@ -5,6 +5,7 @@
 # ignore (dir): /QOpenSys/etc/orion/links
 # ignore (dir): /QOpenSys/QIBM/ProdData/OPS
 # ignore (qptfinf): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QORION.dat
+# ignore (file): /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QORION.dat
 
 :cp_dir
 /QOpenSys/QIBM/ProdData/OPS/Orion
