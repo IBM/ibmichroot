@@ -44,6 +44,12 @@ And then in your `.lst` file you could have this:
 CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 ```
 
+*** ============================ ***
+
+*** not working corrently symbolic links (yet)
+
+*** ============================ ***
+
 # Builders chroot_xxx.lst
 The chroot_OPS.lst files may become out of date with IBM i PTFS. 
 Therefore we created a new script 'gen_chroot_OPS_lst' 
