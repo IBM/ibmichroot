@@ -28,7 +28,7 @@ for dirName, subdirList, fileList in os.walk(rootDir):
       myspec_dirs = "\n:cp_dir\n"
       myspec_links = "\n:ln_rel\n"
 
-      pipe = Popen('iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/' + anyfile, shell=True, stdout=PIPE, close_fds=True)
+      pipe = Popen('/QOpenSys/usr/bin/iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/' + anyfile, shell=True, stdout=PIPE, close_fds=True)
       lines = []
       mydirs = []
       mylinks = []

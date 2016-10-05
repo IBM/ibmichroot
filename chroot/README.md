@@ -95,7 +95,7 @@ $ ls -a .*.dat
 .qptfinf.QGIT.dat        .qptfinf.QPY2.dat        .qptfinf.QPYTHON.dat
 .qptfinf.QICONV.dat      .qptfinf.QPYBTL.dat      .qptfinf.QPYTLKT.dat
 
-$ iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
+$ /QOpenSys/usr/bin/iconv -f IBM-037 -t ISO8859-1 /QOpenSys/QIBM/ProdData/OPS/.qptfinf.QBASH.dat
 /QOpenSys/QIBM/ProdData/OPS/tools/bin/bash
 /QOpenSys/QIBM/ProdData/OPS/tools/bin/bashbug
 :
