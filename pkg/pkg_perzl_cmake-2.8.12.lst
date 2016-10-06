@@ -1,0 +1,14 @@
+# Command:
+#   > ./pkg_setup.sh pkg_perzl_cmake-2.8.12.lst
+# Use:
+#   > export PATH=/opt/freeware/bin:$PATH
+#   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
+#   > any_util (below)
+# Contents:
+#   cmake
+
+#
+# rpm list
+#
+:rpm
+http://www.oss4aix.org/download/RPMS/cmake/cmake-2.8.12.2-1.aix5.1.ppc.rpm
