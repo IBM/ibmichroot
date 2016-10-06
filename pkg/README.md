@@ -5,6 +5,21 @@
 We are attempting to replace this part of ibmichroot project with rpm/yum.
 You may continue to use these scripts, but may not be compatible with newer yum.
 
+# prior to rpm installation (optional)
+If you wish to remove AIX rpm install warnings:
+```
+warning: group system does not exist - using root
+warning: group bin does not exist - using root
+warning: user bin does not exist - using root
+```
+Create a group profile(s):
+```
+CRTUSRPRF USRPRF(SYSTEM) PASSWORD(*NONE) USRCLS(*SYSOPR) TEXT('AIX rpm group') SPCAUT(*USRCLS) GID(*GEN) AUT(*ALL)
+CRTUSRPRF USRPRF(BIN) PASSWORD(*NONE) USRCLS(*SYSOPR) TEXT('AIX rpm group') SPCAUT(*USRCLS) GID(*GEN) AUT(*ALL)
+
+Note: You may choose authorization settings.
+```
+
 #Package Setup
 The `pkg_setup.sh` script can be run inside or outside a chroot environment. Use `pkg_setup.sh -help` to learn more about the command and see example invocation.
 
