@@ -1,0 +1,14 @@
+[main]
+cachedir=/var/cache/yum
+keepcache=0
+debuglevel=10
+logfile=/var/log/yum.log
+exactarch=1
+obsoletes=1
+
+[perzl_repo]
+name=IBM i generic repository perzl
+baseurl=http://kif.rch.stglabs.ibm.com/perzl/aix61/perzl.repo
+enabled=1
+gpgcheck=0
+
