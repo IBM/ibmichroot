@@ -33,6 +33,7 @@
 /QOpenSys/usr/include
 /QOpenSys/usr/bin/X11
 /QOpenSys/usr/lib/X11
+/QOpenSys/var
 /dev/pts
 /dev/xti
 /tmp
@@ -569,6 +570,7 @@
 /QOpenSys/usr/lib/liby.a /QOpenSys/usr/ccs/lib/liby.a
 /QOpenSys/usr/ccs/lib/posix.mk /QOpenSys/usr/lib/posix.mk
 /QOpenSys/usr/lib/yaccpar /QOpenSys/usr/ccs/lib/yaccpar
+/QOpenSys/var /var
 
 #
 # run shell command
