@@ -192,30 +192,71 @@ function package_read_action {
 # setup RPM (standard)
 #
 function package_setup_rpm {
+  echo "x          IBM i setup (package_setup_rpm)"
   cdhere=$(pwd)
-  echo "setup $RPM_RTE ..."
+  echo "x          restore -xvqf $RPM_RTE"
   restore -xvqf $RPM_RTE
+  echo "x          cd $cdhere"
   cd $cdhere
+  echo "x          mkdir /QOpenSys/opt"
   mkdir /QOpenSys/opt
+  echo "x          cp -R usr/opt/* /QOpenSys/opt/."
   cp -R usr/opt/* /QOpenSys/opt/.
+  echo "x          rm -R usr"
   rm -R usr
+  echo "x          mkdir /QOpenSys/var"
+  mkdir /QOpenSys/var
+  echo "x          ln -s /QOpenSys/opt /QOpenSys/var/opt"
   ln -s /QOpenSys/opt /QOpenSys/var/opt
-  ln -s /QOpenSys/opt /opt
-  mkdir /var
+  # ln -s /QOpenSys/opt /opt (Brandon Peterson (nemo3xm))
+  # change for existing /opt, also existing /var
+  if [ -d /opt ]
+  then
+    echo "x          WARNING: setup use existing /opt"
+    if [ -d /opt/freeware ]
+    then
+      echo "x          WARNING: setup use existing /opt/freeware"
+      echo "x          cp -R /QOpenSys/opt/freeware/* /opt/freeware/."
+      cp -R /QOpenSys/opt/freeware/* /opt/freeware/.
+    else
+      echo "x          ln -s /QOpenSys/opt/freeware /opt/freeware"
+      ln -s /QOpenSys/opt/freeware /opt/freeware
+    fi
+  else
+    echo "x          ln -s /QOpenSys/opt /opt"
+    ln -s /QOpenSys/opt /opt
+  fi
+  if [ -d /var ]
+  then
+    echo "x          WARNING: setup use existing /var"
+  else
+    echo "x          ln -s /QOpenSys/var /var"
+    ln -s /QOpenSys/var /var
+  fi
+  echo "x          ln -s /QOpenSys/var/opt /var/opt"
   ln -s /QOpenSys/var/opt /var/opt
+  echo "x          ln -s /opt/freeware/bin/rpm /usr/bin/rpm"
   ln -s /opt/freeware/bin/rpm /usr/bin/rpm
+  echo "x          cd /opt/freeware/lib"
   cd /opt/freeware/lib
+  echo "x          ln -s libpopt.so.0.0.0 libpopt.so"
   ln -s libpopt.so.0.0.0 libpopt.so
+  echo "x          ln -s librpm.so.0.0.0 librpm.so"
   ln -s librpm.so.0.0.0 librpm.so
+  echo "x          ln -s librpmbuild.so.0.0.0 librpmbuild.so"
   ln -s librpmbuild.so.0.0.0 librpmbuild.so
+  echo "x          cd $cdhere"
   cd $cdhere
-  echo "setup $RPM_WGET ..."
+  echo "x          rpm --ignoreos --ignorearch --nodeps --replacepkgs -hUv $RPM_WGET"
   rpm --ignoreos --ignorearch --nodeps --replacepkgs -hUv $RPM_WGET
   if [ -f /opt/freeware/bin/wget400 ]
   then
+    echo "x          wget400 --version"
     wget400 --version
   else
+    echo "x          cp /opt/freeware/bin/wget /opt/freeware/bin/wget400"
     cp /opt/freeware/bin/wget /opt/freeware/bin/wget400
+    echo "x          wget400 --version"
     wget400 --version
   fi
 }
