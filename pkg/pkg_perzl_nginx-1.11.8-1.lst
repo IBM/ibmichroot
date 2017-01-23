@@ -1,5 +1,6 @@
-# Command:
+# Commands:
 #   > ./pkg_setup.sh pkg_perzl_nginx-1.11.8-1.lst
+#   > rpm --ignoreos --ignorearch --replacepkgs --nodeps -hUv --noscripts nginx-1.11.8-1.aix5.3.ppc.rpm
 # Use:
 #   > export PATH=/opt/freeware/bin:$PATH
 #   > export LIBPATH=/opt/freeware/lib:$LIBPATH (if error, remove ':$LIBPATH')
