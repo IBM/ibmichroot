@@ -1,27 +1,32 @@
 https://bitbucket.org/litmis/ibmichroot/src (see pkg_perzl_gcc-4.6.2.lst)
 ===============================
-installation
+installation (your profile - ranger example)
 ===============================
-CRTUSRPRF USRPRF(WILDBILL) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
-CHGUSRPRF USRPRF(WILDBILL) LOCALE(*NONE) HOMEDIR('/QOpenSys/wildbill/./home/wildbill')
-* CRTUSRPRF simple example, please check with your admin for correct user profile settings 
+CRTUSRPRF USRPRF(RANGER) PASSWORD(BOB) USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
+* CRTUSRPRF simple example, please check with your admin for correct user profile settings
+* CHGUSRPRF HOMEDIR '.' enables auto chroot to target directory when using ssh 
 
--- outside chroot (admin) --
-$ mkdir -p /QOpenSys/wildbill/home/wildbill
+-- outside chroot (your admin *SECOFR) --
+$ mkdir -p /QOpenSys/ranger/home/ranger
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 -- ftp from Yips until PTF available --
-$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/wildbill
-$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/wildbill
-$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/wildbill
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/ranger
 -- additional for compiling PASE projects ---
-$ ./chroot_setup.sh chroot_includes.lst /QOpenSys/wildbill
--- additional setup if another profile --
-$ chroot_chown.sh wildbill
+$ ./chroot_setup.sh chroot_includes.lst /QOpenSys/ranger
+-- additional setup if another profile (careful must use chroot) --
+$ chroot /QOpenSys/ranger /bin/bsh
+$ cd /
+$ chown -R ranger .
+$ exit
+-- back outside chroot --
 
--- inside chroot (wildbill) --
-$ ssh -X wildbill@ut30p30
-wildbill@ut30p30's password: 
+-- inside chroot (ranger) --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
 -- if you see, use ksh --
 $ export PATH=/opt/freeware/bin:/usr/bin
 PATH=/opt/freeware/bin:/usr/bin: is not an identifier
@@ -51,5 +56,5 @@ Start over (rm -R destroy all)?
 ===============================
 -- outside chroot --
 $ cd /QOpenSys
-$ rm -R wildbill
+$ rm -R ranger
 

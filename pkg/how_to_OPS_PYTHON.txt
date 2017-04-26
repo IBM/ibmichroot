@@ -1,30 +1,31 @@
 https://bitbucket.org/litmis/ibmichroot/src (see how_to_OPS_PYTHON.txt)
 ===============================
-installation
+installation (your profile - ranger example)
 ===============================
-CRTUSRPRF USRPRF(LEFTY) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
-CHGUSRPRF USRPRF(LEFTY) LOCALE(*NONE) HOMEDIR('/QOpenSys/lefty/./home/lefty')
+CRTUSRPRF USRPRF(RANGER) PASSWORD(BOB) USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
 * CRTUSRPRF simple example, please check with your admin for correct user profile settings 
+* CHGUSRPRF HOMEDIR '.' enables auto chroot to target directory when using ssh 
 
--- outside chroot --
-$ mkdir -p /QOpenSys/lefty/home/lefty
+-- outside chroot (your admin *SECOFR) --
+$ mkdir -p /QOpenSys/ranger/home/ranger
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 -- ftp from Yips until PTF available --
-$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/lefty
-$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/lefty
-$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/lefty
-$ ./chroot_setup.sh chroot_OPS_PYTHON.lst /QOpenSys/lefty
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_PYTHON.lst /QOpenSys/ranger
 -- additional setup if another profile (careful must use chroot) --
-$ chroot /QOpenSys/lefty /bin/bsh
+$ chroot /QOpenSys/ranger /bin/bsh
 $ cd /
-$ chown -R lefty .
+$ chown -R ranger .
 $ exit
 -- back outside chroot --
 
--- inside chroot --
-$ ssh -X lefty@ut30p30
-lefty@ut30p30's password: 
+-- inside chroot (ranger) --
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
 -- if you see, use ksh --
 $ export PATH=/opt/freeware/bin:/usr/bin
 PATH=/opt/freeware/bin:/usr/bin: is not an identifier
@@ -71,14 +72,14 @@ Start over (rm -R destroy all)?
 ===============================
 -- outside chroot --
 $ cd /QOpenSys
-$ rm -R lefty
+$ rm -R ranger
 
 ===============================
 Run simple web server
 ===============================
 -- inside chroot --
-$ ssh -X lefty@ut30p30
-lefty@ut30p30's password: 
+$ ssh -X ranger@ut30p30
+ranger@ut30p30's password: 
 $ ksh 
 bash-4.3$ python3 -m simple_web_server_python 8080
 Serving at port 8080

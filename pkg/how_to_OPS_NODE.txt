@@ -1,30 +1,31 @@
 https://bitbucket.org/litmis/ibmichroot/src (see how_to_OPS_NODE.txt)
 ===============================
-installation
+installation (your profile - ranger example)
 ===============================
-CRTUSRPRF USRPRF(BOBBY) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
-CHGUSRPRF USRPRF(BOBBY) LOCALE(*NONE) HOMEDIR('/QOpenSys/bobby/./home/bobby')
+CRTUSRPRF USRPRF(RANGER) PASSWORD(BOB) USRCLS(*PGMR) TEXT('Tony Cairns')
+CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
 * CRTUSRPRF simple example, please check with your admin for correct user profile settings 
+* CHGUSRPRF HOMEDIR '.' enables auto chroot to target directory when using ssh 
 
--- outside chroot --
-$ mkdir -p /QOpenSys/bobby/home/bobby
+-- outside chroot (your admin *SECOFR) --
+$ mkdir -p /QOpenSys/ranger/home/ranger
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 -- ftp from Yips until PTF available --
-$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/bobby
-$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/bobby
-$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/bobby
-$ ./chroot_setup.sh chroot_OPS_NODE.lst /QOpenSys/bobby
+$ ./chroot_setup.sh chroot_minimal.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_GCC.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_SC1.lst /QOpenSys/ranger
+$ ./chroot_setup.sh chroot_OPS_NODE.lst /QOpenSys/ranger
 -- additional setup if another profile (careful must use chroot) --
-$ chroot /QOpenSys/bobby /bin/bsh
+$ chroot /QOpenSys/ranger /bin/bsh
 $ cd /
-$ chown -R bobby .
+$ chown -R ranger .
 $ exit
 -- back outside chroot --
 
--- inside chroot --
-$ ssh bobby@ut30p30
-bobby@ut30p30's password: 
+-- inside chroot (ranger) --
+$ ssh ranger@ut30p30
+ranger@ut30p30's password: 
 $ ls /
 QOpenSys  bin       dev       home      lib       sbin      tmp       usr
 $ export PATH=/QOpenSys/QIBM/ProdData/Node/bin:/usr/bin
@@ -38,8 +39,8 @@ v0.10.29
 =======================
 -- example 1st app ---
 =======================
-$ ssh bobby@ut30p30
-bobby@ut30p30's password:
+$ ssh ranger@ut30p30
+ranger@ut30p30's password:
 $ ksh
 $ export PATH=/QOpenSys/QIBM/ProdData/Node/bin:/usr/bin
 $ export LIBPATH=/QOpenSys/QIBM/ProdData/Node/bin:/usr/lib
@@ -70,14 +71,14 @@ Small 'hat chat' application that uses Yips IBM i via REST connection to XMLSERV
 Download:
 > download via button click: Branch: master |__|__|
 > Download and unzip on your pc. Transfer all files up to IBM i
-  /QOpenSys/bobby/home/bobby/MyIBMiNodeJs
+  /QOpenSys/ranger/home/ranger/MyIBMiNodeJs
 
-$ ssh bobby@ut30p30
-bobby@ut30p30's password:
+$ ssh ranger@ut30p30
+ranger@ut30p30's password:
 $ ksh
 $ export PATH=/QOpenSys/QIBM/ProdData/Node/bin:/usr/bin
 $ export LIBPATH=/QOpenSys/QIBM/ProdData/Node/bin:/usr/lib
-$ cd /home/bobby/MyIBMiNodeJs
+$ cd /home/ranger/MyIBMiNodeJs
 $ ls 
 License.txt            instructions.md        public
 README.md              lib                    views
@@ -98,7 +99,7 @@ $ ls ../lib/node_modules/npm/bin/npm-cli.js
 ../lib/node_modules/npm/bin/npm-cli.js
 $ ln -sf ../lib/node_modules/npm/bin/npm-cli.js npm
 $ ls -l npm
-lrwxrwxrwx    1 bobby    0                76 Nov  9 07:48 npm -> ../lib/node_modules/npm/bin/npm-cli.js
+lrwxrwxrwx    1 ranger    0                76 Nov  9 07:48 npm -> ../lib/node_modules/npm/bin/npm-cli.js
 $ cd
 $ npm --version
 1.4.14

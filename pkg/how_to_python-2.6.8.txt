@@ -1,12 +1,13 @@
 https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-2.6.8.txt)
 ===============================
-installation
+installation (your profile - ranger example)
 ===============================
-CRTUSRPRF USRPRF(RANGER) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
+CRTUSRPRF USRPRF(RANGER) PASSWORD(BOB) USRCLS(*PGMR) TEXT('Tony Cairns')
 CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
 * CRTUSRPRF simple example, please check with your admin for correct user profile settings 
+* CHGUSRPRF HOMEDIR '.' enables auto chroot to target directory when using ssh 
 
--- outside chroot --
+-- outside chroot (your admin *SECOFR) --
 $ mkdir -p /QOpenSys/ranger/home/ranger
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
 $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
@@ -21,7 +22,7 @@ $ chown -R ranger .
 $ exit
 -- back outside chroot --
 
--- inside chroot --
+-- inside chroot (ranger) --
 $ ssh -X ranger@ut30p30
 ranger@ut30p30's password: 
 -- if you see, use ksh --
