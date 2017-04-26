@@ -4,6 +4,7 @@ installation
 ===============================
 CRTUSRPRF USRPRF(WILDBILL) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
 CHGUSRPRF USRPRF(WILDBILL) LOCALE(*NONE) HOMEDIR('/QOpenSys/wildbill/./home/wildbill')
+* CRTUSRPRF simple example, please check with your admin for correct user profile settings 
 
 -- outside chroot (admin) --
 $ mkdir -p /QOpenSys/wildbill/home/wildbill

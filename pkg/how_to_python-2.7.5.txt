@@ -4,6 +4,7 @@ installation
 ===============================
 CRTUSRPRF USRPRF(RANGER) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
 CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
+* CRTUSRPRF simple example, please check with your admin for correct user profile settings 
 
 -- outside chroot --
 $ mkdir -p /QOpenSys/ranger/home/ranger

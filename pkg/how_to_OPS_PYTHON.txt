@@ -4,6 +4,7 @@ installation
 ===============================
 CRTUSRPRF USRPRF(LEFTY) PASSWORD() USRCLS(*PGMR) TEXT('Tony Cairns')
 CHGUSRPRF USRPRF(LEFTY) LOCALE(*NONE) HOMEDIR('/QOpenSys/lefty/./home/lefty')
+* CRTUSRPRF simple example, please check with your admin for correct user profile settings 
 
 -- outside chroot --
 $ mkdir -p /QOpenSys/lefty/home/lefty

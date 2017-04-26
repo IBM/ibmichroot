@@ -6,6 +6,7 @@ Project download directory structure:
 main
 |->chroot ... chroot_setup.sh chroot scripts and lists (original)
 |->pkg ... pkg_setup.sh download/install aix rpms (original)
+*** removed, working on newer versionn ***
 |->yum ... new rpm + yum + createrepo (experimental replacement for pkg_setup.sh)
 |->internal ... internal use xxx_bundle.tar builder instructions (Aaron and Tony)
 
