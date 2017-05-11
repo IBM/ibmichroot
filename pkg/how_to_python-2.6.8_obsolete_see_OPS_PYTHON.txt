@@ -1,4 +1,13 @@
-https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-2.7.5.txt)
+==============================
+IBM changes -- this file obsolete
+==============================
+IBM i OPS product now ships python 2 and 3.
+
+================
+Do not mix Perzl instructions below with OPS python.
+================
+
+https://bitbucket.org/litmis/ibmichroot/src (see how_to_python-2.6.8.txt)
 ===============================
 installation (your profile - ranger example)
 ===============================
@@ -36,25 +45,25 @@ $ cd /QOpenSys/QIBM/ProdData/OPS/GCC
 $ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
 $ bash
 bash-4.3$ ./pkg_setup.sh pkg_perzl_utils.lst
-bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.7.5.lst
+bash-4.3$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
 bash-4.3$ python
-Python 2.7.5 (default, Aug  2 2013, 23:27:48) [C] on aix5
+Python 2.6.8 (unknown, Aug  3 2013, 00:55:15) [C] on aix5
 Type "help", "copyright", "credits" or "license" for more information.
 >>> print("Hello World")
 Hello World
->>> 
-bash-4.3$ 
+>>> ^D
+bash-4.3$
+
 
 ===============================
-setup itoolkit egg
+setup itoolkit egg -- egg only available on Yips (not OPS)
+http://yips.idevcloud.com/wiki/index.php/XMLSERVICE/Python
 ===============================
 $ export PATH=/opt/freeware/bin:/usr/bin
 $ export LIBPATH=/opt/freeware/lib:/usr/lib
-$ wget https://bootstrap.pypa.io/ez_setup.py --no-check-certificate
-$ python ez_setup.py
 $ cd /QOpenSys/QIBM/ProdData/OPS/Python-pkgs/itoolkit
-$ easy_install itoolkit-1.1-py2.7.egg
-$ cp /QOpenSys/opt/freeware/lib/python2.7/site-packages/itoolkit-1.1-py2.7.egg/itoolkit/sample .
+$ easy_install itoolkit-1.1-py2.6.egg
+$ cp /QOpenSys/opt/freeware/lib/python2.6/site-packages/itoolkit-1.1-py2.6.egg/itoolkit/sample .
 $ cd sample
 $ python ipgm_zzcall.py
 Note: 
@@ -82,7 +91,7 @@ IBM i no internet, use linux
 -- ftp *.rpms to IBM i /QOpenSys/QIBM/ProdData/OPS/GCC --
 $ ./pkg_setup.sh pkg_perzl_bash-4.3.lst
 $ ./pkg_setup.sh pkg_perzl_utils.lst
-$ ./pkg_setup.sh pkg_perzl_python-2.7.5.lst
+$ ./pkg_setup.sh pkg_perzl_python-2.6.8.lst
 
 ===============================
 Start over (rm -R destroy all)?
@@ -122,5 +131,4 @@ httpd = SocketServer.TCPServer(("", port), Handler)
     
 print "Serving at port", port
 httpd.serve_forever()
-
 

@@ -7,6 +7,13 @@ CHGUSRPRF USRPRF(RANGER) LOCALE(*NONE) HOMEDIR('/QOpenSys/ranger/./home/ranger')
 * CRTUSRPRF simple example, please check with your admin for correct user profile settings 
 * CHGUSRPRF HOMEDIR '.' enables auto chroot to target directory when using ssh 
 
+========
+Instructions are for original Node,
+check /chroot directory
+chroot_gen_OPS_Node4.lst
+so on.
+========
+
 -- outside chroot (your admin *SECOFR) --
 $ mkdir -p /QOpenSys/ranger/home/ranger
 $ mkdir -p /QOpenSys/QIBM/ProdData/OPS/GCC
