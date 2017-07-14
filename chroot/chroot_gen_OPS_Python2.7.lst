@@ -17,7 +17,7 @@
 /QOpenSys/usr/bin/pip /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/pip
 /QOpenSys/usr/bin/pip2 /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/pip2
 /QOpenSys/usr/bin/pip2.7 /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/pip2.7
-/QOpenSys/usr/bin/pydoc /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/pydoc
+/QOpenSys/usr/bin/2to3 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/2to3
 /QOpenSys/usr/bin/pydoc /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/pydoc
 /QOpenSys/usr/bin/easy_install /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/easy_install
 /QOpenSys/usr/bin/easy_install-2.7 /QOpenSys/QIBM/ProdData/OPS/Python2.7/bin/easy_install-2.7

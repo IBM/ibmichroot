@@ -10,13 +10,11 @@
 /QOpenSys/usr/lib/libpython3.4m.so /QOpenSys/QIBM/ProdData/OPS/Python3.4/lib/libpython3.4m.so
 /QOpenSys/usr/bin/python3 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3
 /QOpenSys/usr/bin/python3.4 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3.4
+/QOpenSys/usr/bin/python3.4m /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3.4m
 /QOpenSys/usr/bin/pip3 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/pip3
 /QOpenSys/usr/bin/pip3.4 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/pip3.4
 /QOpenSys/usr/bin/2to3 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/2to3
 /QOpenSys/usr/bin/2to3-3.4 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/2to3-3.4
-/QOpenSys/usr/bin/python3-config /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3-config
-/QOpenSys/usr/bin/python3.4-config /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3.4-config
-/QOpenSys/usr/bin/python3.4m-config /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/python3.4m-config
 /QOpenSys/usr/bin/pydoc3 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/pydoc3
 /QOpenSys/usr/bin/pydoc3.4 /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/pydoc3.4
 /QOpenSys/usr/bin/pyvenv /QOpenSys/QIBM/ProdData/OPS/Python3.4/bin/pyvenv
