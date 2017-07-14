@@ -14,8 +14,6 @@ Project download directory structure:
 main
 |->chroot ... chroot_setup.sh chroot scripts and lists (*SECOFR)
 |->pkg ... pkg_setup.sh download/install aix rpms (chroot)
-
-(*) directory internal is not needed for customer installs (ignore)
 ```
 View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see `README.md` files for each topic.
 
