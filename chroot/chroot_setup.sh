@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/QOpenSys/usr/bin/sh
 #
 # global
 #
