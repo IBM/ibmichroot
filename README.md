@@ -1,4 +1,4 @@
-#ibmichroot project
+#ibmichroot project (version 1)
 Welcome to IBM i Chroot project.
 The knowledge to set-up successful PASE chroots is extensive.
 IBM i Chroot scripts allow easy set-up of PASE chroot projects.
