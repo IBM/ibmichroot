@@ -1,0 +1,166 @@
+#!/QOpenSys/pkgs/bin/python3
+
+import argparse
+import itoolkit
+import ibm_db_dbi as dbi
+import sqlite3
+import pathlib
+import subprocess
+import sys
+
+# make sure we have coreutils-gnu
+if not pathlib.Path('/QOpenSys/pkgs/bin/sort').exists():
+    sys.stderr.write("ERROR: you need coreutils-gnu installed\n")
+    sys.exit(1)
+
+# Initialize database connections
+db2_conn = dbi.connect();
+pathlib.Path('/QOpenSys/pkgs/lib/chroot_mgr/').mkdir(parents=False, exist_ok=True)
+sqlite_conn=sqlite3.connect('/QOpenSys/pkgs/lib/chroot_mgr/chroot_db.db')
+sqlite_conn.execute('CREATE TABLE if not exists CHROOTS (path text primary key unique)')
+
+mlocate_db_path='/QOpenSys/pkgs/lib/chroot_mgr/mlocate.db'
+
+parser = argparse.ArgumentParser(description="Implement SQL from IBM i \n\
+                                 command line and direct output to an \n\
+                                 Excel spreadsheet.")
+parser.add_argument('-a',
+                    help='Action to perform.',
+                    choices=['find_chrooted_users','add_chroot','remove_chroot', 
+                    'list_known', 'list_known_with_users', 'validate_chroot', 'users_in_chroot', 'search'],
+                    required=True)
+parser.add_argument('-p',
+                    help='Path to chroot (needed for actions ending in "_chroot"')
+
+args = parser.parse_args()
+
+
+def find_chrooted_users():
+    query="SELECT AUTHORIZATION_NAME AS \"user\", REGEXP_REPLACE(HOME_DIRECTORY, \'\\..*\', \'\') AS \"chroot\" FROM QSys2.user_info  WHERE HOME_DIRECTORY LIKE \'%.%\'"
+    cur=db2_conn.cursor();
+    cur.execute(query);
+    for row in cur:
+        print(row[0].ljust(18)+row[1]);
+    cur.close()
+
+def find_users_in_chroot(path, prefix=""):
+    query="SELECT AUTHORIZATION_NAME AS \"user\" FROM QSys2.user_info  WHERE HOME_DIRECTORY LIKE ?"
+    cur=db2_conn.cursor();
+    cur.execute(query, [(path.rstrip('/')+"/./%")]);
+    for row in cur:
+        print(prefix+row[0]);
+    cur.close()
+
+def add_known_chroot(path):
+    if validate_chroot(path) is False:
+        print("This is not a valid chroot: "+path)
+    cur=sqlite_conn.cursor()
+    try:
+        cur.execute("INSERT INTO CHROOTS VALUES(?)", [(path)])
+    except sqlite3.IntegrityError as exc:
+        pass
+    cur.close()
+    sqlite_conn.commit()
+    
+def remove_known_chroot(path):
+    cur=sqlite_conn.cursor()
+    try:
+        print("Removing chroot: "+path)
+        cur.execute("DELETE FROM CHROOTS WHERE PATH=?", [(path)])
+    except sqlite3.IntegrityError as exc:
+        pass
+    cur.close()
+    sqlite_conn.commit()
+    
+def list_known_chroots():
+    cur=sqlite_conn.cursor()
+    cur.execute("select * from CHROOTS")
+    for row in cur:
+        if validate_chroot(row[0]):
+            print(row[0])
+        else:
+            remove_known_chroot(row[0])
+    cur.close()
+    
+def list_known_chroots_with_users():
+    cur=sqlite_conn.cursor()
+    cur.execute("select * from CHROOTS")
+    for row in cur:
+        if validate_chroot(row[0]):
+            print(row[0])
+            find_users_in_chroot(row[0], "     ")
+        else:
+            remove_known_chroot(row[0])
+    cur.close()
+
+def validate_chroot(path):
+    files=("/QOpenSys/usr/bin/ls", "/QOpenSys/usr/bin/pwd")
+    for file in files:
+        if pathlib.Path(path+file).exists() is False:
+            return False
+    return True
+    
+def search_for_chroots():
+    print("Searching for chroots....");
+    try:
+        proc = subprocess.check_output(["/QOpenSys/pkgs/bin/updatedb", "--localpaths=/QOpenSys", "--output="+mlocate_db_path, "--prunepaths=/QOpenSys/QIBM/ProdData /QOpenSys/QOpenSys /QOpenSys/etc /QOpenSys/usr/bin /QOpenSys/usr/lib /QOpenSys/var /QOpenSys/pkgs /QOpenSys/usr/bin"], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as ex: # error code <> 0 
+        raise Exception(ex.output);
+    try:
+        proc = subprocess.check_output(["/QOpenSys/pkgs/bin/locate","--database="+mlocate_db_path, "/QOpenSys/usr/bin/ls"], stderr=subprocess.STDOUT)
+        chroots=proc.decode("utf-8").replace('/QOpenSys/usr/bin/ls','').split()
+        for chroot in chroots:
+            print("     "+chroot)
+            if validate_chroot(chroot):
+                #print("Chroot seems valid")
+                add_known_chroot(chroot)
+            else:
+                print("Chroot not valid at "+chroot);
+                remove_known_chroot(path)
+    except subprocess.CalledProcessError as ex2: # error code <> 0 
+    	if not ex2.output:
+    	    print("       > none found <")
+    	else:
+            raise Exception(ex2.output);
+    
+    print("Done searching for chroots")
+
+
+# Main Logic
+
+action = args.a
+path = args.p
+
+def validate_arg_path(path):
+    if path is None:
+        parser.error("ERROR: Must specify path with action "+args.a)
+    
+if action == "find_chrooted_users":
+    find_chrooted_users()
+elif action == "add_chroot": 
+    validate_arg_path(path)
+    add_known_chroot()
+    print("\n\nThe entire list of known chroots is: ")
+    list_known_chroots()
+elif action == "remove_chroot": 
+    validate_arg_path(path)
+    remove_known_chroot(path)
+elif action == "list_known": 
+    list_known_chroots()
+elif action == "list_known_with_users": 
+    list_known_chroots_with_users()
+elif action == "validate_chroot": 
+    validate_arg_path(path)
+    validate_chroot()
+elif action == "add_chroot": 
+    validate_arg_path(path)
+    add_known_chroot(path)
+elif action == "users_in_chroot": 
+    validate_arg_path(path)
+    find_users_in_chroot(path)
+elif action == "search": 
+    search_for_chroots()
+    print("\n\nThe entire list of known chroots is: ")
+    list_known_chroots()
+else:
+    print("Unexpected action")

@@ -1,7 +1,4 @@
 #!/QOpenSys/usr/bin/sh
-#
-# global
-#
 
 if [ -d /QOpenSys/usr/bin ]
 then
@@ -9,10 +6,29 @@ then
   system_OS400=1
   # setup paths to IBM Open source binaries and libraries 
   # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
-  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:/opt/freeware/bin
-  LIBPATH=/QOpenSys/usr/lib:/opt/freeware/lib
+  BEFORE_PATH="$PATH"
+  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:
+  # alias tar='/QOpenSys/pkgs/bin/tar'
+  LIBPATH=/QOpenSys/usr/lib
   export PATH
   export LIBPATH
+  echo "
+  #####  #     # ######  ####### ####### ####### 
+ #     # #     # #     # #     # #     #    #    
+ #       #     # #     # #     # #     #    #    
+ #       ####### ######  #     # #     #    #    
+ #       #     # #   #   #     # #     #    #    
+ #     # #     # #    #  #     # #     #    #    
+  #####  #     # #     # ####### #######    #    
+                                                 
+  #####  ####### ####### #     # ######          
+ #     # #          #    #     # #     #         
+ #       #          #    #     # #     #         
+  #####  #####      #    #     # ######          
+       # #          #    #     # #               
+ #     # #          #    #     # #               
+  #####  #######    #     #####  #
+  "
   echo "**********************"
   echo "Live IBM i session (changes made)."
   echo "**********************"
@@ -28,9 +44,11 @@ fi
 
 CHROOT_DIR=""
 CHROOT_LIST=""
-CHROOT_PID="$$"
-CHROOT_VARG=""
-
+# Dependency on readlink from coreutils
+SCRIPT_DIR=$(dirname $(/QOpenSys/pkgs/bin/readlink -f $0))
+echo "Scipt Dir: $SCRIPT_DIR"
+cd "$SCRIPT_DIR"
+echo "PWD: $PWD"
 function chroot_mkdir {
   echo "mkdir -p $CHROOT_DIR$1"
   if (($CHROOT_DEBUG==0)); then
@@ -82,11 +100,10 @@ function chroot_ln_fix_rel {
 function chroot_mknod {
   echo "mknod $CHROOT_DIR$1 $2 $3 $4"
   if (($CHROOT_DEBUG==0)); then
-    mknod $CHROOT_DIR$1 $2 $3 $4
+    /QOpenSys/usr/sbin/mknod $CHROOT_DIR$1 $2 $3 $4
   fi
 }
 function chroot_cp {
-  # tgt=$(dirname $1)
   echo "cp $1 $CHROOT_DIR$1"
   if (($CHROOT_DEBUG==0)); then
     cp $1 $CHROOT_DIR$1
@@ -103,29 +120,44 @@ function chroot_tar_dir {
   chroot_mkdir $1
   mydir=$(dirname $1)
   mybase=$(basename $1)
-  here=$(pwd)
-  if [ -f $here/$mybase.tar ]; then
-    echo "Using existing $here/$mybase.tar"
+  if [ -f $SCRIPT_DIR/$mybase.tar ]; then
+    echo "Using existing $SCRIPT_DIR/$mybase.tar"
   else
     echo "cd $mydir"
-    echo "tar -chf $here/$mybase.tar $mybase"
+    echo "tar -chf $SCRIPT_DIR/$mybase.tar $mybase"
     echo "cd $CHROOT_DIR$mydir"
-    echo "tar -xf $here/$mybase.tar"
+    echo "tar -xf $SCRIPT_DIR/$mybase.tar"
   fi
   if (($CHROOT_DEBUG==0)); then    
-    if ! [ -f $here/$mybase.tar ]; then
+    if ! [ -f $SCRIPT_DIR/$mybase.tar ]; then
+      echo "Changing directory to: $mydir"
+      #CHECK IF THE DIR EXISTS BEFORE CD & TAR
+      if [ ! -d "$mydir" ]; then
+        echo "Directory Does not exist. Cannot Tar a missing folder $1"
+        echo "failed during chroot_tar_dir $1"
+        #clean up
+        rm $SCRIPT_DIR/*.tmp
+        exit -8;
+      fi
       cd $mydir
-      tar -chf $here/$mybase.tar $mybase
+      echo "PWD is: $PWD"
+      echo "Creating a tar file from $mydir/$mybase to $SCRIPT_DIR"
+      echo "tar -chf $SCRIPT_DIR/$mybase.tar $mybase"
+      tar -chf $SCRIPT_DIR/$mybase.tar $mybase
+      ls -l | grep "$SCRIPT_DIR/$mybase.tar"
     fi
     cd $CHROOT_DIR$mydir
-    tar -xf $here/$mybase.tar
-    cd $here
+    echo "PWD is: $PWD"
+    echo "Extracting the tar file  $SCRIPT_DIR/$mybase.tar"
+    tar -xf $SCRIPT_DIR/$mybase.tar
+    ls -l | grep "$SCRIPT_DIR/$mybase.tar"
+    cd $SCRIPT_DIR
   fi
 }
 function chroot_chmod {
   echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c \"chmod $1 $2\""
   if (($CHROOT_DEBUG==0)); then
-    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chmod $1 $2" 
+    chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c "chmod $1 $2"
   fi
 }
 function chroot_chmod_dir {
@@ -179,10 +211,10 @@ function chroot_setup {
       ;;
       *#*)
         # echo "comment"
-      ;;
+      ;; 
       :*)
-        # echo "action"
         action=$name
+        echo "action = $name"
       ;;
       *)
         case "$action" in
@@ -240,68 +272,124 @@ function chroot_setup {
 #
 # main
 #
-opr="-g"
+
 lst=0
+ops=0
 qsys=0
-for arg in "$@"
-{
-  if ([ $CHROOT_LIST ] && [ $CHROOT_DIR ]); then
-    # split by equals sign
-    CHROOT_VARG="$CHROOT_VARG $arg"
-  elif ([ $CHROOT_LIST ]); then
-    CHROOT_DIR=$arg
-  else
-    CHROOT_LIST=$arg
-  fi
-}
-# check input
-lst=$(echo $CHROOT_LIST | grep -c '.lst')
-if (($lst==0)); then
-  echo "Error: 1st paramter missing *.lst ($CHROOT_LIST)"
-  opr="error"
+
+# Verify At Least 1 Argument Was Passed
+if [ ! $# -ge 1 ]; then
+  #exit the script somehow
+  printf "\nERROR: At Least 1 argument [CHROOT DIRECTORY] must be passed\n"
+  printf "\nUsage: $0 [CHROOT DIRECTORY] [CHROOT TYPE] [CHROOT TYPE] ...\n"
+  exit -1;
 fi
-qopen=$(echo $CHROOT_DIR | grep -c '/QOpenSys')
-if (($qopen==0)); then
-  echo "Error: 2nd paramter must start /QOpenSys ($CHROOT_DIR)"
-  opr="error"
+
+# Validate CHROOT DIRECTORY Argument starts with /QOpenSys/...
+TEMP_DIR="$1"
+echo "$TEMP_DIR" | grep -iE '^[/]+QOpenSys/.+'
+
+if [ $? -ne 0 ]; then
+   printf "\n[CHROOT DIRECTORY]  Must begin with /QOpenSys/...\n"
+   printf "\nUsage: $0 [CHROOT DIRECTORY] [CHROOT TYPE] [CHROOT TYPE] ...\n"
+   exit -2;
 fi
-mkdir -p $CHROOT_DIR
-# run operation
-# $PS1='ranger$ '
-key=""
-val=""
-sed_cmd="-e 's/1/1/g'" # Need this for when no global variables passed.
-for i in $(echo $CHROOT_VARG | tr "=" "\n")
-do
-  if ([ $key ]); then
-    val=$i
-    sed_cmd="$sed_cmd -e 's|$key|$val|g'"
-    key=""
-    val=""
+
+# Check if the specified Dir Already Exists
+CHROOT_DIR=$TEMP_DIR
+if [ ! -d "$CHROOT_DIR" ]; then
+  echo "$CHROOT_DIR Does not Exist"
+  mkdir -p "$CHROOT_DIR"
+  #check if mkdir failed
+  if [ $? -ne 0 ]; then
+    echo "***$CHROOT_DIR creation failed!***"
+    exit -3;
   else
-    key=$i
+    echo "+++$CHROOT_DIR creation was successful!+++"
   fi
-done
-CHROOT_LIST_TMP=$CHROOT_LIST.$(date "+%Y%m%d.%H%M%S").tmp
-eval "sed $sed_cmd $CHROOT_LIST > $CHROOT_LIST_TMP"
-case "$opr" in
-  -g)
-    chroot_setup $CHROOT_LIST_TMP
-    rm $CHROOT_LIST_TMP
-    echo "============"
-    echo "chroot command:"
-    echo "  > chroot $CHROOT_DIR /bin/bsh"
-    echo "chroot ssh profile (optional):"
-    echo "  > mkdir -p $CHROOT_DIR/home/MYPROF"
-    echo "  > CHGUSRPRF USRPRF(MYPROF) LOCALE(*NONE) HOMEDIR($CHROOT_DIR/./home/MYPROF)"
-    echo "    '/./home/MYPROF' is required auto ssh login chroot (IBM i hack)"
-    echo "other useful settings chroot (optional):"
-    echo "  > \$PS1='dev$ '"
-    echo "  > LANG=C"
-    echo "  > LANG=819"
-  ;;
-  *)
-    echo "./$(basename $0) chroot_copy.lst /QOpenSys/root_path var1=/myval var2=MYNAME ..."
-  ;;
+else
+  echo "$CHROOT_DIR Directory already exists"
+  echo "Would you like to continue chroot setup? [y/N]: \c"
+  read input
+  if [ ! $input == "y" ]; then
+        echo "Bye"
+        exit -4;
+      fi
+fi
+
+#remove the first arg from $@ shift others up
+shift
+
+# Validate CHROOT TYPE Argument(s)
+case "$#" in
+   0) # Only the chroot directory was provided: Ask if minimal with includes chroot is desired.
+      echo "Would you like to create a minimal chroot w/ includes @ $CHROOT_DIR? [y/N]: \c"
+      read input 
+      if [ ! $input == "y" ]; then
+        echo "Specify your desired [CHROOT TYPE]"
+        echo "Usage: $0 [CHROOT DIRECTORY] [CHROOT TYPE]*"
+        exit -5;
+      fi
+      mylist[0]="chroot_includes.lst"
+      mylist[1]="chroot_minimal.lst" 
+    ;;
+
+    *) #if chroot types were specified then use those
+      for arg in "$@"
+      {
+        echo "Arg is: $arg"
+        # verify a depricated OPS file was not specified
+        ops=$(echo "$arg" | grep -ic 'ops')
+        if ((!$ops==0)); then
+          echo "OPS has been depricated, and replaced with YUM Packages. Run $0 with a valid [CHROOT TYPE]"
+          echo "Usage: $0 [CHROOT DIRECTORY] [CHROOT TYPE]*"
+          exit -6;
+        fi
+        CHROOT_LIST=$arg
+        
+        #add chroot prefix if doesnot exist
+        prefix=$(echo $CHROOT_LIST | grep -c 'chroot')
+          if (($prefix==0)); then
+          #prefix chroot to the file
+          CHROOT_LIST="chroot_$CHROOT_LIST"
+        fi
+
+        # check if the .lst file name was given
+        lst=$(echo $CHROOT_LIST | grep -c '.lst')
+        if (($lst==0)); then
+          #append .lst to the file
+          CHROOT_LIST="$CHROOT_LIST.lst"
+        fi
+
+        #check if the .lst file exists
+        if [ ! -f "$CHROOT_LIST" ]; then
+          echo "$CHROOT_LIST: Cannot be found in: $PWD"
+          exit -7;
+        else
+          #Adds File Name to End of list
+          mylist[${#mylist[*]}+1]=$CHROOT_LIST
+          ls -l
+        fi
+      }
+    ;;
 esac
 
+#Debug Information Can Be Deleted/Commented
+echo "Number of Elements in the Array: ${#mylist[*]}"
+echo "Array Contents: ${mylist[*]}"
+
+for chroot in ${mylist[@]}
+{
+  echo "====================================="
+  echo "Creating chroot based on $chroot"
+  echo "====================================="
+  CHROOT_LIST_TMP=$chroot.$(date "+%Y%m%d.%H%M%S").tmp
+  eval "cat $SCRIPT_DIR/$chroot > $SCRIPT_DIR/$CHROOT_LIST_TMP"
+  #call the chroot_setup function
+  chroot_setup $CHROOT_LIST_TMP
+  #Clean Up 
+  rm $SCRIPT_DIR/$CHROOT_LIST_TMP
+}
+printf "\nTo enter Your Chroot"
+printf "\nRUN: chroot $CHROOT_DIR /QOpenSys/usr/bin/sh\n"
+printf "\n\nDONE!\n"
