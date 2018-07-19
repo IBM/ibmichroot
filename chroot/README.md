@@ -27,10 +27,13 @@ View the [repo](https://bitbucket.org/litmis/ibmichroot/src) to see an exhaustiv
 - chroot_ZendServer6.lst     -- copy Zend Server 6 into my chroot (PASE)
 - chroot_template.lst        -- exmple template for your own chroot copy
 
-##Articles
-**Articles about chroot: **
-[A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
-[A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
+## Articles
+
+- [IBM i IFS Containers](http://krengel.tech/litmis-ifs-containers) (presentations. kept up to date)
+- [A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot) (operates on non yum approach)
+- [A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2) (operates on non yum approach)
+
+
 
 ##Dynamic Global Variables
 You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in `xxxxx.lst` files.  For example:
