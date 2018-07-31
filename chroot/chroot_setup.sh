@@ -1,18 +1,6 @@
 #!/QOpenSys/usr/bin/sh
 
-if [ -d /QOpenSys/usr/bin ]
-then
-  CHROOT_DEBUG=0
-  system_OS400=1
-  # setup paths to IBM Open source binaries and libraries 
-  # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
-  BEFORE_PATH="$PATH"
-  PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:
-  # alias tar='/QOpenSys/pkgs/bin/tar'
-  LIBPATH=/QOpenSys/usr/lib
-  export PATH
-  export LIBPATH
-  echo "
+echo "
   #####  #     # ######  ####### ####### ####### 
  #     # #     # #     # #     # #     #    #    
  #       #     # #     # #     # #     #    #    
@@ -28,27 +16,9 @@ then
        # #          #    #     # #               
  #     # #          #    #     # #               
   #####  #######    #     #####  #
-  "
-  echo "**********************"
-  echo "Live IBM i session (changes made)."
-  echo "**********************"
-  echo "PATH=$PATH"
-  echo "LIBPATH=$LIBPATH"
-else
-  CHROOT_DEBUG=1
-  system_OS400=0
-  echo "**********************"
-  echo "Not IBM i, no action is taken (debug flow purpose only)."
-  echo "**********************"
-fi
 
-CHROOT_DIR=""
-CHROOT_LIST=""
-# Dependency on readlink from coreutils
-SCRIPT_DIR=$(dirname $(/QOpenSys/pkgs/bin/readlink -f $0))
-echo "Scipt Dir: $SCRIPT_DIR"
-cd "$SCRIPT_DIR"
-echo "PWD: $PWD"
+"
+
 function chroot_mkdir {
   echo "mkdir -p $CHROOT_DIR$1"
   if (($CHROOT_DEBUG==0)); then
@@ -269,6 +239,47 @@ function chroot_setup {
     esac
   done 3<$1
 }
+function print_usage {
+  printf "\nUsage: [OPTIONS] [CHROOT DIRECTORY] [CHROOT TYPE]* \n"
+  printf "\nOPTIONS:\n -g = global variable\n -y = auto yes\n -v = verbose output\n\n"
+}
+
+function intial_check {
+  if [ -d /QOpenSys/usr/bin ]; then
+    CHROOT_DEBUG=0
+    system_OS400=1
+    # setup paths to IBM Open source binaries and libraries 
+    # Notes: https://bitbucket.org/litmis/ibmichroot/issues/8/alternative-download-pkg_setupsh-on-linux
+    PATH=/QOpenSys/usr/bin:/QOpenSys/usr/sbin:
+    LIBPATH=/QOpenSys/usr/lib
+    export PATH
+    export LIBPATH
+    echo "**********************"
+    echo "Live IBM i session (changes made)."
+    echo "**********************"
+    
+    if ((isVerbose == 1 )) ; then
+      echo "PATH=$PATH"
+      echo "LIBPATH=$LIBPATH"
+    fi
+
+else
+  CHROOT_DEBUG=1
+  system_OS400=0
+  echo "**********************"
+  echo "Not IBM i, no action is taken (debug flow purpose only)."
+  echo "**********************"
+  exit -1
+fi
+
+}
+
+function debug {
+  if ((isVerbose == 1)) ; then
+    echo $1
+  fi
+}
+
 #
 # main
 #
@@ -276,22 +287,76 @@ function chroot_setup {
 lst=0
 ops=0
 qsys=0
+CHROOT_DIR=""
+CHROOT_LIST=""
+# Dependency on readlink from coreutils
+SCRIPT_DIR=$(dirname $(/QOpenSys/pkgs/bin/readlink -f $0))
+
+
 
 # Verify At Least 1 Argument Was Passed
 if [ ! $# -ge 1 ]; then
-  #exit the script somehow
   printf "\nERROR: At Least 1 argument [CHROOT DIRECTORY] must be passed\n"
-  printf "\nUsage: $0 [CHROOT DIRECTORY] [CHROOT TYPE] [CHROOT TYPE] ...\n"
+  print_usage;
   exit -1;
 fi
+
+#Parse any flags that were passesd
+isYes=0
+isVerbose=0
+isGlobals=0
+
+while getopts g:yv flag; do
+    case $flag in
+        # global variables flag
+        g)
+          # GLOBALS="$OPTARG"
+          # verify global var matches pattern key=value
+          echo "$OPTARG" | grep -E '^.+(=).+'
+          if [ $? -ne 0 ]; then
+            printf "\nInvalid Argument: Global varibales should be in key=value format\n"
+            exit -1
+          fi
+          isGlobals=1
+          #Adds Global variable to end of list
+          globals[${#globals[*]}+1]="$OPTARG"
+          debug "\nGlobal: $OPTARG was added to the list\n"
+        ;;
+        # yes flag
+        y)
+          isYes=1
+        ;;
+        # verbose flag
+        v)
+          isVerbose=1 
+        ;;
+        *)
+          echo "Invalid Argument"
+          print_usage
+          exit -1
+    esac
+done
+
+debug "Number of Elements in the Globals Array: ${#globals[*]}"
+debug "Globals Array Contents: ${globals[*]}"
+
+shift $((OPTIND-1))
+
+# call the intial_check function
+intial_check
+
+
+debug "Scipt Dir: $SCRIPT_DIR"
+cd "$SCRIPT_DIR"
+debug "PWD: $PWD"
 
 # Validate CHROOT DIRECTORY Argument starts with /QOpenSys/...
 TEMP_DIR="$1"
 echo "$TEMP_DIR" | grep -iE '^[/]+QOpenSys/.+'
 
 if [ $? -ne 0 ]; then
-   printf "\n[CHROOT DIRECTORY]  Must begin with /QOpenSys/...\n"
-   printf "\nUsage: $0 [CHROOT DIRECTORY] [CHROOT TYPE] [CHROOT TYPE] ...\n"
+   printf "\nERROR: [CHROOT DIRECTORY] Must begin with /QOpenSys/...\n"
+   print_usage
    exit -2;
 fi
 
@@ -308,13 +373,15 @@ if [ ! -d "$CHROOT_DIR" ]; then
     echo "+++$CHROOT_DIR creation was successful!+++"
   fi
 else
-  echo "$CHROOT_DIR Directory already exists"
-  echo "Would you like to continue chroot setup? [y/N]: \c"
-  read input
-  if [ ! $input == "y" ]; then
+  if (($isYes==0)); then
+    echo "$CHROOT_DIR Directory already exists"
+    echo "Would you like to continue chroot setup? [y/N]: \c"
+    read input
+    if [ ! $input == "y" ]; then
         echo "Bye"
         exit -4;
-      fi
+    fi
+  fi
 fi
 
 #remove the first arg from $@ shift others up
@@ -323,15 +390,18 @@ shift
 # Validate CHROOT TYPE Argument(s)
 case "$#" in
    0) # Only the chroot directory was provided: Ask if minimal with includes chroot is desired.
-      echo "Would you like to create a minimal chroot w/ includes @ $CHROOT_DIR? [y/N]: \c"
-      read input 
-      if [ ! $input == "y" ]; then
-        echo "Specify your desired [CHROOT TYPE]"
-        echo "Usage: $0 [CHROOT DIRECTORY] [CHROOT TYPE]*"
-        exit -5;
-      fi
+      if (( $isYes == 0 )) ; then
+        echo "Would you like to create a minimal chroot w/ includes @ $CHROOT_DIR? [y/N]: \c"
+        read input 
+        if [ ! $input == "y" ]; then
+          echo "Specify your desired [CHROOT TYPE]"
+          print_usage
+          exit -5;
+        fi
+      fi 
+
       mylist[0]="chroot_includes.lst"
-      mylist[1]="chroot_minimal.lst" 
+      mylist[1]="chroot_minimal.lst"
     ;;
 
     *) #if chroot types were specified then use those
@@ -342,7 +412,7 @@ case "$#" in
         ops=$(echo "$arg" | grep -ic 'ops')
         if ((!$ops==0)); then
           echo "OPS has been depricated, and replaced with YUM Packages. Run $0 with a valid [CHROOT TYPE]"
-          echo "Usage: $0 [CHROOT DIRECTORY] [CHROOT TYPE]*"
+          print_usage
           exit -6;
         fi
         CHROOT_LIST=$arg
@@ -368,23 +438,42 @@ case "$#" in
         else
           #Adds File Name to End of list
           mylist[${#mylist[*]}+1]=$CHROOT_LIST
-          ls -l
         fi
       }
     ;;
 esac
 
-#Debug Information Can Be Deleted/Commented
-echo "Number of Elements in the Array: ${#mylist[*]}"
-echo "Array Contents: ${mylist[*]}"
+debug "Number of Elements in the mylist: ${#mylist[*]}"
+debug "mylist Contents: ${mylist[*]}"
+sed_cmd=''
+#Prepare sed_cmd for dynamic global variables if set.
+if (( $isGlobals==1 )) ; then
+  for var in ${globals[@]}
+  {
+    KEY=$(echo "$var" | cut -f1 -d '=')
 
+    VALUE=$(echo "$var" | cut -f2 -d '=')
+
+    sed_cmd="s|$KEY|$VALUE|g; $sed_cmd"
+  }
+fi
+
+#Perform Chroot Setup
 for chroot in ${mylist[@]}
 {
   echo "====================================="
-  echo "Creating chroot based on $chroot"
+  echo "setting up based on $chroot"
   echo "====================================="
   CHROOT_LIST_TMP=$chroot.$(date "+%Y%m%d.%H%M%S").tmp
-  eval "cat $SCRIPT_DIR/$chroot > $SCRIPT_DIR/$CHROOT_LIST_TMP"
+  if (( $isGlobals==1 )) ; then
+    debug "Running Sed for Globals\n"
+    debug "sed $sed_cmd $CHROOT_LIST > $SCRIPT_DIR/$CHROOT_LIST_TMP"
+    sed "$sed_cmd" $CHROOT_LIST > $SCRIPT_DIR/$CHROOT_LIST_TMP
+
+    else
+    cat $SCRIPT_DIR/$chroot > $SCRIPT_DIR/$CHROOT_LIST_TMP
+  fi
+
   #call the chroot_setup function
   chroot_setup $CHROOT_LIST_TMP
   #Clean Up 
