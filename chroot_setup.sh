@@ -290,7 +290,7 @@ qsys=0
 CHROOT_DIR=""
 CHROOT_LIST=""
 # Dependency on readlink from coreutils
-SCRIPT_DIR=$(dirname $(/QOpenSys/pkgs/bin/readlink -f $0))
+SCRIPT_DIR=$(dirname $(/QOpenSys/pkgs/bin/readlink -f $0))/config
 
 
 
@@ -351,7 +351,7 @@ cd "$SCRIPT_DIR"
 debug "PWD: $PWD"
 
 # Validate CHROOT DIRECTORY Argument starts with /QOpenSys/...
-TEMP_DIR="$1"
+TEMP_DIR=$(/QOpenSys/pkgs/bin/readlink -f "$1")
 echo "$TEMP_DIR" | grep -iE '^[/]+QOpenSys/.+'
 
 if [ $? -ne 0 ]; then
