@@ -346,12 +346,12 @@ shift $((OPTIND-1))
 intial_check
 
 
+TEMP_DIR=$(/QOpenSys/pkgs/bin/readlink -f $1) #this is done because the arg may be a relative path name. Needs to be done, therefore, before any 'cd'
 debug "Scipt Dir: $SCRIPT_DIR"
 cd "$SCRIPT_DIR"
 debug "PWD: $PWD"
 
 # Validate CHROOT DIRECTORY Argument starts with /QOpenSys/...
-TEMP_DIR=$(/QOpenSys/pkgs/bin/readlink -f "$1")
 echo "$TEMP_DIR" | grep -iE '^[/]+QOpenSys/.+'
 
 if [ $? -ne 0 ]; then
