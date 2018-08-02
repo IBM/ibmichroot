@@ -66,19 +66,20 @@ It is recommended to install bash within your chroot as well. you can do so with
 ## Dynamic Global Variables
 You can pass in any named variable to chroot_setup.sh so you can have replacement values in xxxxx.lst files. For example:
 
-`$ chroot_setup -g myuser=AARON /QOpenSys/root_path yourCustom.lst`   
+`$ chroot_setup -g myuser=AARON -g mydir=/QOpenSys/root_path /QOpenSys/root_path /path/to/yourCustom.lst`   
 
 And then in your .lst file you could have this:
 
 `:system`   
-`CHGAUT OBJ('/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)`
+`CHGAUT OBJ('mydir') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)`
 
-Any instance of `myuser` would be interpreted as `AARON` when the script is run.
+Any instance of `myuser` would be interpreted as `AARON` when the script is run.  Same for `mydir` and `/QOpenSys/root_path`.
 
 ## Chroot Manager Python Script
 TODO: Document chroot_mgr.py
 
 ## Articles
 **Articles about chroot:**  
-[A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)  
-[A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
+- [A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)  
+- [A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2) 
+- [IFS Containers (presentation)](https://krengel.tech/litmis-ifs-containers) 

@@ -400,14 +400,14 @@ case "$#" in
         fi
       fi 
 
-      mylist[0]="chroot_includes.lst"
-      mylist[1]="chroot_minimal.lst"
+      mylist[0]="$SCRIPT_DIR/chroot_includes.lst"
+      mylist[1]="$SCRIPT_DIR/chroot_minimal.lst"
     ;;
 
     *) #if chroot types were specified then use those
       for arg in "$@"
       {
-        echo "Arg is: $arg"
+        echo "Chroot type is: $arg"
         # verify a depricated OPS file was not specified
         ops=$(echo "$arg" | grep -ic 'ops')
         if ((!$ops==0)); then
@@ -437,7 +437,7 @@ case "$#" in
           exit -7;
         else
           #Adds File Name to End of list
-          mylist[${#mylist[*]}+1]=$CHROOT_LIST
+          mylist[${#mylist[*]}+1]=$(/QOpenSys/pkgs/bin/readlink -f $CHROOT_LIST)
         fi
       }
     ;;
@@ -464,20 +464,20 @@ for chroot in ${mylist[@]}
   echo "====================================="
   echo "setting up based on $chroot"
   echo "====================================="
-  CHROOT_LIST_TMP=$chroot.$(date "+%Y%m%d.%H%M%S").tmp
+  CHROOT_TMP=$chroot.$(date "+%Y%m%d.%H%M%S").tmp
   if (( $isGlobals==1 )) ; then
     debug "Running Sed for Globals\n"
-    debug "sed $sed_cmd $CHROOT_LIST > $SCRIPT_DIR/$CHROOT_LIST_TMP"
-    sed "$sed_cmd" $CHROOT_LIST > $SCRIPT_DIR/$CHROOT_LIST_TMP
+    debug "sed $sed_cmd $chroot > $CHROOT_TMP"
+    sed "$sed_cmd" $chroot > $CHROOT_TMP
 
     else
-    cat $SCRIPT_DIR/$chroot > $SCRIPT_DIR/$CHROOT_LIST_TMP
+    cat $chroot > $CHROOT_TMP
   fi
 
   #call the chroot_setup function
-  chroot_setup $CHROOT_LIST_TMP
+  chroot_setup $CHROOT_TMP
   #Clean Up 
-  rm $SCRIPT_DIR/$CHROOT_LIST_TMP
+  rm $CHROOT_TMP
 }
 printf "\nTo enter Your Chroot"
 printf "\nRUN: chroot $CHROOT_DIR /QOpenSys/usr/bin/sh\n"
