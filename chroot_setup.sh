@@ -241,7 +241,7 @@ function chroot_setup {
 }
 function print_usage {
   printf "\nUsage: [OPTIONS] [CHROOT DIRECTORY] [CHROOT TYPE]* \n"
-  printf "\nOPTIONS:\n -g = global variable\n -y = auto yes\n -v = verbose output\n\n"
+  printf "\nOPTIONS:\n -g = global variable\n -i = yum install\n -y = auto yes\n -v = verbose output\n\n"
 }
 
 function intial_check {
@@ -280,6 +280,26 @@ function debug {
   fi
 }
 
+function yumInstall {
+  if (($isInstalls==1)); then
+    CHROOT_DIR=$1
+    #Yum requires both paths
+    LIBPATH=/QOpenSys/pkgs/lib:/QOpenSys/usr/lib
+
+    for var in ${installs[@]}
+    {
+      debug "/QOpenSys/pkgs/bin/yum --installroot=$CHROOT_DIR install $var"
+      if (($isYes==1)); then
+        /QOpenSys/pkgs/bin/yum -y --installroot="$CHROOT_DIR" install $var
+      else
+        /QOpenSys/pkgs/bin/yum --installroot="$CHROOT_DIR" install $var
+      fi
+    }
+
+    exit 0
+  fi
+}
+
 #
 # main
 #
@@ -305,8 +325,9 @@ fi
 isYes=0
 isVerbose=0
 isGlobals=0
+isInstalls=0
 
-while getopts g:yv flag; do
+while getopts g:i:vy flag; do
     case $flag in
         # global variables flag
         g)
@@ -330,6 +351,18 @@ while getopts g:yv flag; do
         v)
           isVerbose=1 
         ;;
+        #yum install flag
+        i)
+          #check if yum is installed
+          if [ ! -f /QOpenSys/pkgs/bin/yum ]; then
+            echo "ERROR: Yum could not be located"
+            exit -1
+          fi
+          isInstalls=1
+          #Adds install variable to end of list
+          installs[${#installs[*]}+1]="$OPTARG"
+          debug "\nInstall: $OPTARG was added to the list\n"
+        ;;
         *)
           echo "Invalid Argument"
           print_usage
@@ -337,8 +370,15 @@ while getopts g:yv flag; do
     esac
 done
 
+if (($isGlobals==1)); then
 debug "Number of Elements in the Globals Array: ${#globals[*]}"
 debug "Globals Array Contents: ${globals[*]}"
+fi
+
+if (($isInstalls==1)); then
+debug "Number of Elements in the Installs Array: ${#installs[*]}"
+debug "Installs Array Contents: ${installs[*]}"
+fi
 
 shift $((OPTIND-1))
 
@@ -360,8 +400,12 @@ if [ $? -ne 0 ]; then
    exit -2;
 fi
 
-# Check if the specified Dir Already Exists
 CHROOT_DIR=$TEMP_DIR
+
+#perform installs if set then exit
+yumInstall $CHROOT_DIR
+
+# Check if the specified Dir Already Exists
 if [ ! -d "$CHROOT_DIR" ]; then
   echo "$CHROOT_DIR Does not Exist"
   mkdir -p "$CHROOT_DIR"
@@ -369,9 +413,8 @@ if [ ! -d "$CHROOT_DIR" ]; then
   if [ $? -ne 0 ]; then
     echo "***$CHROOT_DIR creation failed!***"
     exit -3;
-  else
-    echo "+++$CHROOT_DIR creation was successful!+++"
   fi
+   echo "+++$CHROOT_DIR creation was successful!+++"
 else
   if (($isYes==0)); then
     echo "$CHROOT_DIR Directory already exists"
