@@ -1,24 +1,22 @@
+# Table of Contents
+- [IBM i Chroot (version 2)](#ibm-i-chroot-version-2)
+- [Install](#install)
+- [Usage](#usage)
+  - [Example](#chroot-setup-example)
+  - [Config files](#config-files)
+- [Install Software into Chroot](#install-software-into-chroot)
+- [Advanced](#advanced)
+- [Chroot Manager](#chroot-manager)
+- [Resources](#resources)
+
+
 # IBM i Chroot (version 2)
 
 Chroot (Change Root) is a PASE command used to change the relative root of a IBM i shell job.
 
 The purpose of this project is to automate and simplifiy chroot environment creation.
 
-To learn more about chroots in PASE view these [resources](#markdown-header-resources)
-
----
-
-# Table of Contents
-- [Install](#markdown-header-install)
-- [Usage](#markdown-header-usage)
-    - [Example](#markdown-header-chroot-setup-example)
-    - [Config Files](#markdown-header-config-files)
-- [Install Software](#markdown-header-install-software)
-- [Advanced](#markdown-header-advanced)
-- [Chroot Manager](#markdown-header-chroot-manager)
-- [Resources](#markdown-header-resources)
-
----
+To learn more about chroots in PASE view these [resources](#resources)
 
 # Install
 This project is available via RPM
@@ -45,6 +43,7 @@ Before running `chroot_setup` ensure you have proper permissions first!
 -v: More verbose output.   
 -y: Auto respond yes to the prompts.   
 -g: Dynamic global variables.  
+-i: yum install into chroot.
 
 ```
 
@@ -63,19 +62,21 @@ This parameter is required and chroot directory path must begin with /QOpenSys/
 
 This parameter is optional, when undefined a chroot with minimal with includes will be created.
 
-Full file names are not required when specifying the [CHROOT TYPE] chroot_minimal.lst OR minimal will both work.
+Full file names are not required when specifying the [CHROOT TYPE]
+
+- chroot_minimal.lst OR minimal will work
 
 ```
 
 
-## Chroot Setup example
+## Example
 
 ---
 
+Creating a minimal chroot:
+
 ``` 
 $ chroot_setup /QOpenSys/root_path
-
-$ chroot_setup /QOpenSys/root_path minimal includes
 
 ```
 
@@ -87,10 +88,10 @@ For example, you can create a bare minimum chroot environment with `chroot_minim
 
 Or you could add multiple `*.lst` files together to create an environment with many features.
 
-Vist [config](https://bitbucket.org/litmis/ibmichroot/src/master/config) to see an exhaustive list of `chroot_xxxx.lst` files.
+Visit [config](https://github.com/IBM/ibmichroot/blob/master/config) to see an exhaustive list of `chroot_xxxx.lst` files.
 
 ---
-# Install Software
+# Install Software into Chroot
 After Creating a chroot with minimal and includes configuration you can use `yum` to install into your chroot.
 
 It is recommended to install bash within your chroot as well. you can do so with: 
@@ -100,6 +101,10 @@ It is recommended to install bash within your chroot as well. you can do so with
 Packages such as Node.js can be installed by invoking:
 
 `yum --installroot=/QOpenSys/root_path install nodejs8`
+
+As a convinence you can use  `-i` option:
+
+`chroot_setup -i bash /QOpenSys/root_path`
 
 ***Note***
 
@@ -114,7 +119,7 @@ iconv conversion tables provided from `nls.lst` is required.
 
 # Advanced
 
-You can pass in any named variable to chroot_setup.sh so you can have replacement values in xxxxx.lst files. 
+You can pass in any named variable to `chroot_setup.sh` so you can have replacement values in xxxxx.lst files. 
 
 For example:
 
@@ -132,7 +137,7 @@ Any instance of `myuser` would be interpreted as `AARON` when the script is run.
 
 # Chroot Manager
 
-TODO: Document chroot_mgr.py
+TODO: Document `chroot_mgr.py`
 
 ---
 # Resources
