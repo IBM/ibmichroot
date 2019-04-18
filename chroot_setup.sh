@@ -522,6 +522,20 @@ for chroot in ${mylist[@]}
   #Clean Up 
   rm $CHROOT_TMP
 }
+mkdir -p "$CHROOT_DIR/QOpenSys/etc"
+ETC_PROFILE="$CHROOT_DIR/QOpenSys/etc/profile"
+if [ ! -f "$ETC_PROFILE" ]; then
+  echo "Priming /QOpenSys/etc/profile"
+  cat <<EOF >> "$ETC_PROFILE"
+PATH=/QOpenSys/pkgs/bin:$PATH
+export PATH
+OBJECT_MODE=64
+export OBJECT_MODE
+EOF
+fi
+
 printf "\nTo enter Your Chroot"
 printf "\nRUN: chroot $CHROOT_DIR /QOpenSys/usr/bin/sh\n"
+printf "\nTo set up your PATH to pick up RPM packages once inside your chroot"
+printf "\nRUN: source /QOpenSys/etc/profile"
 printf "\n\nDONE!\n"
