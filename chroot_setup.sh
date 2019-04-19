@@ -537,5 +537,5 @@ fi
 printf "\nTo enter Your Chroot"
 printf "\nRUN: chroot $CHROOT_DIR /QOpenSys/usr/bin/sh\n"
 printf "\nTo set up your PATH to pick up RPM packages once inside your chroot"
-printf "\nRUN: source /QOpenSys/etc/profile"
+printf "\nRUN: . /QOpenSys/etc/profile"
 printf "\n\nDONE!\n"
