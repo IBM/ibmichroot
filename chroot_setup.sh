@@ -296,7 +296,6 @@ function yumInstall {
       fi
     }
 
-    exit 0
   fi
 }
 
@@ -401,9 +400,6 @@ if [ $? -ne 0 ]; then
 fi
 
 CHROOT_DIR=$TEMP_DIR
-
-#perform installs if set then exit
-yumInstall $CHROOT_DIR
 
 # Check if the specified Dir Already Exists
 if [ ! -d "$CHROOT_DIR" ]; then
@@ -522,6 +518,7 @@ for chroot in ${mylist[@]}
   #Clean Up 
   rm $CHROOT_TMP
 }
+
 mkdir -p "$CHROOT_DIR/QOpenSys/etc"
 ETC_PROFILE="$CHROOT_DIR/QOpenSys/etc/profile"
 if [ ! -f "$ETC_PROFILE" ]; then
@@ -534,8 +531,11 @@ export OBJECT_MODE
 EOF
 fi
 
+# perform installs if set
+yumInstall $CHROOT_DIR
+
+printf "\n\nDONE!\n"
 printf "\nTo enter Your Chroot"
 printf "\nRUN: chroot $CHROOT_DIR /QOpenSys/usr/bin/sh\n"
 printf "\nTo set up your PATH to pick up RPM packages once inside your chroot"
 printf "\nRUN: . /QOpenSys/etc/profile"
-printf "\n\nDONE!\n"
