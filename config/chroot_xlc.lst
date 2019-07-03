@@ -11,7 +11,7 @@
 #    tar -xf loc.tar
 # )
 #
-:tar_dir
+:cp_dir
 /QOpenSys/xlcpp/opt/IBM/xlc
 /QOpenSys/xlcpp/opt/IBM/xlC
 

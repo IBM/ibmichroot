@@ -15,7 +15,7 @@
 #    tar -xf loc.tar
 # )
 #
-:tar_dir
+:cp_dir
 # /QOpenSys/usr/lib
 
 
