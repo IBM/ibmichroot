@@ -12,7 +12,7 @@
 #    tar -xf loc.tar
 # )
 #
-:tar_dir
+:cp_dir
 /usr/local/mysql-5.1.59-i5os-power-64bit
 /usr/local/mysqldata
 

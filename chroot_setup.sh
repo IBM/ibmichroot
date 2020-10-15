@@ -86,44 +86,6 @@ function chroot_cp_dir {
     cp -R $1/* $CHROOT_DIR$1/.
   fi
 }
-function chroot_tar_dir {
-  chroot_mkdir $1
-  mydir=$(dirname $1)
-  mybase=$(basename $1)
-  if [ -f $SCRIPT_DIR/$mybase.tar ]; then
-    echo "Using existing $SCRIPT_DIR/$mybase.tar"
-  else
-    echo "cd $mydir"
-    echo "tar -chf $SCRIPT_DIR/$mybase.tar $mybase"
-    echo "cd $CHROOT_DIR$mydir"
-    echo "tar -xf $SCRIPT_DIR/$mybase.tar"
-  fi
-  if (($CHROOT_DEBUG==0)); then    
-    if ! [ -f $SCRIPT_DIR/$mybase.tar ]; then
-      echo "Changing directory to: $mydir"
-      #CHECK IF THE DIR EXISTS BEFORE CD & TAR
-      if [ ! -d "$mydir" ]; then
-        echo "Directory Does not exist. Cannot Tar a missing folder $1"
-        echo "failed during chroot_tar_dir $1"
-        #clean up
-        rm $SCRIPT_DIR/*.tmp
-        exit -8;
-      fi
-      cd $mydir
-      echo "PWD is: $PWD"
-      echo "Creating a tar file from $mydir/$mybase to $SCRIPT_DIR"
-      echo "tar -chf $SCRIPT_DIR/$mybase.tar $mybase"
-      tar -chf $SCRIPT_DIR/$mybase.tar $mybase
-      ls -l | grep "$SCRIPT_DIR/$mybase.tar"
-    fi
-    cd $CHROOT_DIR$mydir
-    echo "PWD is: $PWD"
-    echo "Extracting the tar file  $SCRIPT_DIR/$mybase.tar"
-    tar -xf $SCRIPT_DIR/$mybase.tar
-    ls -l | grep "$SCRIPT_DIR/$mybase.tar"
-    cd $SCRIPT_DIR
-  fi
-}
 function chroot_chmod {
   echo "chroot $CHROOT_DIR /QOpenSys/usr/bin/bsh -c \"chmod $1 $2\""
   if (($CHROOT_DEBUG==0)); then
@@ -224,9 +186,6 @@ function chroot_setup {
           ;;
           ":chown")
              chroot_chown $name
-          ;;
-          ":tar_dir")
-             chroot_tar_dir $name
           ;;
           ":system")
              chroot_system $name
