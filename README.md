@@ -5,6 +5,7 @@
   - [Example](#chroot-setup-example)
   - [Config files](#config-files)
 - [Install Software into Chroot](#install-software-into-chroot)
+- [Remove Chroot](#install-software-into-chroot)
 - [Advanced](#advanced)
 - [Chroot Manager](#chroot-manager)
 - [Resources](#resources)
@@ -116,6 +117,17 @@ iconv conversion tables provided from `nls.lst` is required.
 `$ chroot_setup /QOpenSys/root_path nls`
 
 ---
+
+## Remove Chroot
+
+Remove a chroot just like you would remove any other direcetory by running:
+
+```bash
+rm -r path_to_chroot
+```
+
+:rotating_light: **WARNING**:  Ensure the path to the chroot is correct before
+running `rm`. :rotating_light:
 
 # Advanced
 
