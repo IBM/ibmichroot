@@ -37,7 +37,7 @@ Before running `chroot_setup` ensure you have proper permissions first!
 
 `Usage: chroot_setup [OPTIONS] CHROOT DIRECTORY [CHROOT TYPE]`
 
-```lang-none
+```text
 [Options] - optional additonal arguments listed below
 
 -v: More verbose output.
@@ -46,13 +46,13 @@ Before running `chroot_setup` ensure you have proper permissions first!
 -i: yum install into chroot.
 ```
 
-```lang-none
+```text
 CHROOT DIRECTORY - is the Directory where the chroot will be created.
 
 This parameter is required and chroot directory path must begin with /QOpenSys/
 ```
 
-```lang-none
+```text
 [CHROOT TYPE] - is specified by the .lst config files located within /chroot
 within this project.
 
@@ -129,7 +129,7 @@ For example:
 
 In your custom .lst file you could have this:
 
-```lang-none
+```text
 :system
 CHGAUT OBJ('mydir') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
 ```
