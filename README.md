@@ -6,7 +6,6 @@
   - [Example](#chroot-setup-example)
   - [Config files](#config-files)
 - [Install Software into Chroot](#install-software-into-chroot)
-- [Remove Chroot](#install-software-into-chroot)
 - [Advanced](#advanced)
 - [Chroot Manager](#chroot-manager)
 - [Resources](#resources)
