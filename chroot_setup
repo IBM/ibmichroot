@@ -1,0 +1,420 @@
+#!/QOpenSys/pkgs/bin/python3
+
+import argparse
+import os
+import sys
+import logging
+import stat
+from string import Template
+from enum import Enum
+
+parser = argparse.ArgumentParser()
+# positional arguments
+parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="TODO: some help text")
+parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="TODO: some help text", nargs="?")
+# optional arguments
+parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="TODO: global variable")
+parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="TODO: yum install")
+parser.add_argument("-y", dest='auto_yes', action='store_true', help="TODO: auto yes")
+parser.add_argument("-v", dest='verbose', action='store_true', help="TODO: verbose output")
+args = parser.parse_args()
+parser.parse_args()
+
+print("""
+  #####  #     # ######  ####### ####### #######
+ #     # #     # #     # #     # #     #    #   
+ #       #     # #     # #     # #     #    #   
+ #       ####### ######  #     # #     #    #   
+ #       #     # #   #   #     # #     #    #   
+ #     # #     # #    #  #     # #     #    #   
+  #####  #     # #     # ####### #######    #   
+                                                
+  #####  ####### ####### #     # ######         
+ #     # #          #    #     # #     #        
+ #       #          #    #     # #     #        
+  #####  #####      #    #     # ######         
+       # #          #    #     # #              
+ #     # #          #    #     # #              
+  #####  #######    #     #####  #
+""")
+
+CHROOT_DEBUG : bool = True
+
+print(args.chroot_directory)
+
+# :mkdir
+# Make a directory inside the chroot, as well as all intermediary directories
+def chroot_mkdir (dir: str):
+  print(f'os.mkdirs({args.chroot_directory + dir}, exist_ok=True)')
+  if (CHROOT_DEBUG == False):
+    os.mkdirs(args.chroot_directory + dir, exist_ok=True)
+
+# :ln
+# Create a symlink inside a chroot, so all absolute paths are absolute to the
+# chroot's root
+def chroot_ln (line: str):
+  ln_command = line.split()
+  assert len(ln_command) == 2, ":ln entry expects 2 arguments!"
+  target = ln_command[0]
+  link_name = ln_command[1]
+  print(f'os.symlink({target}, {link_name}, dir_fd={args.chroot_directory})')
+  if (CHROOT_DEBUG == False):
+    # TODO: check that we don't have to go into the chroot. I suspect we might
+    os.symlink(target, link_name, dir_fd=args.chroot_directory)
+
+# TODO: documentation
+# function occurs OUTSIDE chroot
+def chroot_ln_rel (line: str):
+  print()
+  # mydir = os.path.dirname(target)
+  # mybase = os.path.basename(target)
+  # if (CHROOT_DEBUG == False):
+  #   relname=$(ls -l $1 | awk '{print $(NF)}')
+  # else
+  #   relname="../../testing/$1"
+  # fi
+  # echo "cd $CHROOT_DIR$mydir"
+  # echo "ln -sf $relname $mybase"
+  # if (($CHROOT_DEBUG==0)); then
+  #   here=$(pwd)
+  #   cd $CHROOT_DIR$mydir
+  #   ln -sf $relname $mybase
+  #   cd $here
+
+# TODO: documentation
+# function occurs OUTSIDE chroot
+def chroot_ln_fix_rel (line: str):
+  ln_command = line.split()
+  assert len(mknod_command) == 4, "ln_fix_rel command expects 2 arguments!"
+  mydir = os.path.dirname(target) # TODO: how does this work
+  mybase = os.path.basename(target)
+  print(f'os.chdir({args.chroot_directory + mydir})')
+  print(f'os.symlink{link_name}, {target})')
+  print(f'os.chdir({here})')
+
+  if (CHROOT_DEBUG == False):
+    here = os.getcwd()
+    os.chdir(args.chroot_directory + mydir)
+    os.symlink(target, link_name)
+    os.chdir(here)
+
+
+# :mknod
+def chroot_mknod (line: str):
+  # We are passed a mknod terminal commmand. Need to parse it to make it work
+  # with os.mknod.
+  mknod_command = line.split()
+  assert len(mknod_command) == 4, "mknod command expects 4 arguments!"
+  node: str  = mknod_command[0]
+  if (mknod_command[1] == 'p'):
+    mode = 0o644 | stat.S_IFIFO
+  elif (mknod_command[1] == 'b'):
+    mode = 0o644 | stat.S_IFBLK
+  elif (mknod_command[1] == 'c'):
+    mode = 0o644 | stat.S_IFCHR
+  else:
+    print("Unrecognized mknod type; Valid types are 'p', 'b', and 'c'")
+    sys.exit(-6)
+  major = mknod_command[2]
+  minor = mknod_command[3]
+
+  print(f"os.mknod({args.chroot_directory + node}, {mode}, {major}, {minor})")
+  if (CHROOT_DEBUG == False):
+    os.mknod(args.chroot_directory + node, mode, major, minor)
+
+# TODO: documentation
+def chroot_cp (line: str):
+  print(f"shutil.copy({line}, {args.chroot_directory + line})")
+  if (CHROOT_DEBUG == False):
+    shutil.copy(source, args.chroot_directory + source)
+
+# TODO: documentation
+def chroot_cp_dir ( source: str ):
+  print("cp -R $1/* $CHROOT_DIR$1/.")
+  # TODO: Why mkdir before checking debug?
+  chroot_mkdir(source)
+  if (CHROOT_DEBUG == False):
+    shutil.copytree(source, args.chroot_directory + source)
+
+
+def chroot_chmod (line: str):
+  chmod_command = line.split()
+  assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
+  mode = int(chmod_command[0], 8)
+  chmod_file = args.chroot_directory + chmod_command[1]
+  printf(f"os.chmod({chmod_file}, {mode})")
+  if (CHROOT_DEBUG == False):
+    os.chmod(chmod_file, mode)
+
+def chroot_chmod_dir (line: str):
+  chmod_command = line.split()
+  assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
+  mode = int(chmod_command[0], 8)
+  chmod_file = args.chroot_directory + chmod_command[1]
+  for root, dirs, files in os.walk(args.chroot_directory + chmod_file):  
+    for dir in dirs:
+      print(f'os.chmod({os.path.join(root, dir)}, {int(mode, 8)})')
+      if (CHROOT_DEBUG == FALSE):
+        os.chmod(os.path.join(root, dir), int(mode, 8))
+    for file in files:
+      print(f'os.chmod({os.path.join(root, chmod_file)}, {int(mode, 8)})')
+      if (CHROOT_DEBUG == FALSE):
+        os.chmod(os.path.join(root, chmod_file), int(mode, 8))
+
+# :chown
+def chroot_chown (line: str):
+  # TODO: change 
+  chown_command = line.split()
+  assert len(chown_command) == 2, ":chown command expect 2 arguments!"
+  user = chown_command[0]
+  chown_file = args.chroot_directory + chown_command[1]
+  printf(f"os.chown({chown_file}, {user})")
+  if (CHROOT_DEBUG == False):
+    os.chown(args.chroot_directory + file, user)
+
+# :chown_dir
+def chroot_chown_dir (line: str):
+  chown_command = line.split()
+  assert len(chown_command) == 2, ":chown_dir command expect 2 arguments!"
+  user = chown_command[0]
+  chown_directory = args.chroot_directory + chown_command[1]
+  for root, dirs, files in os.walk(args.chroot_directory + chown_directory):
+    for dir in dirs:
+      printf(f'os.chown({os.path.join(root, dir)}, {user})')
+      if (CHROOT_DEBUG == False):
+        os.chown(os.path.join(root, dir), user)
+    for file in files:
+      printf(f'os.chown({os.path.join(root, file)}, {user})')
+      if (CHROOT_DEBUG == False):
+        os.chown(os.path.join(root, file), user)
+
+# :system
+# Executes a line from a .lst file using the /QOpenSys/usr/bin/system utility
+def chroot_system(line: str):
+  line = line.rstrip()
+  print('system -i "' + line + '"')
+  if (CHROOT_DEBUG == False):
+    os.system('system -i "' + line + '"')
+
+# :sh
+# Executes a line from a .lst file using Pythons os.system function, which is
+# run "by calling the Standard C function system()."
+def chroot_sh(line: str):
+  print(line)
+  if (CHROOT_DEBUG == False):
+    os.system(line)
+
+# :file
+# Parses and executes additional .lst files
+def chroot_setup (chroot_lst):
+  lst_file = open(chroot_lst, 'r')
+  action = None
+
+  # Iterate over all lines in the file, executing actions where encountered
+  for line in lst_file:
+    line = line.strip()
+
+    # Skip blank lines and comments
+    if not line or line.startswith('#'):
+      continue
+
+    # Determine action
+    elif line.startswith(':'):
+      action = action_dictionary[line]
+
+    # Execute action
+    else:
+      if action is not None:
+        action(line)
+
+action_dictionary = {
+  ':file'       : chroot_setup,
+  ':mkdir'      : chroot_mkdir,      # done
+  ':ln_fix_rel' : chroot_ln_fix_rel, # done
+  ':ln_rel'     : chroot_ln_rel,     # done
+  ':ln'         : chroot_ln,         # done
+  ':mknod'      : chroot_mknod,      # done
+  ':cp_dir'     : chroot_cp_dir,     # done
+  ':cp'         : chroot_cp,         # done
+  ':chmod_dir'  : chroot_chmod_dir,  # done
+  ':chmod'      : chroot_chmod,      # done
+  ':chown_dir'  : chroot_chown_dir,  # done
+  ':chown'      : chroot_chown,      # done
+  ':system'     : chroot_system,     # done
+  ':sh'         : chroot_sh          # done
+}
+
+# TODO: documentation
+def initial_check():
+  if (os.uname().sysname == 'OS400'):
+    # CHROOT_DEBUG = False
+    PATH='/QOpenSys/pkgs/bin:/QOpenSys/pkgs/sbin:/QOpenSys/usr/bin:/QOpenSys/usr/sbin:'
+    LIBPATH='/QOpenSys/pkgs/lib:/QOpenSys/usr/lib'
+    os.environ['PATH'] = PATH
+    os.environ['LIBPATH'] = LIBPATH
+    print("**********************")
+    print("Live IBM i session (changes made).")
+    print("**********************")
+
+    if (args.verbose):
+      print('PATH=' + PATH)
+      print('LIBPATH=' + LIBPATH)
+
+  else:
+    # CHROOT_DEBUG = True
+    print("**********************")
+    print("Not IBM i, no action is taken (debug flow purpose only).")
+    print("**********************")
+    # exit -1
+
+
+def yum_install(package_list: list):
+  os.environ["LIBPATH"] = '/QOpenSys/pkgs/lib:/QOpenSys/usr/lib'
+  install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $package')
+  auto_yes = '-y' if args.auto_yes else ''
+  for package in package_list:
+    command = install_template.substitute(yes=auto_yes, chroot_dir=args.chroot_directory, package=package)
+    logging.debug(command)
+    os.system(command)
+
+#
+# MAIN
+#
+if __name__ == '__main__':
+  lst = 0
+  ops = 0
+  qsys = 0
+  CHROOT_DIR = ""
+  CHROOT_LIST = ""
+  SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__)) + "/config"
+
+  print(SCRIPT_DIR)
+
+  auto_yes = args.auto_yes
+
+
+  initial_check()
+
+  # This is done because the arg may be a relative path name.
+  # Need to be done before any 'cd'
+  TEMP_DIR = os.path.realpath(args.chroot_directory)
+  print(TEMP_DIR)
+
+  # if -v was passed, need to turn logging to DEBUG so all logging messages in the
+  # code are printed
+  if (args.verbose):
+    logging.basicConfig(level=logging.DEBUG)
+
+  logging.debug("Script directory: " + SCRIPT_DIR)
+  os.chdir(SCRIPT_DIR)
+  logging.debug("PWD: " + os.getcwd())
+
+  if not TEMP_DIR.startswith('/QOpenSys/'):
+    print("\nERROR: [CHROOT DIRECTORY] Must begin with /QOpenSys/...\n")
+    parser.print_help
+    sys.exit(-2)
+
+  CHROOT_DIR = TEMP_DIR
+
+
+  if not os.path.isdir(CHROOT_DIR):
+    print(CHROOT_DIR + " does not exist.")
+    logging.debug(f"Creating directory at {CHROOT_DIR}")
+    os.mkdir(CHROOT_DIR)
+    # TODO: Check creation
+  else:
+    if not auto_yes:
+      print(CHROOT_DIR + " directory already exists")
+      val = input("Would you like to continue chroot setup? [y/N]")
+      if not val == "y":
+        print("Bye")
+        sys.exit(-4)
+
+
+  ## CHANGE
+  # Validate CHROOT TYPE Argument(s)
+  if not args.chroot_type:
+    # Only chroot_directory was provided to the script:
+    # Ask if minimal with includes chroot is desired
+    if not auto_yes:
+      val = input("Would you like to create a minimal chroot w/ includes @ " + CHROOT_DIR + "? [y/N]:")
+      if not val == "y":
+        print("Specify your desired [CHROOT TYPE]")
+        parser.print_help
+        sys.exit(-5)
+
+    mylist = []
+    mylist.append(SCRIPT_DIR + "/chroot_includes.lst")
+    mylist.append(SCRIPT_DIR + "/chroot_minimal.lst")
+
+  else:
+    # If chroot types were specified, then use those
+    for arg in args.chroot_type:
+      print("Chroot type is: " + arg)
+      
+      CHROOT_LIST = arg
+
+      # add chroot prefix if it doesn't exist
+      if not CHROOT_LIST.startswith('chroot'):
+        CHROOT_LIST = 'chroot_' + CHROOT_LIST
+
+      # check that the .lst file name was given
+      if not CHROOT_LIST.endswith('.lst'):
+        CHROOT_LIST = CHROOT_LIST + '.lst'
+
+      # check that the .lst file exists
+      if not os.path.isfile(CHROOT_LIST):
+        print(f"{CHROOT_LIST} cannot be found in {os.cwd}")
+        sys.exit(-7)
+      else:
+        # append file name to end of list
+        mylist.append(os.readlink(CHROOT_LIST))
+
+  logging.debug(f"Number of elements in the list: {len(mylist)}")
+  logging.debug(f"List contents: {mylist}")
+
+  # convert any global variables passed from a list of string "KEY=VALUE" to a
+  # dictionary holding "KEY": "VALUE"
+  globals_dictionary = {}
+  if args.globals:
+      for global_var in args.globals:
+        global_tokens = global_var.split('=')
+        globals_dictionary[global_tokens[0]] = global_tokens[1]
+
+  for chroot_file in mylist:
+    print("=====================================")
+    print("setting up based on " + chroot_file)
+    print("=====================================")
+
+    for key in globals_dictionary:
+      os.environ[key] = globals_dictionary[key]
+
+    chroot_setup(chroot_file)
+
+    for key in globals_dictionary:
+      del os.environ[key]
+
+  os.makedirs(args.chroot_directory + '/QOpenSys/etc', exist_ok=True)
+  etc_profile = (args.chroot_directory + '/QOpenSys/etc/profile')
+  if not os.path.isfile(etc_profile):
+    print('Priming /QOpenSys/etc/profile')
+    etc_file = open(etc_profile, 'a')
+    etc_file.write('PATH=/QOpenSys/pkgs/bin:$PATH\n')
+    etc_file.write('export PATH\n')
+    etc_file.write('OBJECT_MODE=64\n')
+    etc_file.write('export OBJECT_MODE\n')
+
+  # perform installs if set
+  if args.yum_installs is not None:
+    yum_install(args.yum_installs)
+
+  print(f"""
+
+  Done creating your chroot!
+
+  To enter your chroot
+  Run: chroot {args.chroot_directory} /QOpenSys/usr/bin/sh
+
+  To set up your PATH to pick up RPM packages once inside your chroot
+  Run: . /QOpenSys/etc/profile
+  """)
