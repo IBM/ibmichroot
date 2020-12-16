@@ -3,6 +3,7 @@
 import argparse
 import os
 import sys
+import shutil
 import logging
 import stat
 from string import Template
@@ -10,13 +11,13 @@ from enum import Enum
 
 parser = argparse.ArgumentParser()
 # positional arguments
-parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="TODO: some help text")
-parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="TODO: some help text", nargs="?")
+parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="The location of the chroot to be created")
+parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="?")
 # optional arguments
-parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="TODO: global variable")
-parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="TODO: yum install")
-parser.add_argument("-y", dest='auto_yes', action='store_true', help="TODO: auto yes")
-parser.add_argument("-v", dest='verbose', action='store_true', help="TODO: verbose output")
+parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="Environment variables to set when creating the chroot")
+parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="A list of packages for yum to install in the chroot")
+parser.add_argument("-y", dest='auto_yes', action='store_true', help="Automatically answer yes to input prompts")
+parser.add_argument("-v", dest='verbose', action='store_true', help="Print verbose output when running")
 args = parser.parse_args()
 parser.parse_args()
 
@@ -38,74 +39,78 @@ print("""
   #####  #######    #     #####  #
 """)
 
-CHROOT_DEBUG : bool = True
+CHROOT_DEBUG : bool = False
 
 print(args.chroot_directory)
 
 # :mkdir
 # Make a directory inside the chroot, as well as all intermediary directories
 def chroot_mkdir (dir: str):
-  print(f'os.mkdirs({args.chroot_directory + dir}, exist_ok=True)')
+  print(f'os.makedirs({args.chroot_directory + dir}, exist_ok=True)')
   if (CHROOT_DEBUG == False):
-    os.mkdirs(args.chroot_directory + dir, exist_ok=True)
+    os.makedirs(args.chroot_directory + dir, exist_ok=True)
 
 # :ln
-# Create a symlink inside a chroot, so all absolute paths are absolute to the
-# chroot's root
+# Create an absolute symlink. We don't have to go inside the chroot, since the
+# links are resolved as they are used. The target doesn't even have to exist,
+# Python won't check and therefore won't throw an error.
 def chroot_ln (line: str):
   ln_command = line.split()
-  assert len(ln_command) == 2, ":ln entry expects 2 arguments!"
+  assert len(ln_command) == 2, ":ln action expects 2 arguments!"
   target = ln_command[0]
   link_name = ln_command[1]
-  print(f'os.symlink({target}, {link_name}, dir_fd={args.chroot_directory})')
+  print(f'os.symlink({target}, {args.chroot_directory + link_name})')
   if (CHROOT_DEBUG == False):
-    # TODO: check that we don't have to go into the chroot. I suspect we might
-    os.symlink(target, link_name, dir_fd=args.chroot_directory)
+    os.symlink(target, args.chroot_directory + link_name)
 
-# TODO: documentation
-# function occurs OUTSIDE chroot
+# :ln_rel
+# Create a relative symlink in the chroot that mirrors a relative symlink that
+# exists outside of the chroot.
 def chroot_ln_rel (line: str):
-  print()
-  # mydir = os.path.dirname(target)
-  # mybase = os.path.basename(target)
-  # if (CHROOT_DEBUG == False):
-  #   relname=$(ls -l $1 | awk '{print $(NF)}')
-  # else
-  #   relname="../../testing/$1"
-  # fi
-  # echo "cd $CHROOT_DIR$mydir"
-  # echo "ln -sf $relname $mybase"
-  # if (($CHROOT_DEBUG==0)); then
-  #   here=$(pwd)
-  #   cd $CHROOT_DIR$mydir
-  #   ln -sf $relname $mybase
-  #   cd $here
-
-# TODO: documentation
-# function occurs OUTSIDE chroot
-def chroot_ln_fix_rel (line: str):
   ln_command = line.split()
-  assert len(mknod_command) == 4, "ln_fix_rel command expects 2 arguments!"
-  mydir = os.path.dirname(target) # TODO: how does this work
-  mybase = os.path.basename(target)
-  print(f'os.chdir({args.chroot_directory + mydir})')
-  print(f'os.symlink{link_name}, {target})')
-  print(f'os.chdir({here})')
-
+  assert len(mknod_command) == 1, ":ln_fix_rel action expects 1 argument!"
+  directory = os.path.dirname(line)
+  basename = os.path.basename(line)
+  target = os.readlink(line)
+  here = os.getcwd()
+  print(f'os.chdir({args.chroot_directory + directory})')
+  print(f'os.symlink({target}, {basename})')
   if (CHROOT_DEBUG == False):
-    here = os.getcwd()
     os.chdir(args.chroot_directory + mydir)
-    os.symlink(target, link_name)
+    os.symlink(target, basename)
     os.chdir(here)
 
+# :ln
+# Create a relative symlink inside of the chroot, specifying where the link
+# should be pointed to. This means you can change a relative symlink you pass
+# in, or simply create a relative symlink where one didn't exist before
+def chroot_ln_fix_rel (line: str):
+  ln_command = line.split()
+  assert len(mknod_command) == 2, ":ln_fix_rel action expects 2 arguments!"
+  target = ln_command[1]
+  link_name = ln_command[2]
+  directory = os.path.dirname(link_name)
+  basename = os.path.basename(link_name)
+  here = os.getcwd()
+  print(f'os.chdir({args.chroot_directory + directory})')
+  print(f'os.symlink{target}, {basename})')
+  print(f'os.chdir({here})')
+  if (CHROOT_DEBUG == False):
+    os.chdir(args.chroot_directory + mydir)
+    os.symlink(target, basename)
+    os.chdir(here)
 
 # :mknod
+# Create a node with a given name, type, and major and minor number
 def chroot_mknod (line: str):
   # We are passed a mknod terminal commmand. Need to parse it to make it work
   # with os.mknod.
   mknod_command = line.split()
   assert len(mknod_command) == 4, "mknod command expects 4 arguments!"
   node: str  = mknod_command[0]
+
+  # mode is created by OR-ing the permissions with the type of node to be
+  # created
   if (mknod_command[1] == 'p'):
     mode = 0o644 | stat.S_IFIFO
   elif (mknod_command[1] == 'b'):
@@ -115,28 +120,40 @@ def chroot_mknod (line: str):
   else:
     print("Unrecognized mknod type; Valid types are 'p', 'b', and 'c'")
     sys.exit(-6)
+
+  # device major and minor numbers are created through os.makedev
   major = mknod_command[2]
   minor = mknod_command[3]
+  device = os.makedev(int(major), int(minor))
 
-  print(f"os.mknod({args.chroot_directory + node}, {mode}, {major}, {minor})")
+  print(f"os.mknod({args.chroot_directory + node}, {mode}, {device})")
   if (CHROOT_DEBUG == False):
-    os.mknod(args.chroot_directory + node, mode, major, minor)
+    os.mknod(args.chroot_directory + node, mode, device)
 
-# TODO: documentation
+# :cp
+# Copy a file from outside the chroot to inside the chroot, keeping the same
+# (relative) location.
 def chroot_cp (line: str):
   print(f"shutil.copy({line}, {args.chroot_directory + line})")
   if (CHROOT_DEBUG == False):
-    shutil.copy(source, args.chroot_directory + source)
+    shutil.copy(line, args.chroot_directory + line)
 
-# TODO: documentation
-def chroot_cp_dir ( source: str ):
-  print("cp -R $1/* $CHROOT_DIR$1/.")
-  # TODO: Why mkdir before checking debug?
-  chroot_mkdir(source)
+# :cp_dir
+# Copy a directory from outside the chroot to inside the chroot, keeping the
+# same (relative) location.
+def chroot_cp_dir (line: str):
+  print(f"shutil.copytree({line}, {args.chroot_directory + line})")
   if (CHROOT_DEBUG == False):
-    shutil.copytree(source, args.chroot_directory + source)
+    # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
+    # prevents a FileExistsError when the destination directory exists.
+    # Unfortunately we are currently on v3.6.12, so we have to delete any
+    # directory that exists at that location.
+    if os.path.exists(args.chroot_directory + line):
+      shutil.rmtree(args.chroot_directory + line)
+    shutil.copytree(line, args.chroot_directory + line)
 
-
+# :chmod
+# Change the permissions on a file in the chroot.
 def chroot_chmod (line: str):
   chmod_command = line.split()
   assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
@@ -146,33 +163,36 @@ def chroot_chmod (line: str):
   if (CHROOT_DEBUG == False):
     os.chmod(chmod_file, mode)
 
+# :chmod_dir
+# Change the permissions on a directory and everything inside it in the chroot.
 def chroot_chmod_dir (line: str):
   chmod_command = line.split()
   assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
   mode = int(chmod_command[0], 8)
-  chmod_file = args.chroot_directory + chmod_command[1]
-  for root, dirs, files in os.walk(args.chroot_directory + chmod_file):  
+  chmod_dir = args.chroot_directory + chmod_command[1]
+  for root, dirs, files in os.walk(args.chroot_directory + chmod_dir):  
     for dir in dirs:
       print(f'os.chmod({os.path.join(root, dir)}, {int(mode, 8)})')
       if (CHROOT_DEBUG == FALSE):
         os.chmod(os.path.join(root, dir), int(mode, 8))
     for file in files:
-      print(f'os.chmod({os.path.join(root, chmod_file)}, {int(mode, 8)})')
+      print(f'os.chmod({os.path.join(root, file)}, {int(mode, 8)})')
       if (CHROOT_DEBUG == FALSE):
-        os.chmod(os.path.join(root, chmod_file), int(mode, 8))
+        os.chmod(os.path.join(root, file), int(mode, 8))
 
 # :chown
+# Change ownership of a file in the chroot
 def chroot_chown (line: str):
-  # TODO: change 
   chown_command = line.split()
   assert len(chown_command) == 2, ":chown command expect 2 arguments!"
   user = chown_command[0]
   chown_file = args.chroot_directory + chown_command[1]
-  printf(f"os.chown({chown_file}, {user})")
+  printf(f"os.chown({args.chroot_directory + chown_file}, {user})")
   if (CHROOT_DEBUG == False):
-    os.chown(args.chroot_directory + file, user)
+    os.chown(args.chroot_directory + chown_file, user)
 
 # :chown_dir
+# Change ownership of a directory and everything inside it in the chroot.
 def chroot_chown_dir (line: str):
   chown_command = line.split()
   assert len(chown_command) == 2, ":chown_dir command expect 2 arguments!"
@@ -227,6 +247,7 @@ def chroot_setup (chroot_lst):
       if action is not None:
         action(line)
 
+# Mapping the .lst action keys to the functions that run on their values
 action_dictionary = {
   ':file'       : chroot_setup,
   ':mkdir'      : chroot_mkdir,      # done
@@ -244,7 +265,8 @@ action_dictionary = {
   ':sh'         : chroot_sh          # done
 }
 
-# TODO: documentation
+# Run an initial check on the environment, ensuring that we are running on IBM i
+# and setting environment variables
 def initial_check():
   if (os.uname().sysname == 'OS400'):
     # CHROOT_DEBUG = False
@@ -268,6 +290,7 @@ def initial_check():
     # exit -1
 
 
+# Install any yum packages passed with the -i flag
 def yum_install(package_list: list):
   os.environ["LIBPATH"] = '/QOpenSys/pkgs/lib:/QOpenSys/usr/lib'
   install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $package')
@@ -291,8 +314,6 @@ if __name__ == '__main__':
   print(SCRIPT_DIR)
 
   auto_yes = args.auto_yes
-
-
   initial_check()
 
   # This is done because the arg may be a relative path name.
@@ -316,12 +337,10 @@ if __name__ == '__main__':
 
   CHROOT_DIR = TEMP_DIR
 
-
   if not os.path.isdir(CHROOT_DIR):
     print(CHROOT_DIR + " does not exist.")
     logging.debug(f"Creating directory at {CHROOT_DIR}")
     os.mkdir(CHROOT_DIR)
-    # TODO: Check creation
   else:
     if not auto_yes:
       print(CHROOT_DIR + " directory already exists")
@@ -331,7 +350,6 @@ if __name__ == '__main__':
         sys.exit(-4)
 
 
-  ## CHANGE
   # Validate CHROOT TYPE Argument(s)
   if not args.chroot_type:
     # Only chroot_directory was provided to the script:
