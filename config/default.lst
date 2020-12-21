@@ -1,6 +1,3 @@
-# Command:
-#   > ./chroot_setup.sh defaults.lst /QOpenSys/root_path
-
 :file
 chroot_minimal.lst
 
