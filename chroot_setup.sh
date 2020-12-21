@@ -389,7 +389,7 @@ shift
 case "$#" in
    0) # Only the chroot directory was provided: Ask if minimal with includes chroot is desired.
       if (( $isYes == 0 )) ; then
-        echo "Would you like to create a minimal chroot w/ includes and nls @ $CHROOT_DIR? [y/N]: \c"
+        echo "Would you like to create a default chroot environment @ $CHROOT_DIR? [y/N]: \c"
         read input 
         if [ ! $input == "y" ]; then
           echo "Specify your desired [CHROOT TYPE]"
