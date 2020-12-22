@@ -68,6 +68,12 @@ function chroot_ln_fix_rel {
   fi
 }
 function chroot_mknod {
+  # remove node if it already exists
+  if [ -e $CHROOT_DIR$1 ]; then
+    debug "removing existing node: rm $CHROOT_DIR$1"
+    rm $CHROOT_DIR$1
+  fi
+
   echo "mknod $CHROOT_DIR$1 $2 $3 $4"
   if (($CHROOT_DEBUG==0)); then
     /QOpenSys/usr/sbin/mknod $CHROOT_DIR$1 $2 $3 $4

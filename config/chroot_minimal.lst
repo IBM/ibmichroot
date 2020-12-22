@@ -48,55 +48,8 @@
 # make dev nodes
 # (mknod $CHROOT_DIR/dev/tty c 32945 0)
 #
-:mknod
-/dev/tty c 32945 0
-/dev/null c 32769 1
-/dev/zero c 32769 2
-/dev/urandom c 32954 0
-/dev/pts/0 c 32947 0
-/dev/pts/1 c 32947 1
-/dev/pts/2 c 32947 2
-/dev/pts/3 c 32947 3
-/dev/pts/4 c 32947 4
-/dev/pts/5 c 32947 5
-/dev/pts/6 c 32947 6
-/dev/pts/7 c 32947 7
-/dev/pts/8 c 32947 8
-/dev/pts/9 c 32947 9
-# /dev/console c 32944 0
-# /dev/ptc c 32951 32946
-# /dev/ptyp0 c 32948 0
-# /dev/ptyp1 c 32948 1
-# /dev/ptyp2 c 32948 2
-# /dev/ptyp3 c 32948 3
-# /dev/ptyp4 c 32948 4
-# /dev/ptyp5 c 32948 5
-# /dev/ptyp6 c 32948 6
-# /dev/ptyp7 c 32948 7
-# /dev/ptyp8 c 32948 8
-# /dev/ptyp9 c 32948 9
-# /dev/ttyp0 c 32949 0
-# /dev/ttyp1 c 32949 1
-# /dev/ttyp2 c 32949 2
-# /dev/ttyp3 c 32949 3
-# /dev/ttyp4 c 32949 4
-# /dev/ttyp5 c 32949 5
-# /dev/ttyp6 c 32949 6
-# /dev/ttyp7 c 32949 7
-# /dev/ttyp8 c 32949 8
-# /dev/ttyp9 c 32949 9
-# /dev/ttyq0 c 32949 0
-# /dev/ttyq1 c 32949 1
-# /dev/ttyq2 c 32949 2
-# /dev/ttyq3 c 32949 3
-# /dev/ttyq4 c 32949 4
-# /dev/ttyq5 c 32949 5
-# /dev/ttyq6 c 32949 6
-# /dev/ttyq7 c 32949 7
-# /dev/ttyq8 c 32949 8
-# /dev/ttyq9 c 32949 9
-# /dev/xti/tcp c 32951 32952
-# /dev/xti/udp c 32951 32953
+:file
+chroot_mknodes.lst
 
 #
 # copy single files
