@@ -1,6 +1,3 @@
-# Command:
-#   > ./chroot_setup.sh chroot_regen_nodes.lst /QOpenSys/root_path
-
 :file
 chroot_rm_nodes.lst
 
