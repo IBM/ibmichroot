@@ -198,7 +198,7 @@ function chroot_setup {
           ;;
           ":sh")
              chroot_sh $name
-          ;;
+          ;;          
         esac
       ;;      
     esac
