@@ -1,50 +1,50 @@
 :mknod
-/dev/null 32769 1
-/dev/ptc 32951 32946
-/dev/tty 32945 0
-/dev/urandom 32954 1
-/dev/zero 32769 2
-/dev/pts/0 32947 0
-/dev/pts/1 32947 1
-/dev/pts/2 32947 2
-/dev/pts/3 32947 3
-/dev/pts/4 32947 4
-/dev/pts/5 32947 5
-/dev/pts/6 32947 6
-/dev/pts/7 32947 7
-/dev/pts/8 32947 8
-/dev/pts/9 32947 9
-/dev/ptyp0 32948 0
-/dev/ttyp0 32949 0
-/dev/ptyp1 32948 1
-/dev/ttyp1 32949 1
-/dev/ptyp2 32948 2
-/dev/ttyp2 32949 2
-/dev/ptyp3 32948 3
-/dev/ttyp3 32949 3
-/dev/ptyp4 32948 4
-/dev/ttyp4 32949 4
-/dev/ptyp5 32948 5
-/dev/ttyp5 32949 5
-/dev/ptyp6 32948 6
-/dev/ttyp6 32949 6
-/dev/ptyp7 32948 7
-/dev/ttyp7 32949 7
-/dev/ptyp8 32948 8
-/dev/ttyp8 32949 8
-/dev/ptyp9 32948 9
-/dev/ttyp9 32949 9
-/dev/ptypa 32948 10
-/dev/ttypa 32949 10
-/dev/ptypb 32948 11
-/dev/ttypb 32949 11
-/dev/ptypc 32948 12
-/dev/ttypc 32949 12
-/dev/ptypd 32948 13
-/dev/ttypd 32949 13
-/dev/ptype 32948 14
-/dev/ttype 32949 14
-/dev/ptypf 32948 15
-/dev/ttypf 32949 15
-/dev/xti/tcp 32951 32952
-/dev/xti/udp 32951 32953
+/dev/null c 32769 1
+/dev/ptc c 32951 32946
+/dev/tty c 32945 0
+/dev/urandom c 32954 1
+/dev/zero c 32769 2
+/dev/pts/0 c 32947 0
+/dev/pts/1 c 32947 1
+/dev/pts/2 c 32947 2
+/dev/pts/3 c 32947 3
+/dev/pts/4 c 32947 4
+/dev/pts/5 c 32947 5
+/dev/pts/6 c 32947 6
+/dev/pts/7 c 32947 7
+/dev/pts/8 c 32947 8
+/dev/pts/9 c 32947 9
+/dev/ptyp0 c 32948 0
+/dev/ttyp0 c 32949 0
+/dev/ptyp1 c 32948 1
+/dev/ttyp1 c 32949 1
+/dev/ptyp2 c 32948 2
+/dev/ttyp2 c 32949 2
+/dev/ptyp3 c 32948 3
+/dev/ttyp3 c 32949 3
+/dev/ptyp4 c 32948 4
+/dev/ttyp4 c 32949 4
+/dev/ptyp5 c 32948 5
+/dev/ttyp5 c 32949 5
+/dev/ptyp6 c 32948 6
+/dev/ttyp6 c 32949 6
+/dev/ptyp7 c 32948 7
+/dev/ttyp7 c 32949 7
+/dev/ptyp8 c 32948 8
+/dev/ttyp8 c 32949 8
+/dev/ptyp9 c 32948 9
+/dev/ttyp9 c 32949 9
+/dev/ptypa c 32948 10
+/dev/ttypa c 32949 10
+/dev/ptypb c 32948 11
+/dev/ttypb c 32949 11
+/dev/ptypc c 32948 12
+/dev/ttypc c 32949 12
+/dev/ptypd c 32948 13
+/dev/ttypd c 32949 13
+/dev/ptype c 32948 14
+/dev/ttype c 32949 14
+/dev/ptypf c 32948 15
+/dev/ttypf c 32949 15
+/dev/xti/tcp c 32951 32952
+/dev/xti/udp c 32951 32953
