@@ -70,7 +70,7 @@ function chroot_ln_fix_rel {
 function chroot_mknod {
   # remove node if it already exists
   if [ -e $CHROOT_DIR$1 ]; then
-    echo "removing node: rm $CHROOT_DIR$1"
+    debug "removing existing node: rm $CHROOT_DIR$1"
     rm $CHROOT_DIR$1
   fi
 
