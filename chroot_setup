@@ -68,7 +68,7 @@ def chroot_ln (line: str):
 # exists outside of the chroot.
 def chroot_ln_rel (line: str):
   ln_command = line.split()
-  assert len(mknod_command) == 1, ":ln_fix_rel action expects 1 argument!"
+  assert len(ln_command) == 1, ":ln_fix_rel action expects 1 argument!"
   directory = os.path.dirname(line)
   basename = os.path.basename(line)
   target = os.readlink(line)
@@ -86,7 +86,7 @@ def chroot_ln_rel (line: str):
 # in, or simply create a relative symlink where one didn't exist before
 def chroot_ln_fix_rel (line: str):
   ln_command = line.split()
-  assert len(mknod_command) == 2, ":ln_fix_rel action expects 2 arguments!"
+  assert len(ln_command) == 2, ":ln_fix_rel action expects 2 arguments!"
   target = ln_command[1]
   link_name = ln_command[2]
   directory = os.path.dirname(link_name)
@@ -126,8 +126,10 @@ def chroot_mknod (line: str):
   minor = mknod_command[3]
   device = os.makedev(int(major), int(minor))
 
+  print(f"os.remove({args.chroot_directory + node})")
   print(f"os.mknod({args.chroot_directory + node}, {mode}, {device})")
   if (CHROOT_DEBUG == False):
+    os.remove(args.chroot_directory + node)
     os.mknod(args.chroot_directory + node, mode, device)
 
 # :cp
