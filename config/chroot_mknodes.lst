@@ -1,6 +1,3 @@
-# Command:
-#   > ./chroot_setup.sh chroot_mknodes.lst /QOpenSys/root_path
-
 :mknod
 /dev/null 32769 1
 /dev/ptc 32951 32946
