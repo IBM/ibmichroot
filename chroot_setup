@@ -29,8 +29,6 @@ print("""
 
 CHROOT_DEBUG : bool = False
 
-print(args.chroot_directory)
-
 # :mkdir
 # Make a directory inside the chroot, as well as all intermediary directories
 def chroot_mkdir (dir: str):
