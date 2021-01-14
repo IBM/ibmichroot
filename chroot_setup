@@ -9,18 +9,6 @@ import stat
 from string import Template
 from enum import Enum
 
-parser = argparse.ArgumentParser()
-# positional arguments
-parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="The location of the chroot to be created")
-parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="?")
-# optional arguments
-parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="Environment variables to set when creating the chroot")
-parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="A list of packages for yum to install in the chroot")
-parser.add_argument("-y", dest='auto_yes', action='store_true', help="Automatically answer yes to input prompts")
-parser.add_argument("-v", dest='verbose', action='store_true', help="Print verbose output when running")
-args = parser.parse_args()
-parser.parse_args()
-
 print("""
   #####  #     # ######  ####### ####### #######
  #     # #     # #     # #     # #     #    #   
@@ -306,6 +294,18 @@ def yum_install(package_list: list):
 # MAIN
 #
 if __name__ == '__main__':
+  parser = argparse.ArgumentParser()
+  # positional arguments
+  parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="The location of the chroot to be created")
+  parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="?")
+  # optional arguments
+  parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="Environment variables to set when creating the chroot")
+  parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="A list of packages for yum to install in the chroot")
+  parser.add_argument("-y", dest='auto_yes', action='store_true', help="Automatically answer yes to input prompts")
+  parser.add_argument("-v", dest='verbose', action='store_true', help="Print verbose output when running")
+  args = parser.parse_args()
+  parser.parse_args()
+
   lst = 0
   ops = 0
   qsys = 0
