@@ -228,7 +228,7 @@ def chroot_setup (chroot_lst):
 
     # Determine action
     elif line.startswith(':'):
-      action = action_dictionary[line]
+      action = actions.get(line, None)
 
     # Execute action
     else:
@@ -236,7 +236,7 @@ def chroot_setup (chroot_lst):
         action(line)
 
 # Mapping the .lst action keys to the functions that run on their values
-action_dictionary = {
+actions = {
   ':file'       : chroot_setup,
   ':mkdir'      : chroot_mkdir,      # done
   ':ln_fix_rel' : chroot_ln_fix_rel, # done
