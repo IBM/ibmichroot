@@ -136,10 +136,12 @@ def chroot_cp_dir (line: str):
     # prevents a FileExistsError when the destination directory exists.
     # Unfortunately we are currently on v3.6.12, so we have to delete any
     # directory that exists at that location.
-
-    if os.path.exists(f"{args.chroot_directory}{line}"):
-      shutil.rmtree(f"{args.chroot_directory}{line}")
-    shutil.copytree(line, f"{args.chroot_directory}{line}")
+    if sys.version_info >= (3,8):
+      shutil.copytree(line, f"{args.chroot_directory}{line}", dirs_exist=True)
+    else:
+      if os.path.exists(f"{args.chroot_directory}{line}"):
+        shutil.rmtree(f"{args.chroot_directory}{line}")
+      shutil.copytree(line, f"{args.chroot_directory}{line}")
 
 # :chmod
 # Change the permissions on a file in the chroot.
