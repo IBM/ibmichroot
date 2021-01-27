@@ -259,16 +259,13 @@ def initial_check():
   if (os.uname().sysname == 'OS400'):
     # CHROOT_DEBUG = False
     PATH='/QOpenSys/pkgs/bin:/QOpenSys/pkgs/sbin:/QOpenSys/usr/bin:/QOpenSys/usr/sbin:'
-    LIBPATH='/QOpenSys/pkgs/lib:/QOpenSys/usr/lib'
     os.environ['PATH'] = PATH
-    os.environ['LIBPATH'] = LIBPATH
     print("**********************")
     print("Live IBM i session (changes made).")
     print("**********************")
 
     if (args.verbose):
       print(f"PATH={PATH}")
-      print(f"LIBPATH={LIBPATH}")
 
   else:
     # CHROOT_DEBUG = True
@@ -280,7 +277,6 @@ def initial_check():
 
 # Install any yum packages passed with the -i flag
 def yum_install(package_list: list):
-  os.environ["LIBPATH"] = '/QOpenSys/pkgs/lib:/QOpenSys/usr/lib'
   install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $package')
   auto_yes = '-y' if args.auto_yes else ''
   for package in package_list:
