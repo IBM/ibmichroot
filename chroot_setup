@@ -136,6 +136,7 @@ def chroot_cp_dir (line: str):
     # prevents a FileExistsError when the destination directory exists.
     # Unfortunately we are currently on v3.6.12, so we have to delete any
     # directory that exists at that location.
+
     if os.path.exists(f"{args.chroot_directory}{line}"):
       shutil.rmtree(f"{args.chroot_directory}{line}")
     shutil.copytree(line, f"{args.chroot_directory}{line}")
@@ -258,14 +259,9 @@ actions = {
 def initial_check():
   if (os.uname().sysname == 'OS400'):
     # CHROOT_DEBUG = False
-    PATH='/QOpenSys/pkgs/bin:/QOpenSys/pkgs/sbin:/QOpenSys/usr/bin:/QOpenSys/usr/sbin:'
-    os.environ['PATH'] = PATH
     print("**********************")
     print("Live IBM i session (changes made).")
     print("**********************")
-
-    if (args.verbose):
-      print(f"PATH={PATH}")
 
   else:
     # CHROOT_DEBUG = True
