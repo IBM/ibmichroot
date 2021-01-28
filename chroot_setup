@@ -402,13 +402,15 @@ if __name__ == '__main__':
 
   os.makedirs(f"{args.chroot_directory}/QOpenSys/etc", exist_ok=True)
   etc_profile = (f"{args.chroot_directory}/QOpenSys/etc/profile")
-  if not os.path.isfile(etc_profile):
-    print('Priming /QOpenSys/etc/profile')
-    etc_file = open(etc_profile, 'a')
-    etc_file.write('PATH=/QOpenSys/pkgs/bin:$PATH\n')
-    etc_file.write('export PATH\n')
-    etc_file.write('OBJECT_MODE=64\n')
-    etc_file.write('export OBJECT_MODE\n')
+  try:
+    with open(etc_profile, 'x') as profile:
+      print('Priming /QOpenSys/etc/profile')
+      print('PATH=/QOpenSys/pkgs/bin:$PATH', file=profile)
+      print('export PATH', file=profile)
+      print('OBJECT_MODE=64', file=profile)
+      print('export OBJECT_MODE', file=profile)
+  except FileExistsError:
+    logging.debug(f"{etc_profile} already exists")
 
   # perform installs if set
   if args.yum_installs is not None:
