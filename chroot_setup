@@ -266,7 +266,7 @@ def initial_check():
     print("**********************")
     print("Not IBM i, no action is taken (debug flow purpose only).")
     print("**********************")
-    # exit -1
+    sys.exit(-1)
 
 
 # Install any yum packages passed with the -i flag
