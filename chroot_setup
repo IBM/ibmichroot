@@ -292,9 +292,6 @@ if __name__ == '__main__':
   args = parser.parse_args()
   parser.parse_args()
 
-  lst = 0
-  ops = 0
-  qsys = 0
   CHROOT_DIR = ""
   CHROOT_LIST = ""
   SCRIPT_DIR = f"{os.path.dirname(os.path.realpath(__file__))}/config"
