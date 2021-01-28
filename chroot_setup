@@ -6,6 +6,7 @@ import sys
 import shutil
 import logging
 import stat
+import subprocess
 from string import Template
 from enum import Enum
 
@@ -199,7 +200,7 @@ def chroot_system(line: str):
   line = line.rstrip()
   print(f"system -i {line}")
   if not CHROOT_DEBUG:
-    os.system(f"system -i {line}")
+    subprocess.run(['system', '-i', line], check=True)
 
 # :sh
 # Executes a line from a .lst file using Pythons os.system function, which is
@@ -208,6 +209,7 @@ def chroot_sh(line: str):
   print(line)
   if not CHROOT_DEBUG:
     os.system(line)
+    subprocess.run(line.split(), check=True)
 
 # :file
 # Parses and executes additional .lst files
@@ -269,12 +271,12 @@ def initial_check():
 
 # Install any yum packages passed with the -i flag
 def yum_install(package_list: list):
-  install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $package')
+  install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $packages')
   auto_yes = '-y' if args.auto_yes else ''
-  for package in package_list:
-    command = install_template.substitute(yes=auto_yes, chroot_dir=args.chroot_directory, package=package)
-    logging.debug(command)
-    os.system(command)
+  packages = " ".join(package_list)
+  command = install_template.substitute(yes=auto_yes, chroot_dir=args.chroot_directory, packages=packages)
+  logging.debug(command)
+  subprocess.run(command.split(), check=True)
 
 #
 # MAIN
