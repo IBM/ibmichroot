@@ -94,17 +94,12 @@ def chroot_mknod (line: str):
   assert len(mknod_command) == 4, "mknod command expects 4 arguments!"
   node: str  = mknod_command[0]
 
-  # mode is created by OR-ing the permissions with the type of node to be
-  # created
-  if (mknod_command[1] == 'p'):
-    mode = 0o644 | stat.S_IFIFO
-  elif (mknod_command[1] == 'b'):
-    mode = 0o644 | stat.S_IFBLK
-  elif (mknod_command[1] == 'c'):
-    mode = 0o644 | stat.S_IFCHR
-  else:
-    print("Unrecognized mknod type; Valid types are 'p', 'b', and 'c'")
+  # we only support creating character special devices
+  if mknod_command[1] != 'c':
+    print("Unrecognized mknod type; Valid type is 'c'")
     sys.exit(-6)
+
+  mode = 0o644 | stat.S_IFCHR
 
   # device major and minor numbers are created through os.makedev
   major = mknod_command[2]
