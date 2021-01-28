@@ -73,8 +73,7 @@ def chroot_ln_rel (line: str):
 def chroot_ln_fix_rel (line: str):
   ln_command = line.split()
   assert len(ln_command) == 2, ":ln_fix_rel action expects 2 arguments!"
-  target = ln_command[1]
-  link_name = ln_command[2]
+  target, link_name = ln_command
   directory = os.path.dirname(link_name)
   basename = os.path.basename(link_name)
   here = os.getcwd()
