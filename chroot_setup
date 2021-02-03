@@ -43,9 +43,12 @@ def chroot_mkdir (dir: str):
 # Python won't check and therefore won't throw an error.
 def chroot_ln (line: str):
   ln_command = line.split()
-  assert len(ln_command) == 2, ":ln action expects 2 arguments!"
-  target = ln_command[0]
-  link_name = ln_command[1]
+
+  if not len(ln_command) == 2:
+    raise ValueError(":ln action expects 2 arguments!")
+
+  target, link_name = ln_command
+
   print(f"os.symlink({target}, {args.chroot_directory}{link_name})")
   if not CHROOT_DEBUG:
     os.symlink(target, f"{args.chroot_directory}{link_name}")
@@ -55,7 +58,10 @@ def chroot_ln (line: str):
 # exists outside of the chroot.
 def chroot_ln_rel (line: str):
   ln_command = line.split()
-  assert len(ln_command) == 1, ":ln_fix_rel action expects 1 argument!"
+
+  if not len(ln_command) == 1:
+    raise ValueError(":ln_rel action expects 1 argument!")
+
   directory = os.path.dirname(line)
   basename = os.path.basename(line)
   target = os.readlink(line)
@@ -73,7 +79,10 @@ def chroot_ln_rel (line: str):
 # in, or simply create a relative symlink where one didn't exist before
 def chroot_ln_fix_rel (line: str):
   ln_command = line.split()
-  assert len(ln_command) == 2, ":ln_fix_rel action expects 2 arguments!"
+
+  if not len(ln_command) == 2:
+    raise ValueError(":ln_fix_rel action expects 2 arguments!")
+
   target, link_name = ln_command
   directory = os.path.dirname(link_name)
   basename = os.path.basename(link_name)
@@ -92,7 +101,10 @@ def chroot_mknod (line: str):
   # We are passed a mknod terminal commmand. Need to parse it to make it work
   # with os.mknod.
   mknod_command = line.split()
-  assert len(mknod_command) == 4, "mknod command expects 4 arguments!"
+
+  if not len(mknod_command) == 4:
+    raise ValueError(":mknod action expects 4 arguments!")
+
   node: str  = mknod_command[0]
 
   # we only support creating character special devices
@@ -142,7 +154,10 @@ def chroot_cp_dir (line: str):
 # Change the permissions on a file in the chroot.
 def chroot_chmod (line: str):
   chmod_command = line.split()
-  assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
+
+  if not len(chmod_command) == 2:
+    raise ValueError(":chmod action expects 2 arguments!")
+
   mode = int(chmod_command[0], 8)
   chmod_file = f"{args.chroot_directory}{chmod_command[1]}"
   printf(f"os.chmod({chmod_file}, {mode})")
@@ -153,7 +168,10 @@ def chroot_chmod (line: str):
 # Change the permissions on a directory and everything inside it in the chroot.
 def chroot_chmod_dir (line: str):
   chmod_command = line.split()
-  assert len(chmod_command) == 2, "chmod command expects 2 arguments!"
+
+  if not len(chmod_command) == 2:
+    raise ValueError(":chmod_dir action expects 2 arguments!")
+
   mode = int(chmod_command[0], 8)
   chmod_dir = f"{args.chroot_directory}{chmod_command[1]}"
   for root, dirs, files in os.walk(f"{args.chroot_directory}{chmod_dir}"):
@@ -170,7 +188,10 @@ def chroot_chmod_dir (line: str):
 # Change ownership of a file in the chroot
 def chroot_chown (line: str):
   chown_command = line.split()
-  assert len(chown_command) == 2, ":chown command expect 2 arguments!"
+
+  if not len(chown_command) == 2:
+    raise ValueError(":chown action expect 2 arguments!")
+
   user = chown_command[0]
   chown_file = f"{args.chroot_directory}{chown_command[1]}"
   printf(f"os.chown({args.chroot_directory}{chown_file}, {user})")
@@ -181,7 +202,10 @@ def chroot_chown (line: str):
 # Change ownership of a directory and everything inside it in the chroot.
 def chroot_chown_dir (line: str):
   chown_command = line.split()
-  assert len(chown_command) == 2, ":chown_dir command expect 2 arguments!"
+
+  if not len(chown_command) == 2:
+    raise ValueError(":chown_dir action expect 2 arguments!")
+
   user = chown_command[0]
   chown_directory = f"{args.chroot_directory}{chown_command[1]}"
   for root, dirs, files in os.walk(f"{args.chroot_directory}{chown_directory}"):
