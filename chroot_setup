@@ -238,25 +238,24 @@ def chroot_sh(line: str):
 # :file
 # Parses and executes additional .lst files
 def chroot_setup (chroot_lst):
-  lst_file = open(chroot_lst, 'r')
-  action = None
+  with open(chroot_lst, 'r') as lst_file:
+    action = None
+    # Iterate over all lines in the file, executing actions where encountered
+    for line in lst_file:
+      line = line.strip()
 
-  # Iterate over all lines in the file, executing actions where encountered
-  for line in lst_file:
-    line = line.strip()
+      # Skip blank lines and comments
+      if not line or line.startswith('#'):
+        continue
 
-    # Skip blank lines and comments
-    if not line or line.startswith('#'):
-      continue
+      # Determine action
+      elif line.startswith(':'):
+        action = actions.get(line, None)
 
-    # Determine action
-    elif line.startswith(':'):
-      action = actions.get(line, None)
-
-    # Execute action
-    else:
-      if action is not None:
-        action(line)
+      # Execute action
+      else:
+        if action is not None:
+          action(line)
 
 # Mapping the .lst action keys to the functions that run on their values
 actions = {
@@ -302,6 +301,9 @@ def yum_install(package_list: list):
   logging.debug(command)
   subprocess.run(command.split(), check=True)
 
+def input_yes(*args, **kwargs):
+  return 'y'
+
 #
 # MAIN
 #
@@ -309,7 +311,7 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   # positional arguments
   parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="The location of the chroot to be created")
-  parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="?")
+  parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="*")
   # optional arguments
   parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="Environment variables to set when creating the chroot")
   parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="A list of packages for yum to install in the chroot")
@@ -353,26 +355,33 @@ if __name__ == '__main__':
     logging.debug(f"Creating directory at {CHROOT_DIR}")
     os.mkdir(CHROOT_DIR)
   else:
-    if not auto_yes:
-      print(f"{CHROOT_DIR} directory already exists")
-      val = input("Would you like to continue chroot setup? [y/N]")
-      if not val == "y":
-        print("Bye")
-        sys.exit(-4)
+    if args.auto_yes:
+      input = input_yes
+
+    print(f"{CHROOT_DIR} directory already exists")
+    val = input("Would you like to continue chroot setup? [y/N]: ")
+
+    if not val == "y":
+      print("Bye")
+      sys.exit(-4)
 
 
   # Validate CHROOT TYPE Argument(s)
+  mylist = []
+
   if not args.chroot_type:
     # Only chroot_directory was provided to the script:
     # Ask if minimal with includes chroot is desired
-    if not auto_yes:
-      val = input(f"Would you like to create a minimal chroot w/ includes @ {CHROOT_DIR}? [y/N]:")
-      if not val == "y":
-        print("Specify your desired [CHROOT TYPE]")
-        parser.print_help
-        sys.exit(-5)
 
-    mylist = []
+    if args.auto_yes:
+      input = input_yes
+
+    val = input(f"Would you like to create a minimal chroot w/ includes @ {CHROOT_DIR}? [y/N]: ")
+    if not val == "y":
+      print("Specify your desired [CHROOT TYPE]")
+      parser.print_help
+      sys.exit(-5)
+
     mylist.append(f"{SCRIPT_DIR}/chroot_includes.lst")
     mylist.append(f"{SCRIPT_DIR}/chroot_minimal.lst")
 
@@ -380,7 +389,7 @@ if __name__ == '__main__':
     # If chroot types were specified, then use those
     for arg in args.chroot_type:
       print(f"Chroot type is: {arg}")
-      
+
       CHROOT_LIST = arg
 
       # add chroot prefix if it doesn't exist
@@ -391,13 +400,8 @@ if __name__ == '__main__':
       if not CHROOT_LIST.endswith('.lst'):
         CHROOT_LIST = f"{CHROOT_LIST}.lst"
 
-      # check that the .lst file exists
-      if not os.path.isfile(CHROOT_LIST):
-        print(f"{CHROOT_LIST} cannot be found in {os.cwd}")
-        sys.exit(-7)
-      else:
-        # append file name to end of list
-        mylist.append(os.readlink(CHROOT_LIST))
+      # append file name to end of list
+      mylist.append(CHROOT_LIST)
 
   logging.debug(f"Number of elements in the list: {len(mylist)}")
   logging.debug(f"List contents: {mylist}")
