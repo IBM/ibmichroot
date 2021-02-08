@@ -122,7 +122,11 @@ def chroot_mknod (line: str):
   print(f"os.remove({args.chroot_directory}{node})")
   print(f"os.mknod({args.chroot_directory}{node}, {mode}, {device})")
   if not CHROOT_DEBUG:
-    os.remove(f"{args.chroot_directory}{node}")
+    try:
+      os.remove(f"{args.chroot_directory}{node}")
+    except FileNotFoundError:
+      pass
+
     os.mknod(f"{args.chroot_directory}{node}", mode, device)
 
 # :cp
