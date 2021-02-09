@@ -7,6 +7,7 @@ import shutil
 import logging
 import stat
 import subprocess
+import re
 from string import Template
 from enum import Enum
 
@@ -246,6 +247,11 @@ def chroot_setup (chroot_lst):
     action = None
     # Iterate over all lines in the file, executing actions where encountered
     for line in lst_file:
+      if args.globals:
+        for key in globals_dictionary:
+          # sub placholders with values
+          line = re.sub(key, globals_dictionary[key], line)
+
       line = line.strip()
 
       # Skip blank lines and comments
@@ -422,14 +428,7 @@ if __name__ == '__main__':
     print("=====================================")
     print(f"setting up based on {chroot_file}")
     print("=====================================")
-
-    for key in globals_dictionary:
-      os.environ[key] = globals_dictionary[key]
-
     chroot_setup(chroot_file)
-
-    for key in globals_dictionary:
-      del os.environ[key]
 
   os.makedirs(f"{args.chroot_directory}/QOpenSys/etc", exist_ok=True)
   etc_profile = (f"{args.chroot_directory}/QOpenSys/etc/profile")
