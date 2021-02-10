@@ -242,6 +242,9 @@ def chroot_sh(line: str):
 
 # :file
 # Parses and executes additional .lst files
+def chroot_file(chroot_lst: str):
+  chroot_setup(chroot_lst)
+
 def chroot_setup (chroot_lst):
   with open(chroot_lst, 'r') as lst_file:
     action = None
@@ -260,30 +263,23 @@ def chroot_setup (chroot_lst):
 
       # Determine action
       elif line.startswith(':'):
-        action = actions.get(line, None)
+          # We enforce consistent function naming scheme for our action
+          # handlers. Each handler is prefixed with "chroot_" followed by the
+          # action name. The lst files prefix actions with ":" so we determine
+          # the action handler function name by prefixing it with "chroot_" and
+          # appending the action after the ":" from the line.
+          function = f"chroot_{line[1:]}"
+          try:
+            # use the globals dict to resolve action function handler
+            action = globals()[function]
+          except KeyError:
+            print(f"Skipping invalid action: {line}")
+            action = None
 
       # Execute action
       else:
         if action is not None:
           action(line)
-
-# Mapping the .lst action keys to the functions that run on their values
-actions = {
-  ':file'       : chroot_setup,
-  ':mkdir'      : chroot_mkdir,      # done
-  ':ln_fix_rel' : chroot_ln_fix_rel, # done
-  ':ln_rel'     : chroot_ln_rel,     # done
-  ':ln'         : chroot_ln,         # done
-  ':mknod'      : chroot_mknod,      # done
-  ':cp_dir'     : chroot_cp_dir,     # done
-  ':cp'         : chroot_cp,         # done
-  ':chmod_dir'  : chroot_chmod_dir,  # done
-  ':chmod'      : chroot_chmod,      # done
-  ':chown_dir'  : chroot_chown_dir,  # done
-  ':chown'      : chroot_chown,      # done
-  ':system'     : chroot_system,     # done
-  ':sh'         : chroot_sh          # done
-}
 
 # Run an initial check on the environment, ensuring that we are running on IBM i
 # and setting environment variables
@@ -424,11 +420,11 @@ if __name__ == '__main__':
         global_tokens = global_var.split('=')
         globals_dictionary[global_tokens[0]] = global_tokens[1]
 
-  for chroot_file in mylist:
+  for lst_file in mylist:
     print("=====================================")
-    print(f"setting up based on {chroot_file}")
+    print(f"setting up based on {lst_file}")
     print("=====================================")
-    chroot_setup(chroot_file)
+    chroot_setup(lst_file)
 
   os.makedirs(f"{args.chroot_directory}/QOpenSys/etc", exist_ok=True)
   etc_profile = (f"{args.chroot_directory}/QOpenSys/etc/profile")
