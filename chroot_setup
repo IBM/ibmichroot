@@ -65,7 +65,7 @@ def chroot_ln_rel (line: str):
   here = os.getcwd()
   print(f"os.chdir({args.chroot_directory}{directory})")
   print(f"os.symlink({target}, {basename})")
-  os.chdir(f"{args.chroot_directory}{mydir}")
+  os.chdir(f"{args.chroot_directory}")
   os.symlink(target, basename)
   os.chdir(here)
 
@@ -86,7 +86,7 @@ def chroot_ln_fix_rel (line: str):
   print(f"os.chdir({args.chroot_directory}{directory})")
   print(f"os.symlink{target}, {basename})")
   print(f"os.chdir({here})")
-  os.chdir(f"{args.chroot_directory}{mydir}")
+  os.chdir(f"{args.chroot_directory}")
   os.symlink(target, basename)
   os.chdir(here)
 
@@ -156,7 +156,7 @@ def chroot_chmod (line: str):
 
   mode = int(chmod_command[0], 8)
   chmod_file = f"{args.chroot_directory}{chmod_command[1]}"
-  printf(f"os.chmod({chmod_file}, {mode})")
+  print(f"os.chmod({chmod_file}, {mode})")
   os.chmod(chmod_file, mode)
 
 # :chmod_dir
@@ -187,7 +187,7 @@ def chroot_chown (line: str):
 
   user = chown_command[0]
   chown_file = f"{args.chroot_directory}{chown_command[1]}"
-  printf(f"os.chown({args.chroot_directory}{chown_file}, {user})")
+  print(f"os.chown({args.chroot_directory}{chown_file}, {user})")
   os.chown(f"{args.chroot_directory}{chown_file, user}")
 
 # :chown_dir
@@ -202,10 +202,10 @@ def chroot_chown_dir (line: str):
   chown_directory = f"{args.chroot_directory}{chown_command[1]}"
   for root, dirs, files in os.walk(f"{args.chroot_directory}{chown_directory}"):
     for dir in dirs:
-      printf(f"os.chown({os.path.join(root, dir)}, {user})")
+      print(f"os.chown({os.path.join(root, dir)}, {user})")
       os.chown(os.path.join(root, dir), user)
     for file in files:
-      printf(f"os.chown({os.path.join(root, file)}, {user})")
+      print(f"os.chown({os.path.join(root, file)}, {user})")
       os.chown(os.path.join(root, file), user)
 
 # :system
