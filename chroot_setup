@@ -29,14 +29,11 @@ print("""
   #####  #######    #     #####  #
 """)
 
-CHROOT_DEBUG : bool = False
-
 # :mkdir
 # Make a directory inside the chroot, as well as all intermediary directories
 def chroot_mkdir (dir: str):
   print(f"os.makedirs({args.chroot_directory}{dir}, exist_ok=True)")
-  if not CHROOT_DEBUG:
-    os.makedirs(f"{args.chroot_directory}{dir}", exist_ok=True)
+  os.makedirs(f"{args.chroot_directory}{dir}", exist_ok=True)
 
 # :ln
 # Create an absolute symlink. We don't have to go inside the chroot, since the
@@ -51,8 +48,7 @@ def chroot_ln (line: str):
   target, link_name = ln_command
 
   print(f"os.symlink({target}, {args.chroot_directory}{link_name})")
-  if not CHROOT_DEBUG:
-    os.symlink(target, f"{args.chroot_directory}{link_name}")
+  os.symlink(target, f"{args.chroot_directory}{link_name}")
 
 # :ln_rel
 # Create a relative symlink in the chroot that mirrors a relative symlink that
@@ -69,10 +65,9 @@ def chroot_ln_rel (line: str):
   here = os.getcwd()
   print(f"os.chdir({args.chroot_directory}{directory})")
   print(f"os.symlink({target}, {basename})")
-  if not CHROOT_DEBUG:
-    os.chdir(f"{args.chroot_directory}{mydir}")
-    os.symlink(target, basename)
-    os.chdir(here)
+  os.chdir(f"{args.chroot_directory}{mydir}")
+  os.symlink(target, basename)
+  os.chdir(here)
 
 # :ln
 # Create a relative symlink inside of the chroot, specifying where the link
@@ -91,10 +86,9 @@ def chroot_ln_fix_rel (line: str):
   print(f"os.chdir({args.chroot_directory}{directory})")
   print(f"os.symlink{target}, {basename})")
   print(f"os.chdir({here})")
-  if not CHROOT_DEBUG:
-    os.chdir(f"{args.chroot_directory}{mydir}")
-    os.symlink(target, basename)
-    os.chdir(here)
+  os.chdir(f"{args.chroot_directory}{mydir}")
+  os.symlink(target, basename)
+  os.chdir(here)
 
 # :mknod
 # Create a node with a given name, type, and major and minor number
@@ -122,38 +116,35 @@ def chroot_mknod (line: str):
 
   print(f"os.remove({args.chroot_directory}{node})")
   print(f"os.mknod({args.chroot_directory}{node}, {mode}, {device})")
-  if not CHROOT_DEBUG:
-    try:
-      os.remove(f"{args.chroot_directory}{node}")
-    except FileNotFoundError:
-      pass
+  try:
+    os.remove(f"{args.chroot_directory}{node}")
+  except FileNotFoundError:
+    pass
 
-    os.mknod(f"{args.chroot_directory}{node}", mode, device)
+  os.mknod(f"{args.chroot_directory}{node}", mode, device)
 
 # :cp
 # Copy a file from outside the chroot to inside the chroot, keeping the same
 # (relative) location.
 def chroot_cp (line: str):
   print(f"shutil.copy({line}, {args.chroot_directory}{line})")
-  if not CHROOT_DEBUG:
-    shutil.copy(line, f"{args.chroot_directory}{line}")
+  shutil.copy(line, f"{args.chroot_directory}{line}")
 
 # :cp_dir
 # Copy a directory from outside the chroot to inside the chroot, keeping the
 # same (relative) location.
 def chroot_cp_dir (line: str):
   print(f"shutil.copytree({line}, {args.chroot_directory}{line})")
-  if not CHROOT_DEBUG:
-    # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
-    # prevents a FileExistsError when the destination directory exists.
-    # Unfortunately we are currently on v3.6.12, so we have to delete any
-    # directory that exists at that location.
-    if sys.version_info >= (3,8):
-      shutil.copytree(line, f"{args.chroot_directory}{line}", dirs_exist=True)
-    else:
-      if os.path.exists(f"{args.chroot_directory}{line}"):
-        shutil.rmtree(f"{args.chroot_directory}{line}")
-      shutil.copytree(line, f"{args.chroot_directory}{line}")
+  # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
+  # prevents a FileExistsError when the destination directory exists.
+  # Unfortunately we are currently on v3.6.12, so we have to delete any
+  # directory that exists at that location.
+  if sys.version_info >= (3,8):
+    shutil.copytree(line, f"{args.chroot_directory}{line}", dirs_exist=True)
+  else:
+    if os.path.exists(f"{args.chroot_directory}{line}"):
+      shutil.rmtree(f"{args.chroot_directory}{line}")
+    shutil.copytree(line, f"{args.chroot_directory}{line}")
 
 # :chmod
 # Change the permissions on a file in the chroot.
@@ -166,8 +157,7 @@ def chroot_chmod (line: str):
   mode = int(chmod_command[0], 8)
   chmod_file = f"{args.chroot_directory}{chmod_command[1]}"
   printf(f"os.chmod({chmod_file}, {mode})")
-  if not CHROOT_DEBUG:
-    os.chmod(chmod_file, mode)
+  os.chmod(chmod_file, mode)
 
 # :chmod_dir
 # Change the permissions on a directory and everything inside it in the chroot.
@@ -182,12 +172,10 @@ def chroot_chmod_dir (line: str):
   for root, dirs, files in os.walk(f"{args.chroot_directory}{chmod_dir}"):
     for dir in dirs:
       print(f"os.chmod({os.path.join(root, dir)}, {int(mode, 8)})")
-      if not CHROOT_DEBUG:
-        os.chmod(os.path.join(root, dir), int(mode, 8))
+      os.chmod(os.path.join(root, dir), int(mode, 8))
     for file in files:
       print(f"os.chmod({os.path.join(root, file)}, {int(mode, 8)})")
-      if not CHROOT_DEBUG:
-        os.chmod(os.path.join(root, file), int(mode, 8))
+      os.chmod(os.path.join(root, file), int(mode, 8))
 
 # :chown
 # Change ownership of a file in the chroot
@@ -200,8 +188,7 @@ def chroot_chown (line: str):
   user = chown_command[0]
   chown_file = f"{args.chroot_directory}{chown_command[1]}"
   printf(f"os.chown({args.chroot_directory}{chown_file}, {user})")
-  if not CHROOT_DEBUG:
-    os.chown(f"{args.chroot_directory}{chown_file, user}")
+  os.chown(f"{args.chroot_directory}{chown_file, user}")
 
 # :chown_dir
 # Change ownership of a directory and everything inside it in the chroot.
@@ -216,29 +203,25 @@ def chroot_chown_dir (line: str):
   for root, dirs, files in os.walk(f"{args.chroot_directory}{chown_directory}"):
     for dir in dirs:
       printf(f"os.chown({os.path.join(root, dir)}, {user})")
-      if not CHROOT_DEBUG:
-        os.chown(os.path.join(root, dir), user)
+      os.chown(os.path.join(root, dir), user)
     for file in files:
       printf(f"os.chown({os.path.join(root, file)}, {user})")
-      if not CHROOT_DEBUG:
-        os.chown(os.path.join(root, file), user)
+      os.chown(os.path.join(root, file), user)
 
 # :system
 # Executes a line from a .lst file using the /QOpenSys/usr/bin/system utility
 def chroot_system(line: str):
   line = line.rstrip()
   print(f"system -i {line}")
-  if not CHROOT_DEBUG:
-    subprocess.run(['system', '-i', line], check=True)
+  subprocess.run(['system', '-i', line], check=True)
 
 # :sh
 # Executes a line from a .lst file using Pythons os.system function, which is
 # run "by calling the Standard C function system()."
 def chroot_sh(line: str):
   print(line)
-  if not CHROOT_DEBUG:
-    os.system(line)
-    subprocess.run(line.split(), check=True)
+  os.system(line)
+  subprocess.run(line.split(), check=True)
 
 # :file
 # Parses and executes additional .lst files
@@ -285,13 +268,11 @@ def chroot_setup (chroot_lst):
 # and setting environment variables
 def initial_check():
   if (os.uname().sysname == 'OS400'):
-    # CHROOT_DEBUG = False
     print("**********************")
     print("Live IBM i session (changes made).")
     print("**********************")
 
   else:
-    # CHROOT_DEBUG = True
     print("**********************")
     print("Not IBM i, no action is taken (debug flow purpose only).")
     print("**********************")
