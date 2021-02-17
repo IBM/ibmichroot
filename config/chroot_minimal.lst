@@ -1,31 +1,3 @@
-# Command:
-#   > ./chroot_setup.sh chroot_minimal.lst /QOpenSys/root_path
-# Use:
-#   > ./chroot $CHROOT_DIR /bin/bsh
-#   > any_action (now in chroot environment)
-# Optional use chroot ssh profile (optional):
-#   IBM i server (myibmi):
-#     > mkdir -p $CHROOT_DIR/home/MYPROF
-#     > CHGUSRPRF USRPRF(MYPROF) LOCALE(*NONE) HOMEDIR($CHROOT_DIR/./home/MYPROF)
-#       '/./home/MYPROF' is required auto ssh login chroot IBM i
-#   laptop:
-#     > ssh myprof@myibmi
-# Other useful settings chroot (optional):"
-#     > $PS1='dev$ '
-#     > LANG=C
-#     > LANG=819
-#
-#
-
-#
-# read file (my_other.lst)
-# 
-:file
-
-#
-# make dirs list
-# (mkdir -p $CHROOT_DIR/path)
-# 
 :mkdir
 /QOpenSys/usr/sbin
 /QOpenSys/usr/bin
@@ -44,18 +16,11 @@
 /QOpenSys/usr/ccs/bin
 /QOpenSys/usr/ccs/lib
 
-#
-# make dev nodes
-# (mknod $CHROOT_DIR/dev/tty c 32945 0)
-#
 :file
 chroot_mknodes.lst
 
-#
-# copy single files
-# (/path/name path/.)
-#
 :cp
+# sbin
 /QOpenSys/usr/sbin/chroot
 /QOpenSys/usr/sbin/dbx_server
 /QOpenSys/usr/sbin/dump
@@ -65,14 +30,11 @@ chroot_mknodes.lst
 /QOpenSys/usr/sbin/restore
 /QOpenSys/usr/sbin/slibclean
 /QOpenSys/usr/sbin/snapcore
-# /QOpenSys/usr/sbin/sshd
 /QOpenSys/usr/sbin/syslogd
 /QOpenSys/usr/sbin/trace
-# bin (new)
+# bin
 /QOpenSys/usr/bin/Rfile
-# /QOpenSys/usr/bin/X
 /QOpenSys/usr/bin/admin
-# /QOpenSys/usr/bin/aixterm
 /QOpenSys/usr/bin/alias
 /QOpenSys/usr/bin/apply
 /QOpenSys/usr/bin/ar
@@ -83,7 +45,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/bc
 /QOpenSys/usr/bin/bdiff
 /QOpenSys/usr/bin/bfs
-# /QOpenSys/usr/bin/bind
 /QOpenSys/usr/bin/bsh
 /QOpenSys/usr/bin/cat
 /QOpenSys/usr/bin/cb
@@ -110,8 +71,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/df
 /QOpenSys/usr/bin/diff
 /QOpenSys/usr/bin/diff3
-# /QOpenSys/usr/bin/diff3prog
-# /QOpenSys/usr/bin/diffh
 /QOpenSys/usr/bin/dircmp
 /QOpenSys/usr/bin/dirname
 /QOpenSys/usr/bin/dspcat
@@ -123,8 +82,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/ex
 /QOpenSys/usr/bin/expand
 /QOpenSys/usr/bin/expr
-# /QOpenSys/usr/bin/expreserve
-# /QOpenSys/usr/bin/exrecover
 /QOpenSys/usr/bin/false
 /QOpenSys/usr/bin/file
 /QOpenSys/usr/bin/find
@@ -163,10 +120,8 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/mkcatdefs
 /QOpenSys/usr/bin/mkdir
 /QOpenSys/usr/bin/mkfifo
-# /QOpenSys/usr/bin/mkfontdir
 /QOpenSys/usr/bin/more
 /QOpenSys/usr/bin/mv
-# /QOpenSys/usr/bin/mwm
 /QOpenSys/usr/bin/newform
 /QOpenSys/usr/bin/nice
 /QOpenSys/usr/bin/nl
@@ -189,9 +144,7 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/qsh_out
 /QOpenSys/usr/bin/ranlib
 /QOpenSys/usr/bin/regcmp
-# /QOpenSys/usr/bin/resize
 /QOpenSys/usr/bin/rev
-# /QOpenSys/usr/bin/rgb
 /QOpenSys/usr/bin/rm
 /QOpenSys/usr/bin/rmdel
 /QOpenSys/usr/bin/rtl_enable
@@ -205,8 +158,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/sleep
 /QOpenSys/usr/bin/sort
 /QOpenSys/usr/bin/split
-# /QOpenSys/usr/bin/start32
-# /QOpenSys/usr/bin/start64
 /QOpenSys/usr/bin/strings
 /QOpenSys/usr/bin/strip
 /QOpenSys/usr/bin/stty
@@ -240,21 +191,26 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin/what
 /QOpenSys/usr/bin/which
 /QOpenSys/usr/bin/xargs
-# /QOpenSys/usr/bin/xauth
-# /QOpenSys/usr/bin/xfs
-# /QOpenSys/usr/bin/xhost
-# /QOpenSys/usr/bin/xlsfonts
-# /QOpenSys/usr/bin/xmodmap
-# /QOpenSys/usr/bin/xset
-# /QOpenSys/usr/bin/xterm
-# /QOpenSys/usr/bin/xwd
-# /QOpenSys/usr/bin/xwininfo
-# /QOpenSys/usr/bin/xwud
 /QOpenSys/usr/bin/yacc
 /QOpenSys/usr/bin/yes
-# bin (new end)
-# libs (new)
-# /QOpenSys/usr/lib/aix.mk
+# bin to bin/X11
+/QOpenSys/usr/bin/X11/X
+/QOpenSys/usr/bin/X11/aixterm
+/QOpenSys/usr/bin/X11/mkfontdir
+/QOpenSys/usr/bin/X11/mwm
+/QOpenSys/usr/bin/X11/resize
+/QOpenSys/usr/bin/X11/rgb
+/QOpenSys/usr/bin/X11/xauth
+/QOpenSys/usr/bin/X11/xfs
+/QOpenSys/usr/bin/X11/xhost
+/QOpenSys/usr/bin/X11/xlsfonts
+/QOpenSys/usr/bin/X11/xmodmap
+/QOpenSys/usr/bin/X11/xset
+/QOpenSys/usr/bin/X11/xterm
+/QOpenSys/usr/bin/X11/xwd
+/QOpenSys/usr/bin/X11/xwininfo
+/QOpenSys/usr/bin/X11/xwud
+# libs
 /QOpenSys/usr/lib/as400_libc.exp
 /QOpenSys/usr/lib/crt0.o
 /QOpenSys/usr/lib/crt0_64.o
@@ -313,7 +269,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/lib/libta400.a
 /QOpenSys/usr/lib/libthread.a
 /QOpenSys/usr/lib/libtli.a
-# /QOpenSys/usr/lib/libcurses.a
 /QOpenSys/usr/lib/libxcurses.a
 /QOpenSys/usr/lib/libxlf90_r.a
 /QOpenSys/usr/lib/libxlfpthrds_compat.a
@@ -321,23 +276,15 @@ chroot_mknodes.lst
 /QOpenSys/usr/lib/libxlsmp.a
 /QOpenSys/usr/lib/libxti.a
 /QOpenSys/usr/lib/liby.a
-# /QOpenSys/usr/lib/loadAbx
-# /QOpenSys/usr/lib/loadddx
-# /QOpenSys/usr/lib/ncform
-# /QOpenSys/usr/lib/posix.mk
 /QOpenSys/usr/lib/yaccpar
-# X11 needed
 /QOpenSys/usr/lib/X11/XKeysymDB
 /QOpenSys/usr/lib/X11/XErrorDB
-# bin to lib
 /QOpenSys/usr/lib/bind
 /QOpenSys/usr/lib/expreserve
 /QOpenSys/usr/lib/exrecover
 /QOpenSys/usr/lib/start32
 /QOpenSys/usr/lib/start64
-#lex
 /QOpenSys/usr/lib/lex/ncform
-# icu4c
 /QOpenSys/usr/icu4c/lib/libicudata.a
 /QOpenSys/usr/icu4c/lib/libicui18n.a
 /QOpenSys/usr/icu4c/lib/libicuio.a
@@ -346,72 +293,13 @@ chroot_mknodes.lst
 /QOpenSys/usr/icu4c/lib/libicutest.a
 /QOpenSys/usr/icu4c/lib/libicutu.a
 /QOpenSys/usr/icu4c/lib/libicuuc.a
-# bin to bin/X11
-/QOpenSys/usr/bin/X11/X
-/QOpenSys/usr/bin/X11/aixterm
-/QOpenSys/usr/bin/X11/mkfontdir
-/QOpenSys/usr/bin/X11/mwm
-/QOpenSys/usr/bin/X11/resize
-/QOpenSys/usr/bin/X11/rgb
-/QOpenSys/usr/bin/X11/xauth
-/QOpenSys/usr/bin/X11/xfs
-/QOpenSys/usr/bin/X11/xhost
-/QOpenSys/usr/bin/X11/xlsfonts
-/QOpenSys/usr/bin/X11/xmodmap
-/QOpenSys/usr/bin/X11/xset
-/QOpenSys/usr/bin/X11/xterm
-/QOpenSys/usr/bin/X11/xwd
-/QOpenSys/usr/bin/X11/xwininfo
-/QOpenSys/usr/bin/X11/xwud
-# usr/css/lib
 /QOpenSys/usr/ccs/lib/aix.mk
 /QOpenSys/usr/ccs/lib/posix.mk
-# sc1, may not be here
 /QOpenSys/usr/lib/libz.a
 /QOpenSys/usr/lib/libz.so
 /QOpenSys/usr/lib/libssl.a
 /QOpenSys/usr/lib/libcrypto.a
-# libs (new end)
 
-
-
-#
-# copy dirs list
-# (
-#  mkdir -p $CHROOT_DIR/path
-#  cp -R  /path/* $CHROOT_DIR/path/.
-# )
-#
-:cp_dir
-# /QOpenSys/usr/ccs
-
-#
-# tar list
-# ( example: /QOpenSys/usr/lib/nls/loc
-#    mkdir -p $CHROOT_DIR/QOpenSys/usr/lib/nls/loc
-#    cd /QOpenSys/usr/lib/nls
-#    tar -chf $CHROOT_DIR/QOpenSys/usr/lib/nls/loc.tar loc
-#    cd $CHROOT_DIR/QOpenSys/usr/lib/nls
-#    tar -xf loc.tar
-# )
-# NOTE: Uses existing tar in current directory if it exists. To get a refreshed tar simply delete the existing tar.
-:cp_dir
-#/QOpenSys/usr/lib/nls/loc
-
-# relative links list
-# (
-#   ls -l /QOpenSys/usr/bin/c_rehash
-#   /QOpenSys/usr/bin/c_rehash -> ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash
-#   cd $CHROOT_DIR/QOpenSys/usr/bin/
-#   ln ../../QIBM/ProdData/SC1/OpenSSL/openssl-0.9.8j/bin/c_rehash c_rehash
-# )
-#
-:ln_rel
-
-#
-# links list (must occur after minimal copy above)
-# ( chroot $CHROOT_DIR /bin/sh -c "ln -sf $1 $2" )
-#
 :ln
 /QOpenSys/usr/sbin /sbin
 /QOpenSys/usr/bin /bin
@@ -525,51 +413,6 @@ chroot_mknodes.lst
 /QOpenSys/usr/lib/yaccpar /QOpenSys/usr/ccs/lib/yaccpar
 /QOpenSys/var /var
 
-#
-# run shell command
-# # ( chroot $CHROOT_DIR /bin/sh -c "$1" )
-#
-:sh
-# touch /home/myuser/myfile.txt
-
-
-#
-# change ACL dir
-# (chmod -R 0755 $CHROOT_DIR/path/*)
-#
 :chmod_dir
-# 0755 /
 0666 /dev
 0766 /dev/pts
-# 0766 /dev/xti
-
-#
-# change ACL file
-# (chmod 0755 $CHROOT_DIR/path/name)
-#
-:chmod
-
-#
-# change owner dir
-# (chown -R qsys $CHROOT_DIR/)
-#
-:chown_dir
-# qsys /
-
-#
-# change ACL file
-# (chown qsys $CHROOT_DIR/path/name)
-#
-:chown
-
-#
-# run system command
-# (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)")
-# -- variable substitution example (mydir and myuser) --
-# > ./chroot_setup.sh chroot_system.lst /QOpenSys/ranger mydir=/QOpenSys/ranger myuser=RANGER
-#
-:system
-# CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-# CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-
-
