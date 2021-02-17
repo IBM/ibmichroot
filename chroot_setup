@@ -1,5 +1,9 @@
 #!/QOpenSys/pkgs/bin/python3
 
+"""
+Module to automate and simplifiy chroot environment creation
+"""
+
 import argparse
 import os
 import sys
@@ -9,7 +13,6 @@ import stat
 import subprocess
 import re
 from string import Template
-
 
 print("""
   #####  #     # ######  ####### ####### #######
@@ -29,21 +32,25 @@ print("""
   #####  #######    #     #####  #
 """)
 
-# :mkdir
-# Make a directory inside the chroot, as well as all intermediary directories
 
-
-def chroot_mkdir(dir: str):
-    print(f"os.makedirs({args.chroot_directory}{dir}, exist_ok=True)")
-    os.makedirs(f"{args.chroot_directory}{dir}", exist_ok=True)
-
-# :ln
-# Create an absolute symlink. We don't have to go inside the chroot, since the
-# links are resolved as they are used. The target doesn't even have to exist,
-# Python won't check and therefore won't throw an error.
+def chroot_mkdir(directory: str):
+    """
+    Makes a directory inside the chroot, as well as all intermediary
+    directories
+    """
+    # :mkdir
+    print(f"os.makedirs({args.chroot_directory}{directory}, exist_ok=True)")
+    os.makedirs(f"{args.chroot_directory}{directory}", exist_ok=True)
 
 
 def chroot_ln(line: str):
+    """
+    Create an absolute symlink inside the chroot
+    """
+    # We don't have to go inside the chroot, since the
+    # links are resolved as they are used. The target doesn't even have to
+    # exist, Python won't check and therefore won't throw an error.
+    # :ln
     ln_command = line.split()
 
     if not len(ln_command) == 2:
@@ -54,12 +61,13 @@ def chroot_ln(line: str):
     print(f"os.symlink({target}, {args.chroot_directory}{link_name})")
     os.symlink(target, f"{args.chroot_directory}{link_name}")
 
-# :ln_rel
-# Create a relative symlink in the chroot that mirrors a relative symlink that
-# exists outside of the chroot.
-
 
 def chroot_ln_rel(line: str):
+    """
+    Creates a relative symlink in the chroot that mirrors a relative symlink
+    that exists outside of the chroot.
+    """
+    # :ln_rel
     ln_command = line.split()
 
     if not len(ln_command) == 1:
@@ -75,13 +83,15 @@ def chroot_ln_rel(line: str):
     os.symlink(target, basename)
     os.chdir(here)
 
-# :ln
-# Create a relative symlink inside of the chroot, specifying where the link
-# should be pointed to. This means you can change a relative symlink you pass
-# in, or simply create a relative symlink where one didn't exist before
-
 
 def chroot_ln_fix_rel(line: str):
+    """
+    Create a relative symlink inside of the chroot, specifying where the link
+    should be pointed to.
+    """
+    # This means you can change a relative symlink you pass in, or simply
+    # create a relative symlink where one didn't exist before
+    # :ln
     ln_command = line.split()
 
     if not len(ln_command) == 2:
@@ -98,13 +108,15 @@ def chroot_ln_fix_rel(line: str):
     os.symlink(target, basename)
     os.chdir(here)
 
-# :mknod
-# Create a node with a given name, type, and major and minor number
-
 
 def chroot_mknod(line: str):
+    """
+    Create a node with a given name, type, and major and minor number.
+    Currently character is the only node type supported.
+    """
     # We are passed a mknod terminal commmand. Need to parse it to make it work
     # with os.mknod.
+    # :mknod
     mknod_command = line.split()
 
     if not len(mknod_command) == 4:
@@ -133,38 +145,44 @@ def chroot_mknod(line: str):
 
     os.mknod(f"{args.chroot_directory}{node}", mode, device)
 
-# :cp
-# Copy a file from outside the chroot to inside the chroot, keeping the same
-# (relative) location.
-
 
 def chroot_cp(line: str):
+    """
+    Copy a file from outside the chroot to inside the chroot, keeping the same
+    (relative) location.
+    """
+    # :cp
     print(f"shutil.copy({line}, {args.chroot_directory}{line})")
     shutil.copy(line, f"{args.chroot_directory}{line}")
 
-# :cp_dir
-# Copy a directory from outside the chroot to inside the chroot, keeping the
-# same (relative) location.
-
 
 def chroot_cp_dir(line: str):
+    """
+    Copy a directory from outside the chroot to inside the chroot, keeping the
+    same (relative) location.
+    """
+    # :cp_dir
+
     print(f"shutil.copytree({line}, {args.chroot_directory}{line})")
-    # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
-    # prevents a FileExistsError when the destination directory exists.
+    # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument
+    # that prevents a FileExistsError when the destination directory exists.
     # Unfortunately we are currently on v3.6.12, so we have to delete any
     # directory that exists at that location.
     if sys.version_info >= (3, 8):
-        shutil.copytree(line, f"{args.chroot_directory}{line}", dirs_exist=True)
+        shutil.copytree(line, f"{args.chroot_directory}{line}",
+                              dirs_exist=True)
     else:
         if os.path.exists(f"{args.chroot_directory}{line}"):
             shutil.rmtree(f"{args.chroot_directory}{line}")
         shutil.copytree(line, f"{args.chroot_directory}{line}")
 
-# :chmod
-# Change the permissions on a file in the chroot.
-
 
 def chroot_chmod(line: str):
+    """
+    Change the mode on a file in the chroot.
+    """
+    # :chmod
+
     chmod_command = line.split()
 
     if not len(chmod_command) == 2:
@@ -175,11 +193,12 @@ def chroot_chmod(line: str):
     print(f"os.chmod({chmod_file}, {mode})")
     os.chmod(chmod_file, mode)
 
-# :chmod_dir
-# Change the permissions on a directory and everything inside it in the chroot.
-
 
 def chroot_chmod_dir(line: str):
+    """
+    Change the mode on a directory and everything inside it in the chroot.
+    """
+    # :chmod_dir
     chmod_command = line.split()
 
     if not len(chmod_command) == 2:
@@ -188,18 +207,19 @@ def chroot_chmod_dir(line: str):
     mode = int(chmod_command[0], 8)
     chmod_dir = f"{args.chroot_directory}{chmod_command[1]}"
     for root, dirs, files in os.walk(f"{args.chroot_directory}{chmod_dir}"):
-        for dir in dirs:
-            print(f"os.chmod({os.path.join(root, dir)}, {int(mode, 8)})")
-            os.chmod(os.path.join(root, dir), int(mode, 8))
+        for directory in dirs:
+            print(f"os.chmod({os.path.join(root, directory)}, {int(mode, 8)})")
+            os.chmod(os.path.join(root, directory), int(mode, 8))
         for file in files:
             print(f"os.chmod({os.path.join(root, file)}, {int(mode, 8)})")
             os.chmod(os.path.join(root, file), int(mode, 8))
 
-# :chown
-# Change ownership of a file in the chroot
-
 
 def chroot_chown(line: str):
+    """
+    Change ownership of a file in the chroot
+    """
+    # :chown
     chown_command = line.split()
 
     if not len(chown_command) == 2:
@@ -210,11 +230,12 @@ def chroot_chown(line: str):
     print(f"os.chown({args.chroot_directory}{chown_file}, {user})")
     os.chown(f"{args.chroot_directory}{chown_file, user}")
 
-# :chown_dir
-# Change ownership of a directory and everything inside it in the chroot.
-
 
 def chroot_chown_dir(line: str):
+    """
+    Change ownership of a directory and everything inside it in the chroot.
+    """
+    # :chown_dir
     chown_command = line.split()
 
     if not len(chown_command) == 2:
@@ -222,45 +243,51 @@ def chroot_chown_dir(line: str):
 
     user = chown_command[0]
     chown_directory = f"{args.chroot_directory}{chown_command[1]}"
-    for root, dirs, files in os.walk(f"{args.chroot_directory}{chown_directory}"):
-        for dir in dirs:
-            print(f"os.chown({os.path.join(root, dir)}, {user})")
-            os.chown(os.path.join(root, dir), user)
+    for root, dirs, files in os.walk(f"{args.chroot_directory}"
+                                     f"{chown_directory}"):
+        for directory in dirs:
+            print(f"os.chown({os.path.join(root, directory)}, {user})")
+            os.chown(os.path.join(root, directory), user)
         for file in files:
             print(f"os.chown({os.path.join(root, file)}, {user})")
             os.chown(os.path.join(root, file), user)
 
-# :system
-# Executes a line from a .lst file using the /QOpenSys/usr/bin/system utility
-
 
 def chroot_system(line: str):
+    """
+    Executes a line from a .lst file using the system utility.
+    """
+    # :system
     line = line.rstrip()
     print(f"system -i {line}")
     subprocess.run(['system', '-i', line], check=True)
 
-# :sh
-# Executes a line from a .lst file using Pythons os.system function, which is
-# run "by calling the Standard C function system()."
-
 
 def chroot_sh(line: str):
+    """
+    Executes a command from a .lst file using Pythons subprocess.run function.
+    """
+    # :sh
     print(line)
     os.system(line)
     subprocess.run(line.split(), check=True)
 
-# :file
-# Parses and executes additional .lst files
-
 
 def chroot_file(chroot_lst: str):
+    """
+    Parses and executes additional .lst files
+    """
+    # :file
     chroot_setup(chroot_lst)
 
 
 def chroot_setup(chroot_lst):
+    """
+    Parses and executes additional .lst files
+    """
     with open(chroot_lst, 'r') as lst_file:
         action = None
-        # Iterate over all lines in the file, executing actions where encountered
+        # Iterate over all lines in the file, run actions where encountered
         for line in lst_file:
             if args.globals:
                 for key in globals_dictionary:
@@ -276,10 +303,11 @@ def chroot_setup(chroot_lst):
             # Determine action
             elif line.startswith(':'):
                 # We enforce consistent function naming scheme for our action
-                # handlers. Each handler is prefixed with "chroot_" followed by the
-                # action name. The lst files prefix actions with ":" so we determine
-                # the action handler function name by prefixing it with "chroot_" and
-                # appending the action after the ":" from the line.
+                # handlers. Each handler is prefixed with "chroot_" followed by
+                # the action name. The lst files prefix actions with ":" so we
+                # determine the action handler function name by prefixing it
+                # with "chroot_" and appending the action after the
+                # ":" from the line.
                 function = f"chroot_{line[1:]}"
                 try:
                     # use the globals dict to resolve action function handler
@@ -293,12 +321,13 @@ def chroot_setup(chroot_lst):
                 if action is not None:
                     action(line)
 
-# Run an initial check on the environment, ensuring that we are running on IBM i
-# and setting environment variables
-
 
 def initial_check():
-    if (os.uname().sysname == 'OS400'):
+    """
+    Run an initial check on the environment, ensuring that we are running on
+    IBM i
+    """
+    if os.uname().sysname == 'OS400':
         print("**********************")
         print("Live IBM i session (changes made).")
         print("**********************")
@@ -310,17 +339,26 @@ def initial_check():
         sys.exit(-1)
 
 
-# Install any yum packages passed with the -i flag
 def yum_install(package_list: list):
-    install_template = Template('/QOpenSys/pkgs/bin/yum $yes --installroot=$chroot_dir install $packages')
+    """
+    Installs specified yum packages within the chroot.
+    """
+    install_template = Template("/QOpenSys/pkgs/bin/yum $yes "
+                                "--installroot=$chroot_dir install $packages")
     auto_yes = '-y' if args.auto_yes else ''
     packages = " ".join(package_list)
-    command = install_template.substitute(yes=auto_yes, chroot_dir=args.chroot_directory, packages=packages)
+    command = install_template.substitute(yes=auto_yes,
+                                          chroot_dir=args.chroot_directory,
+                                          packages=packages)
     logging.debug(command)
     subprocess.run(command.split(), check=True)
 
 
 def input_yes(*args, **kwargs):
+    """
+    Helper function used when auto yes mode is enabled. This function simple
+    returns 'y'.
+    """
     return 'y'
 
 
@@ -330,13 +368,26 @@ def input_yes(*args, **kwargs):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # positional arguments
-    parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY", help="The location of the chroot to be created")
-    parser.add_argument("chroot_type", metavar="CHROOT_TYPE", help="A list of .lst files to use for generating the chroot", nargs="*")
+    parser.add_argument("chroot_directory", metavar="CHROOT_DIRECTORY",
+                        help="The location of the chroot to be created")
+
+    parser.add_argument("chroot_type", metavar="CHROOT_TYPE", nargs="*",
+                        help="A list of .lst files to use for generating the "
+                        "chroot")
     # optional arguments
-    parser.add_argument("-g", dest='globals', nargs='*', metavar="", help="Environment variables to set when creating the chroot")
-    parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="", help="A list of packages for yum to install in the chroot")
-    parser.add_argument("-y", dest='auto_yes', action='store_true', help="Automatically answer yes to input prompts")
-    parser.add_argument("-v", dest='verbose', action='store_true', help="Print verbose output when running")
+    parser.add_argument("-g", dest='globals', nargs='*', metavar="",
+                        help="Environment variables to set when creating the "
+                        "chroot")
+
+    parser.add_argument("-i", dest='yum_installs', nargs='*', metavar="",
+                        help="A list of packages for yum to install in the "
+                        "chroot")
+
+    parser.add_argument("-y", dest='auto_yes', action='store_true',
+                        help="Automatically answer yes to input prompts")
+
+    parser.add_argument("-v", dest='verbose', action='store_true',
+                        help="Print verbose output when running")
     args = parser.parse_args()
     parser.parse_args()
 
@@ -346,7 +397,6 @@ if __name__ == '__main__':
 
     print(SCRIPT_DIR)
 
-    auto_yes = args.auto_yes
     initial_check()
 
     # This is done because the arg may be a relative path name.
@@ -354,9 +404,9 @@ if __name__ == '__main__':
     TEMP_DIR = os.path.realpath(args.chroot_directory)
     print(TEMP_DIR)
 
-    # if -v was passed, need to turn logging to DEBUG so all logging messages in the
-    # code are printed
-    if (args.verbose):
+    # if -v was passed, need to turn logging to DEBUG so all logging messages
+    # in the code are printed
+    if args.verbose:
         logging.basicConfig(level=logging.DEBUG)
 
     logging.debug(f"Script directory: {SCRIPT_DIR}")
@@ -365,7 +415,7 @@ if __name__ == '__main__':
 
     if not TEMP_DIR.startswith('/QOpenSys/'):
         print("\nERROR: [CHROOT DIRECTORY] Must begin with /QOpenSys/...\n")
-        parser.print_help
+        parser.print_help()
         sys.exit(-2)
 
     CHROOT_DIR = TEMP_DIR
@@ -379,9 +429,9 @@ if __name__ == '__main__':
             input = input_yes
 
         print(f"{CHROOT_DIR} directory already exists")
-        val = input("Would you like to continue chroot setup? [y/N]: ")
+        USER_INPUT = input("Would you like to continue chroot setup? [y/N]: ")
 
-        if not val == "y":
+        if USER_INPUT != "y":
             print("Bye")
             sys.exit(-4)
 
@@ -395,10 +445,11 @@ if __name__ == '__main__':
         if args.auto_yes:
             input = input_yes
 
-        val = input(f"Would you like to create a minimal chroot w/ includes @ {CHROOT_DIR}? [y/N]: ")
-        if not val == "y":
+        USER_INPUT = input("Would you like to create a minimal chroot w/ "
+                           f"includes @ {CHROOT_DIR}? [y/N]: ")
+        if USER_INPUT != "y":
             print("Specify your desired [CHROOT TYPE]")
-            parser.print_help
+            parser.print_help()
             sys.exit(-5)
 
         mylist.append(f"{SCRIPT_DIR}/chroot_includes.lst")
@@ -425,8 +476,7 @@ if __name__ == '__main__':
     logging.debug(f"Number of elements in the list: {len(mylist)}")
     logging.debug(f"List contents: {mylist}")
 
-    # convert any global variables passed from a list of string "KEY=VALUE" to a
-    # dictionary holding "KEY": "VALUE"
+    # convert global variables list of "key=value" into a dictionary
     globals_dictionary = {}
     if args.globals:
         for global_var in args.globals:
@@ -456,12 +506,11 @@ if __name__ == '__main__':
         yum_install(args.yum_installs)
 
     print(f"""
+Done creating your chroot!
 
-  Done creating your chroot!
+To enter your chroot
+Run: chroot {args.chroot_directory} /QOpenSys/usr/bin/sh
 
-  To enter your chroot
-  Run: chroot {args.chroot_directory} /QOpenSys/usr/bin/sh
-
-  To set up your PATH to pick up RPM packages once inside your chroot
-  Run: . /QOpenSys/etc/profile
-  """)
+To set up your PATH to pick up RPM packages once inside your chroot
+Run: . /QOpenSys/etc/profile
+""")
