@@ -31,6 +31,8 @@ print("""
 
 # :mkdir
 # Make a directory inside the chroot, as well as all intermediary directories
+
+
 def chroot_mkdir(dir: str):
     print(f"os.makedirs({args.chroot_directory}{dir}, exist_ok=True)")
     os.makedirs(f"{args.chroot_directory}{dir}", exist_ok=True)
@@ -39,6 +41,8 @@ def chroot_mkdir(dir: str):
 # Create an absolute symlink. We don't have to go inside the chroot, since the
 # links are resolved as they are used. The target doesn't even have to exist,
 # Python won't check and therefore won't throw an error.
+
+
 def chroot_ln(line: str):
     ln_command = line.split()
 
@@ -53,6 +57,8 @@ def chroot_ln(line: str):
 # :ln_rel
 # Create a relative symlink in the chroot that mirrors a relative symlink that
 # exists outside of the chroot.
+
+
 def chroot_ln_rel(line: str):
     ln_command = line.split()
 
@@ -73,6 +79,8 @@ def chroot_ln_rel(line: str):
 # Create a relative symlink inside of the chroot, specifying where the link
 # should be pointed to. This means you can change a relative symlink you pass
 # in, or simply create a relative symlink where one didn't exist before
+
+
 def chroot_ln_fix_rel(line: str):
     ln_command = line.split()
 
@@ -92,6 +100,8 @@ def chroot_ln_fix_rel(line: str):
 
 # :mknod
 # Create a node with a given name, type, and major and minor number
+
+
 def chroot_mknod(line: str):
     # We are passed a mknod terminal commmand. Need to parse it to make it work
     # with os.mknod.
@@ -126,6 +136,8 @@ def chroot_mknod(line: str):
 # :cp
 # Copy a file from outside the chroot to inside the chroot, keeping the same
 # (relative) location.
+
+
 def chroot_cp(line: str):
     print(f"shutil.copy({line}, {args.chroot_directory}{line})")
     shutil.copy(line, f"{args.chroot_directory}{line}")
@@ -133,6 +145,8 @@ def chroot_cp(line: str):
 # :cp_dir
 # Copy a directory from outside the chroot to inside the chroot, keeping the
 # same (relative) location.
+
+
 def chroot_cp_dir(line: str):
     print(f"shutil.copytree({line}, {args.chroot_directory}{line})")
     # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
@@ -148,6 +162,8 @@ def chroot_cp_dir(line: str):
 
 # :chmod
 # Change the permissions on a file in the chroot.
+
+
 def chroot_chmod(line: str):
     chmod_command = line.split()
 
@@ -161,6 +177,8 @@ def chroot_chmod(line: str):
 
 # :chmod_dir
 # Change the permissions on a directory and everything inside it in the chroot.
+
+
 def chroot_chmod_dir(line: str):
     chmod_command = line.split()
 
@@ -179,6 +197,8 @@ def chroot_chmod_dir(line: str):
 
 # :chown
 # Change ownership of a file in the chroot
+
+
 def chroot_chown(line: str):
     chown_command = line.split()
 
@@ -192,6 +212,8 @@ def chroot_chown(line: str):
 
 # :chown_dir
 # Change ownership of a directory and everything inside it in the chroot.
+
+
 def chroot_chown_dir(line: str):
     chown_command = line.split()
 
@@ -210,6 +232,8 @@ def chroot_chown_dir(line: str):
 
 # :system
 # Executes a line from a .lst file using the /QOpenSys/usr/bin/system utility
+
+
 def chroot_system(line: str):
     line = line.rstrip()
     print(f"system -i {line}")
@@ -218,6 +242,8 @@ def chroot_system(line: str):
 # :sh
 # Executes a line from a .lst file using Pythons os.system function, which is
 # run "by calling the Standard C function system()."
+
+
 def chroot_sh(line: str):
     print(line)
     os.system(line)
@@ -225,8 +251,11 @@ def chroot_sh(line: str):
 
 # :file
 # Parses and executes additional .lst files
+
+
 def chroot_file(chroot_lst: str):
     chroot_setup(chroot_lst)
+
 
 def chroot_setup(chroot_lst):
     with open(chroot_lst, 'r') as lst_file:
@@ -266,6 +295,8 @@ def chroot_setup(chroot_lst):
 
 # Run an initial check on the environment, ensuring that we are running on IBM i
 # and setting environment variables
+
+
 def initial_check():
     if (os.uname().sysname == 'OS400'):
         print("**********************")
@@ -288,8 +319,10 @@ def yum_install(package_list: list):
     logging.debug(command)
     subprocess.run(command.split(), check=True)
 
+
 def input_yes(*args, **kwargs):
     return 'y'
+
 
 #
 # MAIN
@@ -351,7 +384,6 @@ if __name__ == '__main__':
         if not val == "y":
             print("Bye")
             sys.exit(-4)
-
 
     # Validate CHROOT TYPE Argument(s)
     mylist = []
