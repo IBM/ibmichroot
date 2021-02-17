@@ -13,25 +13,25 @@ from enum import Enum
 
 print("""
   #####  #     # ######  ####### ####### #######
- #     # #     # #     # #     # #     #    #   
- #       #     # #     # #     # #     #    #   
- #       ####### ######  #     # #     #    #   
- #       #     # #   #   #     # #     #    #   
- #     # #     # #    #  #     # #     #    #   
-  #####  #     # #     # ####### #######    #   
-                                                
-  #####  ####### ####### #     # ######         
- #     # #          #    #     # #     #        
- #       #          #    #     # #     #        
-  #####  #####      #    #     # ######         
-       # #          #    #     # #              
- #     # #          #    #     # #              
+ #     # #     # #     # #     # #     #    #
+ #       #     # #     # #     # #     #    #
+ #       ####### ######  #     # #     #    #
+ #       #     # #   #   #     # #     #    #
+ #     # #     # #    #  #     # #     #    #
+  #####  #     # #     # ####### #######    #
+
+  #####  ####### ####### #     # ######
+ #     # #          #    #     # #     #
+ #       #          #    #     # #     #
+  #####  #####      #    #     # ######
+       # #          #    #     # #
+ #     # #          #    #     # #
   #####  #######    #     #####  #
 """)
 
 # :mkdir
 # Make a directory inside the chroot, as well as all intermediary directories
-def chroot_mkdir (dir: str):
+def chroot_mkdir(dir: str):
     print(f"os.makedirs({args.chroot_directory}{dir}, exist_ok=True)")
     os.makedirs(f"{args.chroot_directory}{dir}", exist_ok=True)
 
@@ -39,7 +39,7 @@ def chroot_mkdir (dir: str):
 # Create an absolute symlink. We don't have to go inside the chroot, since the
 # links are resolved as they are used. The target doesn't even have to exist,
 # Python won't check and therefore won't throw an error.
-def chroot_ln (line: str):
+def chroot_ln(line: str):
     ln_command = line.split()
 
     if not len(ln_command) == 2:
@@ -53,7 +53,7 @@ def chroot_ln (line: str):
 # :ln_rel
 # Create a relative symlink in the chroot that mirrors a relative symlink that
 # exists outside of the chroot.
-def chroot_ln_rel (line: str):
+def chroot_ln_rel(line: str):
     ln_command = line.split()
 
     if not len(ln_command) == 1:
@@ -73,7 +73,7 @@ def chroot_ln_rel (line: str):
 # Create a relative symlink inside of the chroot, specifying where the link
 # should be pointed to. This means you can change a relative symlink you pass
 # in, or simply create a relative symlink where one didn't exist before
-def chroot_ln_fix_rel (line: str):
+def chroot_ln_fix_rel(line: str):
     ln_command = line.split()
 
     if not len(ln_command) == 2:
@@ -92,7 +92,7 @@ def chroot_ln_fix_rel (line: str):
 
 # :mknod
 # Create a node with a given name, type, and major and minor number
-def chroot_mknod (line: str):
+def chroot_mknod(line: str):
     # We are passed a mknod terminal commmand. Need to parse it to make it work
     # with os.mknod.
     mknod_command = line.split()
@@ -100,7 +100,7 @@ def chroot_mknod (line: str):
     if not len(mknod_command) == 4:
         raise ValueError(":mknod action expects 4 arguments!")
 
-    node: str  = mknod_command[0]
+    node: str = mknod_command[0]
 
     # we only support creating character special devices
     if mknod_command[1] != 'c':
@@ -126,20 +126,20 @@ def chroot_mknod (line: str):
 # :cp
 # Copy a file from outside the chroot to inside the chroot, keeping the same
 # (relative) location.
-def chroot_cp (line: str):
+def chroot_cp(line: str):
     print(f"shutil.copy({line}, {args.chroot_directory}{line})")
     shutil.copy(line, f"{args.chroot_directory}{line}")
 
 # :cp_dir
 # Copy a directory from outside the chroot to inside the chroot, keeping the
 # same (relative) location.
-def chroot_cp_dir (line: str):
+def chroot_cp_dir(line: str):
     print(f"shutil.copytree({line}, {args.chroot_directory}{line})")
     # In Python v3.8+, shutil.copytree has a dirs_exist_ok keyword argument that
     # prevents a FileExistsError when the destination directory exists.
     # Unfortunately we are currently on v3.6.12, so we have to delete any
     # directory that exists at that location.
-    if sys.version_info >= (3,8):
+    if sys.version_info >= (3, 8):
         shutil.copytree(line, f"{args.chroot_directory}{line}", dirs_exist=True)
     else:
         if os.path.exists(f"{args.chroot_directory}{line}"):
@@ -148,7 +148,7 @@ def chroot_cp_dir (line: str):
 
 # :chmod
 # Change the permissions on a file in the chroot.
-def chroot_chmod (line: str):
+def chroot_chmod(line: str):
     chmod_command = line.split()
 
     if not len(chmod_command) == 2:
@@ -161,7 +161,7 @@ def chroot_chmod (line: str):
 
 # :chmod_dir
 # Change the permissions on a directory and everything inside it in the chroot.
-def chroot_chmod_dir (line: str):
+def chroot_chmod_dir(line: str):
     chmod_command = line.split()
 
     if not len(chmod_command) == 2:
@@ -179,7 +179,7 @@ def chroot_chmod_dir (line: str):
 
 # :chown
 # Change ownership of a file in the chroot
-def chroot_chown (line: str):
+def chroot_chown(line: str):
     chown_command = line.split()
 
     if not len(chown_command) == 2:
@@ -192,7 +192,7 @@ def chroot_chown (line: str):
 
 # :chown_dir
 # Change ownership of a directory and everything inside it in the chroot.
-def chroot_chown_dir (line: str):
+def chroot_chown_dir(line: str):
     chown_command = line.split()
 
     if not len(chown_command) == 2:
@@ -228,7 +228,7 @@ def chroot_sh(line: str):
 def chroot_file(chroot_lst: str):
     chroot_setup(chroot_lst)
 
-def chroot_setup (chroot_lst):
+def chroot_setup(chroot_lst):
     with open(chroot_lst, 'r') as lst_file:
         action = None
         # Iterate over all lines in the file, executing actions where encountered
