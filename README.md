@@ -159,8 +159,8 @@ TODO: Document `chroot_mgr.py`
 
 ## Resources
 
-- [A (root) Change For The Better](http://bit.ly/ibmsystemsmag-chroot)
+- [A (root) Change For The Better](https://www.krengeltech.com/2016/01/a-root-change-for-the-better/)
 
-- [A (root) Change for the Better (part II)](http://bit.ly/ism-chroot2)
+- [A (root) Change for the Better (part II)](https://www.krengeltech.com/2016/02/a-root-change-for-the-better-part-ii/)
 
 - [IFS Containers (presentation)](https://krengel.tech/litmis-ifs-containers)
