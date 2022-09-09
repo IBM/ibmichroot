@@ -123,7 +123,7 @@ chroot_setup /QOpenSys/root_path nls
 
 ## Remove Chroot
 
-Remove a chroot just like you would remove any other direcetory by running:
+Remove a chroot just like you would remove any other directory by running:
 
 ```bash
 rm -r path_to_chroot
