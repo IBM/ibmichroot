@@ -26,7 +26,7 @@ This project is available via RPM
 
 `yum install ibmichroot`
 
-For more information about yum read the [docs](https://bitbucket.org/ibmi/opensource/src/master/docs/yum/)
+For more information about yum read the [docs](https://ibmi-oss-docs.readthedocs.io/en/latest/yum/README.html#general-information)
 
 ## Usage
 
