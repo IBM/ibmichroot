@@ -1,19 +1,4 @@
-# Command:
-#   > ./chroot_setup.sh chroot_nls.lst /QOpenSys/root_path
-
-#
-# tar list
-# ( example: /QOpenSys/usr/lib/nls/loc
-#    mkdir -p $CHROOT_DIR/QOpenSys/usr/lib/nls/loc
-#    cd /QOpenSys/usr/lib/nls
-#    tar -chf $CHROOT_DIR/QOpenSys/usr/lib/nls/loc.tar loc
-#    cd $CHROOT_DIR/QOpenSys/usr/lib/nls
-#    tar -xf loc.tar
-# )
-#
 :cp_dir
 /QOpenSys/usr/lib/nls/loc
 /QOpenSys/usr/lib/X11
 /QOpenSys/usr/icu4c
-
-
