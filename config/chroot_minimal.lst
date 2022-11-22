@@ -305,7 +305,7 @@ chroot_mknodes.lst
 /QOpenSys/usr/lib/libld.a
 /QOpenSys/usr/lib/libm.a
 /QOpenSys/usr/lib/libnsl.a
-/QOpenSys/usr/lib/libpmapi.a
+# /QOpenSys/usr/lib/libpmapi.a
 /QOpenSys/usr/lib/libpthdebug.a
 /QOpenSys/usr/lib/libpthreads.a
 /QOpenSys/usr/lib/libpthreads_compat.a
@@ -425,35 +425,35 @@ chroot_mknodes.lst
 /QOpenSys/usr/bin /QOpenSys/bin
 /QOpenSys/usr/lib /QOpenSys/lib
 # alias
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/bg
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/cd
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/command
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fc
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fg
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/getopts
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/hash
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/jobs
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/read
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/type
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/ulimit
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/umask
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/unalias
-/QOpenSys/usr/bin/alias /QOpenSys/usr/bin/wait
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/bg
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/cd
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/command
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fc
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/fg
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/getopts
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/hash
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/jobs
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/read
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/type
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/ulimit
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/umask
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/unalias
+# /QOpenSys/usr/bin/alias /QOpenSys/usr/bin/wait
 /QOpenSys/usr/bin/ksh /QOpenSys/usr/bin/sh
 /QOpenSys/usr/bin/rm /QOpenSys/usr/bin/rmdir
 # sbin to bin
 /QOpenSys/usr/sbin/chroot /QOpenSys/usr/bin/chroot
 /QOpenSys/usr/sbin/dump /QOpenSys/usr/bin/dump
 /QOpenSys/usr/sbin/trace /QOpenSys/usr/bin/trace
-/QOpenSys/usr/sbin/trcoff /QOpenSys/usr/bin/trace
-/QOpenSys/usr/sbin/trcon /QOpenSys/usr/bin/trace
-/QOpenSys/usr/sbin/trcstop /QOpenSys/usr/bin/trace
+# /QOpenSys/usr/sbin/trcoff /QOpenSys/usr/bin/trace
+# /QOpenSys/usr/sbin/trcon /QOpenSys/usr/bin/trace
+# /QOpenSys/usr/sbin/trcstop /QOpenSys/usr/bin/trace
 # individual libs
 /QOpenSys/usr/lib/libC128.a /QOpenSys/usr/lib/libC128_r.a
 /QOpenSys/usr/lib/libC.a /QOpenSys/usr/lib/libC_r.a
 /QOpenSys/usr/lib/libbsd.a /QOpenSys/usr/lib/libbsd_r.a
-/QOpenSys/usr/lib/libc128.a /QOpenSys/usr/lib/libc_r.a
+# /QOpenSys/usr/lib/libc128.a /QOpenSys/usr/lib/libc_r.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_r.a
 /QOpenSys/usr/lib/libc.a /QOpenSys/usr/lib/libc_t.a
 /QOpenSys/usr/lib/libxcurses.a /QOpenSys/usr/lib/libcurses.a
@@ -516,7 +516,7 @@ chroot_mknodes.lst
 /QOpenSys/usr/lib/libpthdebug.a /QOpenSys/usr/ccs/lib/libpthdebug.a
 /QOpenSys/usr/lib/libpthread.a /QOpenSys/usr/ccs/lib/libpthread.a
 /QOpenSys/usr/lib/libpthreads.a /QOpenSys/usr/ccs/lib/libpthreads.a
-/QOpenSys/usr/lib/libpthreads_compat.a /QOpenSys/usr/ccs/lib/libpthreads_compat.a
+/QOpenSys/usr/lib/libpthreads_compat.a /QOpenSys/usr/ccs/lib/bpthreads_compat.a
 /QOpenSys/usr/lib/librtl.a /QOpenSys/usr/ccs/lib/librtl.a
 /QOpenSys/usr/lib/libthread.a /QOpenSys/usr/ccs/lib/libthread.a
 /QOpenSys/usr/lib/libxcurses.a /QOpenSys/usr/ccs/lib/libxcurses.a
@@ -564,12 +564,10 @@ chroot_mknodes.lst
 
 #
 # run system command
-# (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)")
+# (system "CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUTRWX) # OBJAUT(*ALL) SUBTREE(*ALL)")
 # -- variable substitution example (mydir and myuser) --
-# > ./chroot_setup.sh chroot_system.lst /QOpenSys/ranger mydir=/QOpenSys/ranger myuser=RANGER
+# > ./chroot_setup.sh chroot_system.lst /QOpenSys/ranger mydir=/QOpenSys/nger # myuser=RANGER
 #
 :system
-# CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-# CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE(*ALL)
-
-
+# CHGAUT OBJ('/QOpenSys/ranger/home/ranger') USER(RANGER) DTAAUT(*RWX) JAUT# (*ALL) SUBTREE(*ALL)
+# CHGAUT OBJ('mydir/home/myuser') USER(myuser) DTAAUT(*RWX) OBJAUT(*ALL) SUBTREE# (*ALL)
